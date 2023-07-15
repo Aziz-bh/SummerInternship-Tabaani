@@ -33,7 +33,6 @@ const SubscribeToCourse = async (req, res) => {
     }
 
     // Update user document with subscribed course
-    // Update user document with subscribed course
     const user = userDoc.data();
     const subscribedCourses = user.subscribedCourses || [];
 
