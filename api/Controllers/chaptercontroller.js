@@ -2,7 +2,7 @@
 
 const firebase = require("../db");
 const firestore = firebase.firestore();
-const chapter = require("../models/chapter");
+const chapter = require("../models/chapter.model");
 
 /****************************************************** */
 const addchapter = async (req, res, next) => {
