@@ -56,6 +56,56 @@ const SubscribeToCourse = async (req, res) => {
   }
 };
 
+const verifyUserCompletion = async (req, res) => {
+  const { userId, courseId } = req.params;
+
+  try {
+    const userDoc = await firestore.collection("users").doc(userId).get();
+    const courseDoc = await firestore.collection("courses").doc(courseId).get();
+    if (!userDoc.exists || !courseDoc.exists) {
+      return res.status(404).json({ error: "User or course not found" });
+    }
+
+    const user = userDoc.data();
+    const course = courseDoc.data();
+
+    const chapterQuerySnapshot = await firestore
+      .collection("chapters")
+      .where("courseId", "==", courseId)
+      .get();
+
+    const totalChapters = course.chapters.length;
+    const completedChapters = chapterQuerySnapshot.size;
+
+    const score =
+      user.scores && user.scores[courseId] ? user.scores[courseId] : 0;
+
+    let verified = false;
+
+    if (completedChapters === totalChapters && score >= 70) {
+      verified = true;
+    }
+
+    // Update the user document with the verified attribute
+    await firestore.collection("users").doc(userId).update({
+      verified: verified,
+    });
+
+    if (verified) {
+      return res.status(200).json({
+        message: `Course completed successfully. User verified.`,
+      });
+    } else {
+      return res.status(200).json({
+        message: `Course not completed yet or did not achieve the required score`,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
+  verifyUserCompletion,
   SubscribeToCourse,
 };
