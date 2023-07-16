@@ -9,7 +9,7 @@ const {
   updateQuiz,
 } = require("../Controllers/quizController");
 
-quizrouter.post("/quizzes", addQuiz);
+quizrouter.post("/quizzes/:idEvaluation", addQuiz);
 quizrouter.get("/quizzes/:id", getQuizById);
 quizrouter.get("/quizzes", getAllQuizzes);
 quizrouter.delete("/quizzes/:id", deleteQuiz);

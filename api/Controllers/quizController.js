@@ -4,19 +4,32 @@ const db = firebase.firestore();
 
 async function addQuiz(req, res, next) {
     try {
+
+      //test if the Evaluation exists before action 
+      const evaluationId=req.params.idEvaluation
+      const evalutionRef = db.collection('evaluations').doc(evaluationId);
+      evalutionRef.get()
+      .then((documentSnapshot) => {
+        console.log('Document does not exist');
+        if (!documentSnapshot.exists) {
+          return res.status(404).json({ error: "Evaluation doesn't exist" });
+        } 
+      }).catch((error) => {
+        return res.status(404).json({ error: "Evaluation doesn't exist" });
+      });
+
         const quiz = {
-            id: req.body.id,
             question: req.body.question,
             option1: req.body.option1,
             option2: req.body.option2,
             option3: req.body.option3,
             option4: req.body.option4,
             rightAnswer: req.body.rightAnswer,
+            evaluationId: evaluationId
           };
       console.log("🚀 ~ file: quizController.js:10 ~ addQuiz ~ quiz:", quiz)
   
       if (
-        !quiz.id ||
         !quiz.question ||
         !quiz.option1 ||
         !quiz.option2 ||
@@ -115,6 +128,7 @@ async function updateQuiz(req, res, next) {
       next(error);
     }
   }
+
   
   module.exports = {
     addQuiz,
