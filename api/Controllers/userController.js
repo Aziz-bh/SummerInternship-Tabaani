@@ -105,7 +105,83 @@ const verifyUserCompletion = async (req, res) => {
   }
 };
 
+const MoveToNextChapter = async (req, res) => {
+  const { userId, courseId, chapterId, score } = req.body;
+
+  try {
+    const userRef = firestore.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = userDoc.data();
+
+    const courseRef = firestore.collection("courses").doc(courseId);
+    const courseDoc = await courseRef.get();
+
+    if (!courseDoc.exists) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    const course = courseDoc.data();
+
+    if (!user.subscribedCourses.includes(courseId)) {
+      return res
+        .status(400)
+        .json({ error: "User is not subscribed to the course" });
+    }
+
+    const chapterRef = firestore.collection("chapters").doc(chapterId);
+    const chapterDoc = await chapterRef.get();
+
+    if (!chapterDoc.exists) {
+      return res.status(404).json({ error: "Chapter not found" });
+    }
+
+    const chapterData = chapterDoc.data();
+    const chapterTitle = chapterData.title;
+
+    console.log("chapterTitle", chapterTitle);
+
+    const quizRef = firestore
+      .collection("quizzes")
+      .doc(chapterDoc.data().quizId);
+
+    const quizDoc = await quizRef.get();
+
+    if (!quizDoc.exists) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+
+    const quizData = quizDoc.data();
+    const rightAnswer = quizData.rightAnswer;
+
+    console.log("rightAnswer", rightAnswer);
+
+    // Check if user's score is above 70%
+    if (score >= 70) {
+      const nextChapterIndex = course.chapters.indexOf(chapterId) + 1;
+      if (nextChapterIndex < course.chapters.length) {
+        const nextChapterId = course.chapters[nextChapterIndex];
+        await userRef.update({ currentChapter: nextChapterId });
+        return res
+          .status(200)
+          .json({ message: "User moved to the next chapter" });
+      }
+
+      return res.status(200).json({ message: "User completed all chapters" });
+    } else {
+      return res.status(400).json({ error: "User score is below 70%" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   verifyUserCompletion,
   SubscribeToCourse,
+  MoveToNextChapter,
 };
