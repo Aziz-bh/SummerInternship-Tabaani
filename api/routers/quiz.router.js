@@ -7,12 +7,15 @@ const {
   getAllQuizzes,
   deleteQuiz,
   updateQuiz,
+  findByChapterId,
+  checkAnswer
 } = require("../Controllers/quizController");
 
-quizrouter.post("/quizzes/:idEvaluation", addQuiz);
-quizrouter.get("/quizzes/:id", getQuizById);
+quizrouter.post("/quizzes/add/:idChapter", addQuiz);
+quizrouter.get("/quizzes/byId/:id", getQuizById);
 quizrouter.get("/quizzes", getAllQuizzes);
-quizrouter.delete("/quizzes/:id", deleteQuiz);
-quizrouter.put("/quizzes/:id", updateQuiz);
-
+quizrouter.get("/quizzes/chapter/:chapterId", findByChapterId);
+quizrouter.delete("/quizzes/delete/:id", deleteQuiz);
+quizrouter.put("/quizzes/update/:id", updateQuiz);
+quizrouter.post("/quizzes/checker", checkAnswer);
 module.exports = quizrouter;
