@@ -147,17 +147,47 @@ async function findByChapterId(req, res, next) {
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;
   try {
-    const results = await Promise.all(quizArray.map((quiz) => validateAnswer(quiz.quizId, quiz.selectedAnswer)));
+    const results = await Promise.all(
+      quizArray.map((quiz) => validateAnswer(quiz.quizId, quiz.selectedAnswer))
+    );
     console.log(results);
-    
-    const totalQuizzes = results.length;
-    const correctAnswers = results.filter((result) => result.message === "Correct answer!").length;
-    const score = (correctAnswers / totalQuizzes) * 100;
+
+    const length = results.length;
+    const correctAnswers = results.filter(
+      (result) => result.message === "Correct answer!"
+    ).length;
+    const score = (correctAnswers / length) * 100;
+
+    // work to do  : here we have the score , now we r going to check if it is more or equal to 90% we update the attribute progress
+    //in the sub's class
+
+    if (score >= 90) {
+      const quiz = db.collection("quizzes").doc(quizArray[0].quizId);
+      const quizSnap = await quiz.get();
+      const quizData = quizSnap.data();
+      const chapterId = quizData.ChapterId;
+      console.log(
+        "🚀 ~ file: quizController.js:170 ~ checkAnswer ~ chapterId:",
+        chapterId
+      );
+      const chapter = db.collection("chapters").doc(chapterId);
+      const chapterSnap = await chapter.get();
+      const chapterData = chapterSnap.data();
+      const courseId = chapterData.courseId;
+      console.log(
+        "🚀 ~ file: quizController.js:177 ~ checkAnswer ~ courseId:",
+        courseId
+      );
+
+      // now we r waiting for the subscription class to be made once it's done we can look for the courseId including the userId
+      // and change its progress aka we add for example chapter1:true which mean user (userId) has finished the chapter1 in the
+      // courseId
+    }
 
     res.status(200).json({ results, score });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to check answers' });
+    res.status(500).json({ error: "Failed to check answers" });
   }
 }
 
@@ -181,10 +211,6 @@ async function validateAnswer(quizId, selectedAnswer) {
     throw error;
   }
 }
-
-
-
-
 
 module.exports = {
   addQuiz,
