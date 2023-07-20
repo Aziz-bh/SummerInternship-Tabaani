@@ -7,6 +7,23 @@ import avatar3 from "assets/img/avatars/avatar3.png";
 import CourseCard from "components/card/CourseCard";
 import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 
+const coursesData = [
+  {
+    title: "Course 1",
+    image:
+      "https://images.unsplash.com/photo-1531761535209-180857e963b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+    pic: avatar1,
+    points: 100,
+  },
+  {
+    title: "Course 2",
+    image:
+      "https://images.unsplash.com/photo-1494676051766-7a7454d53904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80",
+    pic: avatar2,
+    points: 80,
+  },
+  // Add more courses as needed
+];
 const Courses = () => {
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5">
@@ -16,8 +33,16 @@ const Courses = () => {
             Your unfinished courses
           </h4>
         </div>
-        <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-2">
-          <UnfinishedCoursesCard />
+        <div className="z-20 grid grid-cols-1 gap-2 md:grid-cols-2">
+          {coursesData.map((course, index) => (
+            <UnfinishedCoursesCard
+              key={index}
+              title={course.title}
+              image={course.image}
+              pic={course.pic}
+              points={course.points}
+            />
+          ))}
         </div>
         <div className="mb-4 mt-5 flex flex-col justify-between md:flex-row md:items-center">
           <h4 className="text-2xl font-bold text-navy-700 dark:text-white">
