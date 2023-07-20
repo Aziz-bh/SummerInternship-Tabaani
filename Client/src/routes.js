@@ -18,14 +18,14 @@ import Dashboard from "views/admin/MainDashboard";
 
 const routes = [
   {
-    name: "Main Dashboard",
+    name: "Home",
     layout: "/admin",
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <Dashboard />,
   },
   {
-    name: "Courses",
+    name: "Progress",
     layout: "/admin",
     path: "nft-marketplace",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
@@ -33,7 +33,7 @@ const routes = [
     secondary: true,
   },
   {
-    name: "Users",
+    name: "Messages",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
     path: "data-tables",
