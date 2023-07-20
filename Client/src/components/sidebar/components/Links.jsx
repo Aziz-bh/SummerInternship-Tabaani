@@ -17,14 +17,16 @@ export function SidebarLinks(props) {
 
   const createLinks = (routes) => {
     return routes.map((route, index) => {
-      if (
-        route.layout === "/admin" ||
-        route.layout === "/auth" ||
-        route.layout === "/rtl"
-      ) {
+      if (route.layout === "/admin" || route.layout === "/auth") {
         return (
           <Link key={index} to={route.layout + "/" + route.path}>
-            <div className="relative mb-3 flex hover:cursor-pointer">
+            <div
+              className={`relative mb-4 flex ${
+                activeRoute(route.path) === true
+                  ? "h-11 rounded-l bg-white p-1"
+                  : "bg-transparent"
+              } hover:cursor-pointer`}
+            >
               <li
                 className="my-[3px] flex cursor-pointer items-center px-8"
                 key={index}
@@ -49,7 +51,7 @@ export function SidebarLinks(props) {
                 </p>
               </li>
               {activeRoute(route.path) ? (
-                <div class="absolute right-0 top-px h-9 w-1 rounded-lg bg-orange-400 dark:bg-orange-400" />
+                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-orange-400 dark:bg-orange-400" />
               ) : null}
             </div>
           </Link>

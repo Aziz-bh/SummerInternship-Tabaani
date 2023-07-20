@@ -1,6 +1,6 @@
 import Card from "components/card";
 
-const NftCard = ({ title, image, extra }) => {
+const CourseCard = ({ title, image, extra }) => {
   return (
     <Card
       extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
@@ -46,4 +46,4 @@ const NftCard = ({ title, image, extra }) => {
   );
 };
 
-export default NftCard;
+export default CourseCard;

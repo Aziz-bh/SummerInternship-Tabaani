@@ -22,14 +22,14 @@ const routes = [
     layout: "/admin",
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
-    component: <Dashboard />,
+    component: <Courses />,
   },
   {
     name: "Progress",
     layout: "/admin",
     path: "nft-marketplace",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    component: <Courses />,
+    component: <Dashboard />,
     secondary: true,
   },
   {
