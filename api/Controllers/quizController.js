@@ -45,6 +45,39 @@ async function addQuiz(req, res, next) {
   }
 }
 
+async function addQuizT_F(req, res, next) {
+  try {
+    const ChapterId = req.params.idChapter;
+    const chapterRef = db.collection("chapters").doc(ChapterId);
+    const documentSnapshot = await chapterRef.get();
+
+    if (!documentSnapshot.exists) {
+      console.log("Document does not exist");
+      return res.status(404).json({ error: "Chapter doesn't exist" });
+    } else {
+      const quiz = {
+        question: req.body.question,
+        option1: req.body.option1,
+        rightAnswer: req.body.rightAnswer,
+        ChapterId: ChapterId,
+      };
+
+
+      if (!quiz.question || !quiz.option1 || !quiz.rightAnswer) {
+        res.status(400).json({ message: "Invalid quiz data" });
+        return;
+      }
+
+      await db.collection("quizzes").doc().set(quiz);
+
+      res.status(201).json({ message: "Quiz added successfully" });
+    }
+  } catch (error) {
+    console.error("Error fetching chapter:", error);
+    return res.status(500).json({ error: "Failed to fetch chapter" });
+  }
+}
+
 async function updateQuiz(req, res, next) {
   try {
     const quizId = req.params.id;
@@ -56,9 +89,6 @@ async function updateQuiz(req, res, next) {
       id: updatedQuiz.id,
       question: updatedQuiz.question,
       option1: updatedQuiz.option1,
-      option2: updatedQuiz.option2,
-      option3: updatedQuiz.option3,
-      option4: updatedQuiz.option4,
       rightAnswer: updatedQuiz.rightAnswer,
     };
 
@@ -220,4 +250,5 @@ module.exports = {
   getQuizById,
   findByChapterId,
   checkAnswer,
+  addQuizT_F,
 };

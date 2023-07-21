@@ -8,10 +8,12 @@ const {
   deleteQuiz,
   updateQuiz,
   findByChapterId,
-  checkAnswer
+  checkAnswer,
+  addQuizT_F
 } = require("../Controllers/quizController");
 
 quizrouter.post("/quizzes/add/:idChapter", addQuiz);
+quizrouter.post("/quizzes/addt_f/:idChapter", addQuizT_F);
 quizrouter.get("/quizzes/byId/:id", getQuizById);
 quizrouter.get("/quizzes", getAllQuizzes);
 quizrouter.get("/quizzes/chapter/:chapterId", findByChapterId);
