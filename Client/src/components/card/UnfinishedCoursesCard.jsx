@@ -3,14 +3,14 @@ const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border">
       <div className="h-48 w-[356px] rounded-[10px]">
         <img
-          className="h-48 rounded-l-lg object-cover lg:block md:hidden "
+          className="h-48 rounded-l-lg object-cover md:hidden lg:block "
           src={image}
           alt="picture"
         />
       </div>
       <div className="flex flex-col justify-between">
         <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-10">
-          <div className="text-zinc-950 h-[19px] w-[329px] text-base font-medium capitalize">
+          <div className="text-zinc-950 h-[19px] w-[329px] text-base font-bold">
             {title}
           </div>
         </div>
