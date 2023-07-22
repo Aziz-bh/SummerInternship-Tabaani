@@ -23,30 +23,33 @@ const SubscribeToCourse = async (req, res) => {
     const courseRef = firestore.collection("courses").doc(courseId);
     const courseDoc = await courseRef.get();
 
-    // Get course description
-    const description = courseDoc.data().description;
-    console.log(description);
-
     // Check if course document exists
     if (!courseDoc.exists) {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    // Update user document with subscribed course
-    const user = userDoc.data();
-    const subscribedCourses = user.subscribedCourses || [];
+    // Check if the user is already subscribed to the course
+    const subscriptionRef = firestore
+      .collection("subscriptions")
+      .where("userId", "==", userId)
+      .where("courseId", "==", courseId);
 
-    if (!subscribedCourses.includes(courseId)) {
-      subscribedCourses.push(courseId);
+    const subscriptionSnapshot = await subscriptionRef.get();
 
-      await userRef.update({
-        subscribedCourses: subscribedCourses,
-      });
+    if (subscriptionSnapshot.empty) {
+      // User is not subscribed, create a new subscription
+      const newSubscription = {
+        userId: userId,
+        courseId: courseId,
+      };
+
+      await firestore.collection("subscriptions").add(newSubscription);
 
       return res.status(200).json({
         message: `User ${firstname} subscribed to the course successfully`,
       });
     } else {
+      // User is already subscribed to the course
       return res.status(200).json({
         message: `User ${firstname} is already subscribed to the course`,
       });
