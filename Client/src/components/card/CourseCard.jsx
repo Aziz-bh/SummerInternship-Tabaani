@@ -1,6 +1,9 @@
 import Card from "components/card";
 import { FaTrophy } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 import ScoreIcon from "assets/icons/ScoreIcon.png";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const CourseCard = ({ title, image, extra }) => {
   return (
@@ -18,16 +21,16 @@ const CourseCard = ({ title, image, extra }) => {
 
         <div className="p-![18px] mb-6 flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
           <div>
-            <p className=" text-lg font-bold dark:text-white ">{title}</p>
+            <p className="text-lg font-bold dark:text-white ">{title}</p>
           </div>
         </div>
         <div className="mt-1  mb-6  flex justify-between">
           <div className="flex  items-center justify-center gap-3">
-            <p className="text-md font-semibold">Lesson</p>
+            <p className="text-md font-medium">Lesson</p>
             <p className="text-md font-semibold  dark:text-white">17</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
-            <p className="text-md font-semibold">Student</p>
+            <p className="text-md font-medium">Student</p>
             <p className="text-md font-semibold  dark:text-white">198</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
@@ -36,8 +39,9 @@ const CourseCard = ({ title, image, extra }) => {
           </div>
         </div>
         <div className="mt-1  mb-4 flex justify-between">
-          <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-2.5 pl-6 pr-6 text-center text-sm font-medium capitalize leading-tight text-white">
+          <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-2.5 pl-4 pr-2 text-center text-sm font-medium capitalize leading-tight text-white">
             Start Course
+            <MdOutlineKeyboardArrowRight size={20} />
           </button>
           <div
             style={{
