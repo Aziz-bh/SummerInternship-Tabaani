@@ -1,34 +1,66 @@
+import bookIcon from "assets/icons/bookIcon.png";
+import Progress from "components/progress";
+import { FaTrophy } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
+
 const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
   return (
-    <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border">
-      <div className="h-48 w-[356px] rounded-[10px]">
+    <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white">
+      <div className="h-56 w-[356px] rounded-[10px]">
         <img
-          className="h-48 rounded-l-lg object-cover md:hidden lg:block "
+          className=" h-56 rounded-l-lg object-cover md:hidden lg:block "
           src={image}
           alt="picture"
         />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-10">
+        <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-6">
           <div className="text-zinc-950 h-[19px] w-[329px] text-base font-bold">
             {title}
           </div>
         </div>
 
-        <div className="inline-flex items-center justify-between pb-10 pr-6">
+        <div className="inline-flex items-center justify-between pb-8 pr-6">
           <div className="flex items-center justify-start gap-2">
+            <FaBook size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
               Lesson : 6
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
+            <FaUser size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
               student : 198
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
+            <FaTrophy size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
               Beginner
+            </div>
+          </div>
+        </div>
+        <div className="inline-flex items-center justify-between pb-2 pr-6">
+          <Progress value={75} />
+        </div>
+
+        <div className="inline-flex items-center justify-between pb-6 pr-6">
+          <div className="flex items-center justify-start gap-1">
+            <p className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
+              Points :
+            </p>
+            <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
+              75 / 100
+            </div>
+          </div>
+
+          <div className="flex items-center justify-start gap-1">
+            <p className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
+              Days:
+            </p>
+            <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
+              56
             </div>
           </div>
         </div>
@@ -42,7 +74,7 @@ const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
               <div className="text-stone-700 self-stretch text-sm font-medium leading-snug tracking-tight">
                 Jon Kantner
               </div>
-              <div className="text-stone-700 text-xs font-normal leading-[18px] tracking-tight text-opacity-75">
+              <div className="text-stone-700 l text-xs font-normal tracking-tight text-opacity-75">
                 Design teacher
               </div>
             </div>

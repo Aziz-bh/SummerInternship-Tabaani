@@ -23,16 +23,16 @@ const CourseCard = ({ title, image, extra }) => {
         </div>
         <div className="mt-1  mb-6  flex justify-between">
           <div className="flex  items-center justify-center gap-3">
-            <p className="text-md font-bold ">Lesson</p>
-            <p className="text-md font-bold  dark:text-white">17</p>
+            <p className="text-md font-semibold">Lesson</p>
+            <p className="text-md font-semibold  dark:text-white">17</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
-            <p className="text-md font-bold">Student</p>
-            <p className="text-md font-bold  dark:text-white">198</p>
+            <p className="text-md font-semibold">Student</p>
+            <p className="text-md font-semibold  dark:text-white">198</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
             <FaTrophy size={20} color="silver" />
-            <p className="text-md font-bold  dark:text-white">Beginner</p>
+            <p className="text-md font-semibold  dark:text-white">Beginner</p>
           </div>
         </div>
         <div className="mt-1  mb-4 flex justify-between">
