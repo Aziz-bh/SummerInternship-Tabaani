@@ -183,8 +183,63 @@ const MoveToNextChapter = async (req, res) => {
   }
 };
 
+const GenerateCertificate = async (req, res) => {
+  try {
+    const { userId, courseId } = req.body;
+
+    const subscriptionRef = firestore
+      .collection("subscriptions")
+      .where("userId", "==", userId)
+      .where("courseId", "==", courseId);
+
+    const subscriptionSnapshot = await subscriptionRef.get();
+
+    if (subscriptionSnapshot.empty) {
+      return res
+        .status(404)
+        .json({ error: "User not subscribed to the course" });
+    }
+
+    const subscriptionData = subscriptionSnapshot.docs[0].data();
+
+    // Retrieve the total number of chapters in the course from the "chapters" collection
+    const chaptersRef = firestore
+      .collection("courses")
+      .doc(courseId)
+      .collection("chapters");
+    const chaptersSnapshot = await chaptersRef.get();
+    const totalChapters = chaptersSnapshot.size;
+
+    // Calculate the percentage of completed chapters
+    const progress = subscriptionData.progress || 0;
+    const completionPercentage = (progress / totalChapters) * 100;
+
+    if (completionPercentage >= 90) {
+      const certificateData = {
+        userId: userId,
+        courseId: courseId,
+        completionDate: new Date().toISOString(),
+      };
+
+      const certificateRef = await firestore
+        .collection("certificates")
+        .add(certificateData);
+
+      return res.status(200).json({
+        message: `Certificate generated for user ${userId} in course ${courseId}`,
+        certificateId: certificateRef.id,
+      });
+    } else {
+      return res.status(400).json({ error: "Course not completed yet" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   verifyUserCompletion,
   SubscribeToCourse,
   MoveToNextChapter,
+  GenerateCertificate,
 };
