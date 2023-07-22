@@ -4,26 +4,33 @@ const Course = require("../models/course.model");
 const firestore = firebase.firestore();
 
 /****************************************************** */
-const addCourse = async (req, res, next) => {
+const addCourse = async (req, res) => {
   try {
-    const { id, title, description, level, done } = req.body;
-    if (!id || !title || !description || !level || typeof done !== "boolean") {
+    const { title, description, level, price, done } = req.body;
+    if (
+      !title ||
+      !description ||
+      !level ||
+      !price ||
+      typeof done !== "boolean"
+    ) {
       res.status(400).send("Invalid course data");
       return;
     }
     const courseData = {
-      id,
       title,
       description,
       level,
+      price,
       done,
     };
-    await firestore.collection("courses").doc().set(courseData);
+    await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 /***************************************************** */
 
 const getAllcourses = async (req, res, next) => {

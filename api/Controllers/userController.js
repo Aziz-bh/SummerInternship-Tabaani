@@ -7,7 +7,6 @@ const SubscribeToCourse = async (req, res) => {
 
     // Get user document reference
     const userRef = firestore.collection("users").doc(userId);
-
     const userDoc = await userRef.get();
 
     // Check if user document exists
@@ -41,6 +40,7 @@ const SubscribeToCourse = async (req, res) => {
       const newSubscription = {
         userId: userId,
         courseId: courseId,
+        progress: 0, // Set progress to 0 by default
       };
 
       await firestore.collection("subscriptions").add(newSubscription);
