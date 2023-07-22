@@ -1,19 +1,21 @@
-import React from "react";
-
 const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
   return (
-    <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border ">
+    <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border">
       <div className="h-48 w-[356px] rounded-[10px]">
-        <img className="h-48 w-full rounded-l-lg" src={image} alt="" />
+        <img
+          className="h-48 rounded-l-lg object-cover lg:block md:hidden "
+          src={image}
+          alt="picture"
+        />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="inline-flex flex-col items-start justify-start gap-2 py-4">
+        <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-10">
           <div className="text-zinc-950 h-[19px] w-[329px] text-base font-medium capitalize">
             {title}
           </div>
         </div>
 
-        <div className="inline-flex items-center justify-between gap-[30px] pr-[30px] pb-[26px]">
+        <div className="inline-flex items-center justify-between pb-10 pr-6">
           <div className="flex items-center justify-start gap-2">
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
               Lesson : 6
@@ -31,7 +33,7 @@ const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
           </div>
         </div>
 
-        <div className="inline-flex items-end gap-20">
+        <div className="inline-flex items-end justify-between pr-4">
           <div className="flex h-11 items-center justify-start gap-2.5">
             <div className="relative h-11 w-11">
               <img className="h-11 w-11 rounded-lg" src={pic} alt="" />
