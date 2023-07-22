@@ -5,29 +5,23 @@ const SubscribeToCourse = async (req, res) => {
   try {
     const { userId, courseId } = req.body;
 
-    // Get user document reference
     const userRef = firestore.collection("users").doc(userId);
     const userDoc = await userRef.get();
 
-    // Check if user document exists
     if (!userDoc.exists) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Get user first name
     const firstname = userDoc.data().firstname;
     console.log(firstname);
 
-    // Get course document reference
     const courseRef = firestore.collection("courses").doc(courseId);
     const courseDoc = await courseRef.get();
 
-    // Check if course document exists
     if (!courseDoc.exists) {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    // Check if the user is already subscribed to the course
     const subscriptionRef = firestore
       .collection("subscriptions")
       .where("userId", "==", userId)
@@ -36,11 +30,10 @@ const SubscribeToCourse = async (req, res) => {
     const subscriptionSnapshot = await subscriptionRef.get();
 
     if (subscriptionSnapshot.empty) {
-      // User is not subscribed, create a new subscription
       const newSubscription = {
         userId: userId,
         courseId: courseId,
-        progress: 0, // Set progress to 0 by default
+        progress: 0,
       };
 
       await firestore.collection("subscriptions").add(newSubscription);
@@ -49,7 +42,6 @@ const SubscribeToCourse = async (req, res) => {
         message: `User ${firstname} subscribed to the course successfully`,
       });
     } else {
-      // User is already subscribed to the course
       return res.status(200).json({
         message: `User ${firstname} is already subscribed to the course`,
       });
@@ -163,7 +155,6 @@ const MoveToNextChapter = async (req, res) => {
 
     console.log("rightAnswer", rightAnswer);
 
-    // Check if user's score is above 70%
     if (score >= 70) {
       const nextChapterIndex = course.chapters.indexOf(chapterId) + 1;
       if (nextChapterIndex < course.chapters.length) {
@@ -201,20 +192,21 @@ const GenerateCertificate = async (req, res) => {
     }
 
     const subscriptionData = subscriptionSnapshot.docs[0].data();
-
-    // Retrieve the total number of chapters in the course from the "chapters" collection
-    const chaptersRef = firestore
-      .collection("courses")
-      .doc(courseId)
-      .collection("chapters");
-    const chaptersSnapshot = await chaptersRef.get();
-    const totalChapters = chaptersSnapshot.size;
-
-    // Calculate the percentage of completed chapters
     const progress = subscriptionData.progress || 0;
-    const completionPercentage = (progress / totalChapters) * 100;
 
-    if (completionPercentage >= 90) {
+    const courseRef = firestore.collection("courses").doc(courseId);
+    const courseDoc = await courseRef.get();
+
+    if (!courseDoc.exists) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+
+    const chaptersArray = courseDoc.data().chapters;
+    const totalChapters = chaptersArray.length;
+
+    console.log("totalChapters", totalChapters);
+
+    if (progress === totalChapters) {
       const certificateData = {
         userId: userId,
         courseId: courseId,
