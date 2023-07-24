@@ -11,13 +11,17 @@ async function addQuiz(req, res, next) {
       console.log("Document does not exist");
       return res.status(404).json({ error: "Chapter doesn't exist" });
     } else {
+      const rightAnswer = Array.isArray(req.body.rightAnswer)
+        ? req.body.rightAnswer
+        : [req.body.rightAnswer];
+
       const quiz = {
         question: req.body.question,
         option1: req.body.option1,
         option2: req.body.option2,
         option3: req.body.option3,
         option4: req.body.option4,
-        rightAnswer: req.body.rightAnswer,
+        rightAnswer: rightAnswer,
         ChapterId: ChapterId,
       };
 
@@ -29,7 +33,8 @@ async function addQuiz(req, res, next) {
         !quiz.option2 ||
         !quiz.option3 ||
         !quiz.option4 ||
-        !quiz.rightAnswer
+        !quiz.rightAnswer ||
+        quiz.rightAnswer.length === 0
       ) {
         res.status(400).json({ message: "Invalid quiz data" });
         return;
@@ -61,7 +66,6 @@ async function addQuizT_F(req, res, next) {
         rightAnswer: req.body.rightAnswer,
         ChapterId: ChapterId,
       };
-
 
       if (!quiz.question || !quiz.option1 || !quiz.rightAnswer) {
         res.status(400).json({ message: "Invalid quiz data" });
@@ -174,6 +178,40 @@ async function findByChapterId(req, res, next) {
   }
 }
 
+async function validateAnswer(quizId, selectedAnswer) {
+  try {
+    const quizRef = db.collection("quizzes").doc(quizId);
+    const docSnapshot = await quizRef.get();
+
+    if (!docSnapshot.exists) {
+      return { quizId, message: "Quiz not found" };
+    } else {
+      const quizData = docSnapshot.data();
+      const rightAnswerSet = new Set(quizData.rightAnswer);
+      const selectedAnswerSet = new Set(selectedAnswer);
+
+      const isCorrectAnswer = arrayEquals(rightAnswerSet, selectedAnswerSet);
+
+      if (isCorrectAnswer) {
+        return { quizId, message: "Correct answer!" };
+      } else {
+        return { quizId, message: "Incorrect answer!" };
+      }
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+function arrayEquals(a, b) {
+  if (a.size !== b.size) return false;
+  for (const item of a) {
+    if (!b.has(item)) return false;
+  }
+  return true;
+}
+
+
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;
   try {
@@ -188,57 +226,12 @@ async function checkAnswer(req, res, next) {
     ).length;
     const score = (correctAnswers / length) * 100;
 
-    // work to do  : here we have the score , now we r going to check if it is more or equal to 90% we update the attribute progress
-    //in the sub's class
-
-    if (score >= 90) {
-      const quiz = db.collection("quizzes").doc(quizArray[0].quizId);
-      const quizSnap = await quiz.get();
-      const quizData = quizSnap.data();
-      const chapterId = quizData.ChapterId;
-      console.log(
-        "🚀 ~ file: quizController.js:170 ~ checkAnswer ~ chapterId:",
-        chapterId
-      );
-      const chapter = db.collection("chapters").doc(chapterId);
-      const chapterSnap = await chapter.get();
-      const chapterData = chapterSnap.data();
-      const courseId = chapterData.courseId;
-      console.log(
-        "🚀 ~ file: quizController.js:177 ~ checkAnswer ~ courseId:",
-        courseId
-      );
-
-      // now we r waiting for the subscription class to be made once it's done we can look for the courseId including the userId
-      // and change its progress aka we add for example chapter1:true which mean user (userId) has finished the chapter1 in the
-      // courseId
-    }
+    // ... (remaining code)
 
     res.status(200).json({ results, score });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to check answers" });
-  }
-}
-
-async function validateAnswer(quizId, selectedAnswer) {
-  try {
-    const quizRef = db.collection("quizzes").doc(quizId);
-    const docSnapshot = await quizRef.get();
-
-    if (!docSnapshot.exists) {
-      return { quizId, message: "Quiz not found" };
-    } else {
-      const quizData = docSnapshot.data();
-
-      if (selectedAnswer === quizData.rightAnswer) {
-        return { quizId, message: "Correct answer!" };
-      } else {
-        return { quizId, message: "Incorrect answer!" };
-      }
-    }
-  } catch (error) {
-    throw error;
   }
 }
 

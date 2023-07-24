@@ -1,0 +1,93 @@
+/* quiz.css */
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+  
+  .title-container {
+    left: -10%;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 50px;
+    margin-top: -200px;
+  }
+  
+  .title-container h1 {
+    font-size: 30px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .general-text-container {
+    text-align: center;
+    /* Center the text horizontally */
+    margin-bottom: 50px;
+  }
+  
+  .general-text {
+    max-width: 400px;
+    /* Set a maximum width for the text container */
+    margin: 0 auto;
+    /* Center the text container horizontally */
+  }
+  
+  /* Container for the entire quiz */
+  .quiz {
+    background-color: #dddddd;
+    padding: 30px; /* Increase the padding to add more space around the quiz */
+    border-radius: 70px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 40%; /* Set the quiz container's maximum width to 40% */
+    margin: 0 auto; /* Center the quiz container horizontally */
+  }
+  
+  
+  /* Styling for the question */
+  .question {
+    font-size: 16px;
+    /* Smaller font size */
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    /* Allow text to wrap */
+  }
+  
+  /* Container for the answer options */
+  .answer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Styling for each option button */
+  .question {
+    font-size: 16px; /* Smaller font size */
+    margin-bottom: 20px;
+   padding-top: 50px;
+    word-wrap: break-word; /* Allow text to wrap */
+    max-width: 70%; /* Set the question's maximum width to 80% */
+    margin: 0 auto; /* Center the question horizontally */
+  }
+  .options {
+    display: flex;
+    flex-direction: row; /* Display options in a row */
+    align-items: center; /* Center the options horizontally */
+    justify-content: center; /* Center the options vertically */
+    margin-top: 20px;
+    
+  }
+  /* Styling for the selected (active) option button */
+  .options button {
+    background-color: #10455B;
+    color: white;
+    border: none;
+    margin-right: 10px;
+    padding: 10px 40px; /* Increase the padding to add more width to the buttons */
+    margin-bottom: 10px;
+    /* Add space between the buttons */
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }

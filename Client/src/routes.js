@@ -15,6 +15,7 @@ import {
 import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/admin/Courses";
 import Dashboard from "views/admin/MainDashboard";
+import Quiz from "views/user/quiz";
 
 const routes = [
   {
@@ -46,6 +47,13 @@ const routes = [
     path: "sign-in",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
+  },
+  {
+    name: "quiz",
+    layout: "/quiz",
+    path: "quiz",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <Quiz />,
   },
 ];
 export default routes;
