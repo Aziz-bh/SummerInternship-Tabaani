@@ -1,4 +1,9 @@
 import Card from "components/card";
+import { FaTrophy } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
+import ScoreIcon from "assets/icons/ScoreIcon.png";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const CourseCard = ({ title, image, extra }) => {
   return (
@@ -14,31 +19,43 @@ const CourseCard = ({ title, image, extra }) => {
           />
         </div>
 
-        <div className="p-![18px] mb-3 flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
-          <div className="mb-2">
-            <p className="  whitespace-nowrap text-lg font-bold text-navy-700 dark:text-white">
-              {title}
-            </p>
+        <div className="p-![18px] mb-6 flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
+          <div>
+            <p className="text-lg font-bold dark:text-white ">{title}</p>
           </div>
         </div>
-        <div className="mt-1 mb-3 flex justify-around md:!gap-14">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-xl font-bold text-navy-700 dark:text-white">
-              17
-            </p>
-            <p className="text-sm font-normal text-gray-600">Lessons</p>
+        <div className="mt-1  mb-6  flex justify-between">
+          <div className="flex  items-center justify-center gap-3">
+            <p className="text-md font-medium">Lesson</p>
+            <p className="text-md font-semibold  dark:text-white">17</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-xl font-bold text-navy-700 dark:text-white">
-              198
-            </p>
-            <p className="text-sm font-normal text-gray-600">Students</p>
+          <div className="flex  items-center justify-center gap-3">
+            <p className="text-md font-medium">Student</p>
+            <p className="text-md font-semibold  dark:text-white">198</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-xl font-bold text-navy-700 dark:text-white">
-              434
-            </p>
-            <p className="text-sm font-normal text-gray-600">Following</p>
+          <div className="flex  items-center justify-center gap-3">
+            <FaTrophy size={20} color="silver" />
+            <p className="text-md font-semibold  dark:text-white">Beginner</p>
+          </div>
+        </div>
+        <div className="mt-1  mb-4 flex justify-between">
+          <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-2.5 pl-4 pr-2 text-center text-sm font-medium capitalize leading-tight text-white">
+            Start Course
+            <MdOutlineKeyboardArrowRight size={20} />
+          </button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div class="relative">
+              <img src={ScoreIcon} width={50} alt="Score Icon" />
+              <p class="absolute top-1/2 left-[45%] -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold">
+                1
+              </p>
+            </div>
           </div>
         </div>
       </div>

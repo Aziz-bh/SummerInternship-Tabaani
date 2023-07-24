@@ -5,6 +5,7 @@ import Links from "./components/Links";
 import TabaaniAcademyLogo from "assets/img/Logos/TabaaniAcademyLogo.png";
 
 import routes from "routes.js";
+import SidebarCard from "./components/SideBarCard";
 
 const Sidebar = ({ open, onClose }) => {
   return (
@@ -34,6 +35,9 @@ const Sidebar = ({ open, onClose }) => {
       </ul>
 
       {/* Nav item end */}
+      <div className="flex justify-center">
+        <SidebarCard />
+      </div>
     </div>
   );
 };

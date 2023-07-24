@@ -16,6 +16,7 @@ import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/admin/Courses";
 import Dashboard from "views/admin/MainDashboard";
 import Quiz from "views/user/quiz";
+import CourseOverview from "views/admin/CourseOverview/CourseOverview";
 
 const routes = [
   {
@@ -24,6 +25,12 @@ const routes = [
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <Courses />,
+  },
+  {
+    name: "course overiew",
+    layout: "/admin",
+    path: "course/1",
+    component: <CourseOverview />,
   },
   {
     name: "Progress",
