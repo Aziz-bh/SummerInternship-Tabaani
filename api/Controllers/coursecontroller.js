@@ -24,7 +24,7 @@ const addCourse = async (req, res) => {
       price,
       done,
     };
-    await firestore.collection("courses").add(courseData);
+    await firestore.collection("courses").doc().set(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
