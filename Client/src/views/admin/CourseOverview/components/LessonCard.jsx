@@ -1,23 +1,9 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import ReactPlayer from "react-player";
 
 const LessonCard = () => {
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-
-    if (video.paused) {
-      video.play();
-    } else {
-      video.pause();
-    }
-
-    setIsPlaying(!isPlaying);
-  };
   return (
-    <div className="rounded-md bg-white p-4 shadow-md">
+    <div className="rounded-2xl bg-white p-4 shadow-md">
       <h2 className="mb-4 text-2xl font-bold">
         Course – Introduction to Hosting
       </h2>
@@ -51,6 +37,14 @@ const LessonCard = () => {
         to anticipate and respond to the needs of visitors, and how to create a
         hospitable and inclusive environment for all.
       </p>
+      <div className="flex flex-row-reverse gap-3">
+        <button className="mt-4 flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-4 pl-6 pr-6 text-center text-sm font-medium capitalize leading-tight text-white">
+          Test Your Knowledge
+        </button>
+        <button className="border-zinc-100 mt-4  inline-flex  items-center justify-start gap-3 rounded-[10px] border py-4  pl-6 pr-6 text-center text-sm font-medium capitalize leading-tight ">
+          Skip To the Test
+        </button>
+      </div>
     </div>
   );
 };
