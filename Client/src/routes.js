@@ -20,19 +20,6 @@ import CourseOverview from "views/admin/CourseOverview/CourseOverview";
 
 const routes = [
   {
-    name: "Home",
-    layout: "/user",
-    path: "dashboard",
-    icon: <MdHome className="h-6 w-6" />,
-    component: <Courses />,
-  },
-  {
-    name: "course overiew",
-    layout: "/user",
-    path: "course/1",
-    component: <CourseOverview />,
-  },
-  {
     name: "Dashboard",
     layout: "/admin",
     path: "dashboard",
@@ -47,6 +34,20 @@ const routes = [
     path: "users",
     component: <UsersProgress />,
   },
+  {
+    name: "Home",
+    layout: "/user",
+    path: "dashboard",
+    icon: <MdHome className="h-6 w-6" />,
+    component: <Courses />,
+  },
+  {
+    name: "course overiew",
+    layout: "/user",
+    path: "course/1",
+    component: <CourseOverview />,
+  },
+
   {
     name: "Sign In",
     layout: "/auth",
