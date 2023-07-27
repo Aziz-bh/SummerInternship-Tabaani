@@ -6,17 +6,17 @@ import SignIn from "views/auth/SignIn";
 
 // Icon Imports
 import {
-  MdHome,
   MdOutlineShoppingCart,
   MdBarChart,
-  FiMessageSquare,
   MdLock,
+  MdDashboard,
+  MdSettings,
 } from "react-icons/md";
-import UsersProgress from "views/admin/UsersProgress";
-import Courses from "views/admin/Courses";
 import Dashboard from "views/admin/MainDashboard";
-import CourseOverview from "views/admin/CourseOverview/CourseOverview";
-import QuizPage from "views/admin/quizzPage/QuizPage";
+import UsersProgress from "views/admin/UsersProgress";
+import Courses from "views/user/Courses";
+import CourseOverview from "views/user/CourseOverview/CourseOverview";
+import QuizPage from "views/user/quizzPage/QuizPage";
 
 const routes = [
   {
@@ -38,7 +38,7 @@ const routes = [
     name: "Home",
     layout: "/user",
     path: "dashboard",
-    icon: <MdHome className="h-6 w-6" />,
+    icon: <MdDashboard className="h-6 w-6" />,
     component: <Courses />,
   },
   {
