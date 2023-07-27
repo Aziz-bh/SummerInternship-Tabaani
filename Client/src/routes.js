@@ -18,6 +18,7 @@ import Courses from "views/user/Courses";
 import CourseOverview from "views/user/CourseOverview/CourseOverview";
 import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
+import LandingPage from "views/LandingPage/LandingPage";
 
 const routes = [
   {
@@ -42,6 +43,7 @@ const routes = [
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
   },
+
   {
     name: "Home",
     layout: "/user",
@@ -61,6 +63,12 @@ const routes = [
     path: "settings",
     icon: <MdSettings className="h-6 w-6" />,
     component: <Settings />,
+  },
+  {
+    name: "landing",
+    layout: "/home",
+    path: "home",
+    component: <LandingPage />,
   },
   {
     name: "quiz",
