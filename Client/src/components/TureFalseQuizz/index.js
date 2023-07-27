@@ -1,0 +1,1 @@
+export { TureFalseQuizz } from "./TureFalseQuizz";

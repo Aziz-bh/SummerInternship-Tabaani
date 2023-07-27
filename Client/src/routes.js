@@ -15,8 +15,8 @@ import {
 import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/admin/Courses";
 import Dashboard from "views/admin/MainDashboard";
-import Quiz from "views/user/quiz";
 import CourseOverview from "views/admin/CourseOverview/CourseOverview";
+import QuizPage from "views/admin/quizzPage/QuizPage";
 
 const routes = [
   {
@@ -57,10 +57,11 @@ const routes = [
   },
   {
     name: "quiz",
-    layout: "/quiz",
+    layout: "/admin",
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
-    component: <Quiz />,
+    component: <QuizPage />,
+    displayInMenu: false, // Set this to false to hide the route from the menu
   },
 ];
 export default routes;
