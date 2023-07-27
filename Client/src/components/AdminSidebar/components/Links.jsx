@@ -17,9 +17,9 @@ export function SidebarLinks(props) {
 
   const createLinks = (routes) => {
     return routes.map((route, index) => {
-      if (route.layout === "/user") {
+      if (route.layout === "/admin" || route.layout === "/auth") {
         return (
-          <Link key={index} to={"/" + route.path}>
+          <Link key={index} to={route.layout + "/" + route.path}>
             <div
               className={`relative mb-4 flex ${
                 activeRoute(route.path) === true

@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import AdminNavbar from "components/AdminNavbar";
-import Sidebar from "components/AdminSidebar";
+import Navbar from "components/navbar";
+import Sidebar from "components/sidebar";
 import Footer from "components/footer/Footer";
 import routes from "routes.js";
 
@@ -46,7 +46,7 @@ export default function Admin(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/user") {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
         );
@@ -67,7 +67,7 @@ export default function Admin(props) {
         >
           {/* Routes */}
           <div className="h-full">
-            <AdminNavbar
+            <Navbar
               onOpenSidenav={() => setOpen(true)}
               logoText={"Horizon UI Tailwind React"}
               brandText={currentRoute}
@@ -77,10 +77,9 @@ export default function Admin(props) {
             <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
               <Routes>
                 {getRoutes(routes)}
-
                 <Route
                   path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
+                  element={<Navigate to="/user/dashboard" replace />}
                 />
               </Routes>
             </div>

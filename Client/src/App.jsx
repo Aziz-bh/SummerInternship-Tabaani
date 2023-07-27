@@ -1,17 +1,18 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import AdminLayout from "layouts/admin";
+import UserLayout from "layouts/user";
 import AuthLayout from "layouts/auth";
-import QuizLayout from "layouts/quiz"; 
-import Quiz from "views/user/quiz"; 
+import AdminLayout from "layouts/admin";
+import Quiz from "views/user/quiz";
 
 const App = () => {
   return (
     <Routes>
       <Route path="auth/*" element={<AuthLayout />} />
+      <Route path="/*" element={<UserLayout />} />
       <Route path="admin/*" element={<AdminLayout />} />
-      <Route path="quiz/*" element={<Quiz />} /> 
-      <Route path="/" element={<Navigate to="/admin" replace />} />
+      <Route path="quiz/*" element={<Quiz />} />
+      <Route path="/" element={<Navigate to="/user/dashboard" replace />} />
     </Routes>
   );
 };
