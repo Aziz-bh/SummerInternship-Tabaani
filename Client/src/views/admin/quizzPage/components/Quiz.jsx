@@ -21,6 +21,7 @@ const Quiz = () => {
             src="https://generation-sessions.s3.amazonaws.com/eedda6429764b025e8379445d48767ce/img/online-test-pana@2x.png"
           />
         </div>
+        <div class="horizontal-line"></div>
         <div className="quiz">
           <div className="question">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,

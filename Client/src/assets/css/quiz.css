@@ -21,11 +21,21 @@
   margin-left: 50px;
 }
 .title-container {
+  padding-top: 0px !important;
   position: relative;
-  left: 5%;
-  width: 100%;
+  
+  width: 90%;
   padding: 20px;
   margin-bottom: 20px;
+}
+
+.horizontal-line {
+  width: 80%;
+  height: 1px;
+  padding-left: -20px;
+  background-color: black;
+  margin: 0 auto 5%; 
+  background-color: rgba(62, 50, 50, 0.25);
 }
   
   .title-container h1 {
@@ -44,7 +54,7 @@
     justify-content: flex-start;
     /* Align the text to the left of the container */
     align-items: center; /* Vertically center the text */
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
   
   .general-text {

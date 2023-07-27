@@ -57,7 +57,7 @@ const routes = [
   },
   {
     name: "quiz",
-    layout: "/admin",
+    layout: "/user",
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
     component: <QuizPage />,
