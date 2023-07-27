@@ -9,7 +9,7 @@ import {
   MdHome,
   MdOutlineShoppingCart,
   MdBarChart,
-  MdPerson,
+  FiMessageSquare,
   MdLock,
 } from "react-icons/md";
 import UsersProgress from "views/admin/UsersProgress";
@@ -21,21 +21,21 @@ import QuizPage from "views/admin/quizzPage/QuizPage";
 const routes = [
   {
     name: "Home",
-    layout: "/admin",
+    layout: "/user",
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <Courses />,
   },
   {
     name: "course overiew",
-    layout: "/admin",
+    layout: "/user",
     path: "course/1",
     component: <CourseOverview />,
   },
   {
-    name: "Progress",
+    name: "Dashboard",
     layout: "/admin",
-    path: "nft-marketplace",
+    path: "dashboard",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     component: <Dashboard />,
     secondary: true,
@@ -44,10 +44,9 @@ const routes = [
     name: "Messages",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
-    path: "data-tables",
+    path: "users",
     component: <UsersProgress />,
   },
-
   {
     name: "Sign In",
     layout: "/auth",
