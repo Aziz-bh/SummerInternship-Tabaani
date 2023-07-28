@@ -2,6 +2,7 @@ import React from "react";
 import Home from "./components/Home";
 import NewCourses from "./components/NewCourses";
 import BestHosts from "./components/BestHosts";
+import YourCourses from "./components/YourCourses";
 
 const LandingPage = () => {
   return (
@@ -9,6 +10,7 @@ const LandingPage = () => {
       <Home />
       <NewCourses />
       <BestHosts />
+      <YourCourses />
     </div>
   );
 };

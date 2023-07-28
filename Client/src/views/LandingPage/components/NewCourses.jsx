@@ -117,7 +117,7 @@ const NewCourses = () => {
           currPage * itemsPerPage,
           (currPage + 1) * itemsPerPage
         ).map(({ id, title, image }) => (
-          <div className="h-full w-full">
+          <div className="h-full w-full" key={id}>
             <div className="relative w-full">
               <img
                 src={image}
@@ -157,9 +157,9 @@ const NewCourses = () => {
                   alignItems: "center",
                 }}
               >
-                <div class="relative">
+                <div className="relative">
                   <img src={ScoreIcon} width={50} alt="Score Icon" />
-                  <p class="absolute top-1/2 left-[45%] -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold text-[#000000]">
+                  <p className="absolute top-1/2 left-[45%] -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold text-[#000000]">
                     1
                   </p>
                 </div>
