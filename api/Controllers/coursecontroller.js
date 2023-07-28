@@ -4,6 +4,9 @@ const Course = require("../models/course.model");
 const firestore = firebase.firestore();
 
 /****************************************************** */
+
+const allowedLevels = ["hard", "intermediate", "easy"];
+
 const addCourse = async (req, res) => {
   try {
     const { title, description, level, price, done } = req.body;
@@ -12,7 +15,8 @@ const addCourse = async (req, res) => {
       !description ||
       !level ||
       !price ||
-      typeof done !== "boolean"
+      typeof done !== "boolean" ||
+      !allowedLevels.includes(level) // Check if the provided level is in the allowed levels
     ) {
       res.status(400).send("Invalid course data");
       return;
@@ -30,6 +34,7 @@ const addCourse = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
 
 /***************************************************** */
 
