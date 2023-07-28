@@ -1,0 +1,23 @@
+.ture-false {
+  background-color: #3e323280;
+  border-radius: 15px;
+  height: 48px;
+  position: relative;
+  width: 149px;
+}
+
+.ture-false .true {
+  color: #ffffff;
+  font-family: var(--h4-font-family);
+  font-size: var(--h4-font-size);
+  font-style: var(--h4-font-style);
+  font-weight: var(--h4-font-weight);
+  height: 48px;
+  left: 0;
+  letter-spacing: var(--h4-letter-spacing);
+  line-height: var(--h4-line-height);
+  position: absolute;
+  text-align: center;
+  top: -1px;
+  width: 149px;
+}

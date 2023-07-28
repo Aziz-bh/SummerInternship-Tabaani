@@ -1,0 +1,42 @@
+.ture-false-quizz {
+  background-color: #dddddd;
+  border-radius: 50px;
+  box-shadow: var(--shadow);
+  height: 258px;
+  position: relative;
+  width: 641px;
+}
+
+.ture-false-quizz .lorem-ipsum-dolor {
+  color: #000000;
+  font-family: var(--h5-font-family);
+  font-size: var(--h5-font-size);
+  font-style: var(--h5-font-style);
+  font-weight: var(--h5-font-weight);
+  height: 87px;
+  left: 72px;
+  letter-spacing: var(--h5-letter-spacing);
+  line-height: var(--h5-line-height);
+  position: absolute;
+  text-align: center;
+  top: 61px;
+  width: 515px;
+}
+
+.ture-false-quizz .ture-false-instance {
+  background-color: #08080880 !important;
+  left: 162px !important;
+  position: absolute !important;
+  top: 155px !important;
+}
+
+.ture-false-quizz .design-component-instance-node {
+  background-color: #10455b !important;
+  left: 318px !important;
+  position: absolute !important;
+  top: 155px !important;
+}
+
+.ture-false-quizz .ture-false-2 {
+  color: var(--gray) !important;
+}

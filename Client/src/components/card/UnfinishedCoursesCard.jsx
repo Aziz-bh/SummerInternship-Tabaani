@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { FaBook } from "react-icons/fa";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
+const UnfinishedCoursesCard = ({ title, image, pic }) => {
   const progressValue = 50;
   return (
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white pr-6">
@@ -45,30 +45,14 @@ const UnfinishedCoursesCard = ({ title, image, pic, points }) => {
           <p className=" text-sm"> {progressValue}%</p>
         </div>
 
-        {/*<div className="inline-flex items-center justify-between pb-6 pr-6">
-          <div className="flex items-center justify-start gap-1">
-            <p className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              Points :
-            </p>
-            <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              75 / 100
-            </div>
-          </div>
-
-          <div className="flex items-center justify-start gap-1">
-            <p className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              Days:
-            </p>
-            <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              56
-            </div>
-          </div>
-  </div>*/}
-
         <div className="inline-flex items-end justify-between">
           <div className="flex h-11 items-center justify-start gap-2.5">
             <div className="relative h-11 w-11">
-              <img className="h-11 w-11 rounded-lg" src={pic} alt="" />
+              <img
+                className="h-11 w-11 rounded-lg object-cover"
+                src={pic}
+                alt=""
+              />
             </div>
             <div className="inline-flex shrink grow basis-0 flex-col items-start justify-start gap-1 rounded-lg">
               <div className="text-stone-700 self-stretch text-sm font-medium leading-snug tracking-tight">

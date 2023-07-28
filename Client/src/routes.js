@@ -6,36 +6,25 @@ import SignIn from "views/auth/SignIn";
 
 // Icon Imports
 import {
-  MdHome,
   MdOutlineShoppingCart,
   MdBarChart,
-  MdPerson,
   MdLock,
+  MdDashboard,
+  MdSettings,
 } from "react-icons/md";
-import UsersProgress from "views/admin/UsersProgress";
-import Courses from "views/admin/Courses";
 import Dashboard from "views/admin/MainDashboard";
-import Quiz from "views/user/quiz";
-import CourseOverview from "views/admin/CourseOverview/CourseOverview";
+import UsersProgress from "views/admin/UsersProgress";
+import Courses from "views/user/Courses";
+import CourseOverview from "views/user/CourseOverview/CourseOverview";
+import QuizPage from "views/user/quizzPage/QuizPage";
+import Settings from "views/user/SettingsPage/Settings";
+import LandingPage from "views/LandingPage/LandingPage";
 
 const routes = [
   {
-    name: "Home",
+    name: "Dashboard",
     layout: "/admin",
     path: "dashboard",
-    icon: <MdHome className="h-6 w-6" />,
-    component: <Courses />,
-  },
-  {
-    name: "course overiew",
-    layout: "/admin",
-    path: "course/1",
-    component: <CourseOverview />,
-  },
-  {
-    name: "Progress",
-    layout: "/admin",
-    path: "nft-marketplace",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     component: <Dashboard />,
     secondary: true,
@@ -44,10 +33,9 @@ const routes = [
     name: "Messages",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
-    path: "data-tables",
+    path: "users",
     component: <UsersProgress />,
   },
-
   {
     name: "Sign In",
     layout: "/auth",
@@ -55,12 +43,41 @@ const routes = [
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
   },
+
+  {
+    name: "Home",
+    layout: "/user",
+    path: "dashboard",
+    icon: <MdDashboard className="h-6 w-6" />,
+    component: <Courses />,
+  },
+  {
+    name: "course overiew",
+    layout: "/user",
+    path: "course/1",
+    component: <CourseOverview />,
+  },
+  {
+    name: "Settings",
+    layout: "/user",
+    path: "settings",
+    icon: <MdSettings className="h-6 w-6" />,
+    component: <Settings />,
+  },
+  {
+    name: "landing",
+    layout: "/home",
+    path: "home",
+    component: <LandingPage />,
+  },
   {
     name: "quiz",
-    layout: "/quiz",
+    layout: "/user",
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
-    component: <Quiz />,
+    component: <QuizPage />,
+    displayInMenu: false, // Set this to false to hide the route from the menu
   },
 ];
+
 export default routes;

@@ -6,34 +6,68 @@
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
   }
+
+  .button-instance {
+  left: 45% !important;
+  position: absolute !important;
+  top: 100%;
+}
   
-  .title-container {
-    left: -10%;
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 50px;
-    margin-top: -200px;
-  }
+.online-test-pana {
+  width: 180px;
+  margin-left: 50px;
+}
+.title-container {
+  padding-top: 0px !important;
+  position: relative;
+  
+  width: 90%;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.horizontal-line {
+  width: 80%;
+  height: 1px;
+  padding-left: -20px;
+  background-color: black;
+  margin: 0 auto 5%; 
+  background-color: rgba(62, 50, 50, 0.25);
+}
   
   .title-container h1 {
-    font-size: 30px;
-    text-align: center;
+    font-size: 36px;
+    /*text-align: center;*/
     font-family: 'Montserrat', sans-serif;
   }
   
   .general-text-container {
-    text-align: center;
-    /* Center the text horizontally */
-    margin-bottom: 50px;
+    width: 100%;
+    height: 200px; /* Set the height of the container to your desired value */
+    display: flex;
+    /* Set the container as a flex container */
+    flex-direction: row;
+    /* Arrange the children in a row */
+    justify-content: flex-start;
+    /* Align the text to the left of the container */
+    align-items: center; /* Vertically center the text */
+    margin-bottom: 30px;
   }
   
   .general-text {
-    max-width: 400px;
-    /* Set a maximum width for the text container */
-    margin: 0 auto;
-    /* Center the text container horizontally */
+    flex: 1; /* The text will take all available space */
+    font-size: 19px;
+    font-weight: bold;
+    margin-left: 7%;
+    /* Set a maximum width for the text container if needed */
+    max-width: 490px;
+    color: rgba(8, 8, 8, 0.75);
   }
+  
+  
   
   /* Container for the entire quiz */
   .quiz {
@@ -41,8 +75,9 @@
     padding: 30px; /* Increase the padding to add more space around the quiz */
     border-radius: 70px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 40%; /* Set the quiz container's maximum width to 40% */
+    width: 80%; /* Set the quiz container's maximum width to 40% */
     margin: 0 auto; /* Center the quiz container horizontally */
+    margin-bottom: 5%;
   }
   
   
