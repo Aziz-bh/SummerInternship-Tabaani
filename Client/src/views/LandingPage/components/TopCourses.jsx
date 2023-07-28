@@ -125,14 +125,14 @@ const TopCourses = () => {
         <div className="mt-4 flex justify-center">
           <button
             onClick={handlePrevPage}
-            className="mx-2 rounded-md bg-gray-300 px-2 py-2 text-[#000000]"
+            className="mx-2 rounded-md bg-gray-200 px-2 py-2 text-[#000000]"
             disabled={currPage === 0}
           >
             <MdKeyboardArrowLeft size={20} />
           </button>
           <button
             onClick={handleNextPage}
-            className="mx-2 rounded-md bg-gray-300  px-2 py-2 text-[#000000]"
+            className="mx-2 rounded-md bg-gray-200  px-2 py-2 text-[#000000]"
             disabled={currPage === totalPages - 1}
           >
             <MdOutlineKeyboardArrowRight size={20} />

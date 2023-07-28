@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaTrophy } from "react-icons/fa";
 import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { FiFilter } from "react-icons/fi";
 
 const Guests = [
   {
@@ -107,11 +108,17 @@ const NewCourses = () => {
       className="mx-auto bg-white py-10 text-white md:px-11 lg:px-24"
       id="about"
     >
-      <div className="pb-8">
+      <div className="flex items-end justify-between pb-8">
         <p className="text-left text-2xl font-bold text-[#000000]">
           NEW COURSES
         </p>
+        <div className="mt-4 flex justify-center">
+          <button className="mx-2 rounded-md bg-gray-200 px-2 py-2 text-[#000000]">
+            <FiFilter size={24} color="silver" />
+          </button>
+        </div>
       </div>
+
       <div className="grid gap-8 px-12 pb-16 sm:grid-cols-2 sm:px-0 md:grid-cols-2 lg:grid-cols-4">
         {Guests.slice(
           currPage * itemsPerPage,

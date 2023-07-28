@@ -46,7 +46,7 @@ const YourCourses = () => {
         </p>
         <button className="rounded-lg bg-gray-200 py-2 px-6">See All</button>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1  gap-4 sm:grid-cols-1 md:grid-cols-2 ">
         {/* Unfinished courses slider */}
         {coursesData.map((course, index) => (
           <div key={index} className="pr-2">
