@@ -5,7 +5,7 @@ const Guests = [
   {
     id: 1,
     author: "Ali Hssan",
-    role: "historyexpert",
+    role: "history expert",
     image:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80",
   },
@@ -14,7 +14,7 @@ const Guests = [
     author: "Debbie LaChusa",
     role: "SEO",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
   },
   {
     id: 3,
@@ -26,23 +26,23 @@ const Guests = [
   {
     id: 4,
     author: "Cassie Evans",
-    role: "foodexpert",
+    role: "food expert",
     image:
       "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1195&q=80",
   },
   {
     id: 5,
     author: "Erich Andreas",
-    role: "tourprogrammer",
+    role: "tour programmer",
     image:
-      "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1195&q=80",
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
   },
   {
     id: 6,
     author: "Jason Allen",
-    role: "tourtmanager",
+    role: "tour manager",
     image:
-      "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1195&q=80",
+      "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80",
   },
 ];
 
@@ -57,7 +57,7 @@ const BestHosts = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(goToNextPage, 10000);
+    const interval = setInterval(goToNextPage, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -87,7 +87,7 @@ const BestHosts = () => {
               currPage * itemsPerPage,
               (currPage + 1) * itemsPerPage
             ).map(({ id, author, image, role }) => (
-              <div className="h-full w-full">
+              <div className="h-full w-full" key={id}>
                 <div className="relative w-full">
                   <img
                     src={image}
@@ -101,19 +101,6 @@ const BestHosts = () => {
                   <p className="font-light text-[#000000]">{role}</p>
                 </div>
               </div>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center overflow-x-auto">
-            {Array.from({ length: totalPages }, (_, i) => (
-              <div
-                key={i}
-                onClick={() => setCurrPage(i)}
-                className={`${
-                  i === currPage
-                    ? "bg-gray-800"
-                    : "bg-gray-300 hover:bg-gray-400"
-                } mx-2 h-3 w-3 cursor-pointer rounded-full`}
-              />
             ))}
           </div>
         </div>
