@@ -61,7 +61,6 @@ const routes = [
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
     component: <QuizPage />,
-    displayInMenu: false, // Set this to false to hide the route from the menu
   },
 ];
 export default routes;
