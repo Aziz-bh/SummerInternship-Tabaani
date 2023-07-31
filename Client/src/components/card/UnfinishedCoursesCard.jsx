@@ -48,7 +48,11 @@ const UnfinishedCoursesCard = ({ title, image, pic }) => {
         <div className="inline-flex items-end justify-between">
           <div className="flex h-11 items-center justify-start gap-2.5">
             <div className="relative h-11 w-11">
-              <img className="h-11 w-11 rounded-lg" src={pic} alt="" />
+              <img
+                className="h-11 w-11 rounded-lg object-cover"
+                src={pic}
+                alt=""
+              />
             </div>
             <div className="inline-flex shrink grow basis-0 flex-col items-start justify-start gap-1 rounded-lg">
               <div className="text-stone-700 self-stretch text-sm font-medium leading-snug tracking-tight">

@@ -17,6 +17,8 @@ import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/user/Courses";
 import CourseOverview from "views/user/CourseOverview/CourseOverview";
 import QuizPage from "views/user/quizzPage/QuizPage";
+import Settings from "views/user/SettingsPage/Settings";
+import LandingPage from "views/LandingPage/LandingPage";
 
 const routes = [
   {
@@ -35,6 +37,14 @@ const routes = [
     component: <UsersProgress />,
   },
   {
+    name: "Sign In",
+    layout: "/auth",
+    path: "sign-in",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <SignIn />,
+  },
+
+  {
     name: "Home",
     layout: "/user",
     path: "dashboard",
@@ -47,13 +57,18 @@ const routes = [
     path: "course/1",
     component: <CourseOverview />,
   },
-
   {
-    name: "Sign In",
-    layout: "/auth",
-    path: "sign-in",
-    icon: <MdLock className="h-6 w-6" />,
-    component: <SignIn />,
+    name: "Settings",
+    layout: "/user",
+    path: "settings",
+    icon: <MdSettings className="h-6 w-6" />,
+    component: <Settings />,
+  },
+  {
+    name: "landing",
+    layout: "/home",
+    path: "home",
+    component: <LandingPage />,
   },
   {
     name: "quiz",
@@ -63,4 +78,5 @@ const routes = [
     component: <QuizPage />,
   },
 ];
+
 export default routes;

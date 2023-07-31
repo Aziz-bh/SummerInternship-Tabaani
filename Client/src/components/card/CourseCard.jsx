@@ -1,7 +1,5 @@
 import Card from "components/card";
 import { FaTrophy } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
-import { FaBook } from "react-icons/fa";
 import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
