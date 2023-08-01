@@ -54,7 +54,7 @@ const routes = [
   {
     name: "course overiew",
     layout: "/user",
-    path: "course/1",
+    path: "course/:id",
     component: <CourseOverview />,
   },
   {
