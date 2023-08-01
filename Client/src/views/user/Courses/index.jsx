@@ -99,6 +99,7 @@ const Courses = () => {
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3">
           {courses.map((course, id) => (
             <CourseCard
+              key={id}
               id={course.id}
               title={course.title}
               author={course.author}
