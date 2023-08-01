@@ -63,11 +63,12 @@ async function addQuizT_F(req, res, next) {
       const quiz = {
         question: req.body.question,
         option1: req.body.option1,
+        option2: req.body.option2,
         rightAnswer: req.body.rightAnswer,
         ChapterId: ChapterId,
       };
 
-      if (!quiz.question || !quiz.option1 || !quiz.rightAnswer) {
+      if (!quiz.question || !quiz.option1 || !quiz.option2 || !quiz.rightAnswer) {
         res.status(400).json({ message: "Invalid quiz data" });
         return;
       }
@@ -168,7 +169,15 @@ async function findByChapterId(req, res, next) {
     } else {
       const quizzes = [];
       querySnapshot.forEach((doc) => {
-        quizzes.push({ id: doc.id, ...doc.data() });
+        if (!doc.data().option3){
+        const type=0;
+
+        quizzes.push({ id: doc.id, ...doc.data(),type });}
+        else{
+        const type =doc.data().rightAnswer.length;
+        quizzes.push({ id: doc.id, ...doc.data(),type });
+      }
+
       });
 
       res.status(200).json(quizzes);
