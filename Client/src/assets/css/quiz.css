@@ -2,7 +2,6 @@
 
 .content {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
@@ -23,7 +22,6 @@
 .title-container {
   padding-top: 0px !important;
   position: relative;
-  
   width: 90%;
   padding: 20px;
   margin-bottom: 20px;
@@ -75,20 +73,79 @@
     padding: 30px; /* Increase the padding to add more space around the quiz */
     border-radius: 70px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 80%; /* Set the quiz container's maximum width to 40% */
+    width: 80%; /* Set the quiz container's maximum width to 80% */
     margin: 0 auto; /* Center the quiz container horizontally */
     margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center; /* Center the content vertically */
   }
+
+/* Content.css (you can create a separate CSS file for Content component) */
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-line {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px; /* Slightly increased margin for more spacing between options */
+}
+
+.toggle-button {
+  width: 60px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ccc;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Add some styles to make the toggle button visible */
+.toggle-button::after {
+  content: "";
+  display: block;
+  width: 30px; /* Increase the width of the inner circle */
+  height: 30px; /* Increase the height of the inner circle */
+  border-radius: 50%;
+  background-color: #fff;
+  margin: 5px; /* Adjust the margin to center the inner circle */
+}
+
+  
   
   
   /* Styling for the question */
   .question {
-    font-size: 16px;
+    font-size: 18px;
     /* Smaller font size */
     margin-bottom: 20px;
+    font-weight: bold;
     word-wrap: break-word;
     /* Allow text to wrap */
   }
+
+/* Content.css (you can create a separate CSS file for Content component) */
+.question-QCM {
+  font-size: 30px;
+  /* Smaller font size */
+  font-weight: bold;
+  /* Make the text bold */
+  font-family: "Roboto", sans-serif;
+  /* Use the Roboto font */
+  margin-bottom: 20px;
+  word-wrap: break-word;
+  /* Allow text to wrap */
+  display: flex;
+  justify-content: center;
+  /* Center the content horizontally */
+}
+
   
   /* Container for the answer options */
   .answer {
@@ -115,7 +172,7 @@
   }
   /* Styling for the selected (active) option button */
   .options button {
-    background-color: #10455B;
+    background-color: rgba(8, 8, 8, 0.5);
     color: white;
     border: none;
     margin-right: 10px;
@@ -126,3 +183,25 @@
     border-radius: 4px;
     transition: background-color 0.2s ease;
   }
+  /* Your CSS file or in your Tailwind CSS configuration */
+.option-button {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.option-button:hover {
+  background-color: #10455B;
+}
+
+.selected-true {
+  background-color: #10455B !important;
+}
+
+.selected-false {
+  background-color: blue;
+}

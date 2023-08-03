@@ -8,29 +8,37 @@ const chapter = require("../models/chapter.model");
 const addchapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
-    const { id, title, description, rating, video, thumbnail } = req.body;
-    if (!id || !title || !description || !rating || !video || !thumbnail) {
+    const { title, description, rating, video, thumbnail } = req.body;
+    if (!title || !description || !rating || !video || !thumbnail) {
       res.status(400).send("Invalid chapter data");
       return;
     }
+
     const chapterData = {
-      id,
       title,
       description,
       rating,
       thumbnail,
       video,
     };
-    await firestore
-      .collection("courses")
-      .doc(courseId)
-      .collection("chapters")
-      .add(chapterData);
-    res.send("chapter saved successfully");
+
+    const courseRef = firestore.collection("courses").doc(courseId);
+
+    const courseSnapshot = await courseRef.get();
+    if (!courseSnapshot.exists) {
+      res.status(404).send("Course not found");
+      return;
+    }
+
+    const chaptersCollection = courseRef.collection("chapters");
+    await chaptersCollection.add(chapterData);
+
+    res.send("Chapter saved and added to course successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 /********************************************************/
 
 const deletechapter = async (req, res, next) => {

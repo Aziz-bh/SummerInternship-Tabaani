@@ -17,7 +17,10 @@ export function SidebarLinks(props) {
 
   const createLinks = (routes) => {
     return routes.map((route, index) => {
-      if (route.layout === "/admin" || route.layout === "/auth") {
+      if (
+        (route.layout === "/admin" || route.layout === "/auth") &&
+        !route.hideInSidebar // Check if hideInSidebar is not true
+      ) {
         return (
           <Link key={index} to={route.layout + "/" + route.path}>
             <div
@@ -56,9 +59,12 @@ export function SidebarLinks(props) {
             </div>
           </Link>
         );
+      } else {
+        return null; // Return null for routes that should be hidden
       }
     });
   };
+
   // BRAND
   return createLinks(routes);
 }

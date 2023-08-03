@@ -1,19 +1,21 @@
 import React from "react";
-import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 
 const Newsletter = () => {
   return (
     <div className="mx-auto bg-[#F6F7FE] py-16  md:px-11 lg:px-24" id="about">
-      <div className="flex items-center justify-between pb-8 pr-2">
-        <div className="flex flex-col gap-3">
+      <div className="flex flex-col items-center justify-between pb-8 pr-2 md:flex-row">
+        {/* Text div */}
+        <div className="order-2 flex flex-col gap-3 md:order-1 md:gap-1">
           <p className="text-2xl font-bold">
             Find out about the latest courses with the
           </p>
           <p className="flex flex-row gap-1 text-2xl font-bold">
-            <div className=" text-blue-700">Academy</div> Newsletter
+            <div className="text-blue-700">Academy</div> Newsletter
           </p>
         </div>
-        <div className="relative flex items-center">
+
+        {/* Input and Button div */}
+        <div className="relative order-2 flex items-center md:order-2">
           <input
             type="text"
             id="default-input"

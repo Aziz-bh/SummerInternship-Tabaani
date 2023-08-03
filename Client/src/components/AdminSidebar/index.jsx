@@ -26,7 +26,7 @@ const AdminSidebar = ({ open, onClose }) => {
           <span className="mt-5 font-medium text-white">Dashboard</span>
         </div>
       </div>
-      <div class="mt-[58px] mb-7 h-px  dark:bg-white/30" />
+      <div className="mt-[58px] mb-7 h-px  dark:bg-white/30" />
       {/* Nav item */}
 
       <ul className="mb-auto pt-1">

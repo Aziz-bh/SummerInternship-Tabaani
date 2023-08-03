@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FaTrophy } from "react-icons/fa";
 import ScoreIcon from "assets/icons/ScoreIcon.png";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { FiFilter } from "react-icons/fi";
+import {
+  MdOutlineKeyboardArrowRight,
+  MdKeyboardArrowLeft,
+} from "react-icons/md";
 
 const Guests = [
   {
@@ -97,24 +99,43 @@ const Guests = [
   },
 ];
 
-const NewCourses = () => {
+const TopCourses = () => {
   const [currPage, setCurrPage] = useState(0);
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
   const totalPages = Math.ceil(Guests.length / itemsPerPage);
+
+  const handleNextPage = () => {
+    setCurrPage((prevPage) => Math.min(prevPage + 1, totalPages - 1));
+  };
+
+  const handlePrevPage = () => {
+    setCurrPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
 
   return (
     <div
       className="mx-auto bg-white py-10 text-white md:px-11 lg:px-24"
       id="about"
     >
-      <div className="flex items-end justify-between pb-8">
+      <div className="flex items-center justify-between pb-8">
         <p className="text-left text-2xl font-bold text-[#000000]">
-          NEW COURSES
+          TOP COURSES
         </p>
         <div className="mt-4 flex justify-center">
-          <button className="mx-2 rounded-md bg-gray-200 px-2 py-2 text-[#000000]">
-            <FiFilter size={24} color="silver" />
+          <button
+            onClick={handlePrevPage}
+            className="mx-2 rounded-md bg-gray-200 px-2 py-2 text-[#000000]"
+            disabled={currPage === 0}
+          >
+            <MdKeyboardArrowLeft size={20} />
+          </button>
+          <button
+            onClick={handleNextPage}
+            className="mx-2 rounded-md bg-gray-200  px-2 py-2 text-[#000000]"
+            disabled={currPage === totalPages - 1}
+          >
+            <MdOutlineKeyboardArrowRight size={20} />
           </button>
         </div>
       </div>
@@ -175,19 +196,8 @@ const NewCourses = () => {
           </div>
         ))}
       </div>
-      <div className="mt-4 flex justify-center overflow-x-auto">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <div
-            key={i}
-            onClick={() => setCurrPage(i)}
-            className={`${
-              i === currPage ? "bg-gray-800" : "bg-gray-300 hover:bg-gray-400"
-            } mx-2 h-3 w-3 cursor-pointer rounded-full`}
-          />
-        ))}
-      </div>
     </div>
   );
 };
 
-export default NewCourses;
+export default TopCourses;
