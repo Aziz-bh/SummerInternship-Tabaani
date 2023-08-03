@@ -27,7 +27,7 @@ const CourseOverview = () => {
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
       {/* Left Section*/}
       <div className="md:col-span-12 lg:col-span-4">
-        <ChaptersCard />
+        <ChaptersCard chapters={lesson.chapters} />
       </div>
 
       {/* Right Section*/}
@@ -39,7 +39,6 @@ const CourseOverview = () => {
           description={lesson.description}
           UserPic={lesson.UserPic}
           video={lesson.video}
-          chapters={lesson.chapters}
         />
       </div>
     </div>

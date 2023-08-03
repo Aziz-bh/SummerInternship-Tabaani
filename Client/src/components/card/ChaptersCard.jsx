@@ -21,7 +21,7 @@ const chaptersData = [
   // Add more chapters and quizzes as needed
 ];
 
-const ChaptersCard = () => {
+const ChaptersCard = ({ chapters }) => {
   const [openChapter, setOpenChapter] = useState(null);
 
   const toggleChapter = (index) => {
@@ -33,10 +33,10 @@ const ChaptersCard = () => {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-lg">
+    <div className="shadow- rounded-2xl bg-white p-4">
       <h2 className="mb-4 text-2xl font-bold">Course Overview</h2>
       <ul>
-        {chaptersData.map((chapter, index) => (
+        {chapters.map((chapter, index) => (
           <li key={index} className="mb-4 border-b border-gray-300 pb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -48,7 +48,7 @@ const ChaptersCard = () => {
               </div>
               <button
                 type="button"
-                className="p-1 hover:visible"
+                className="p-1"
                 onClick={() => toggleChapter(index)}
               >
                 {openChapter === index ? (
@@ -78,7 +78,7 @@ const ChaptersCard = () => {
                 )}
               </button>
             </div>
-            {openChapter === index && (
+            {/*}{openChapter === index && (
               <ul className="mt-2">
                 {chapter.quizzes.map((quiz, quizIndex) => (
                   <li key={quizIndex} className="py-2 pl-4">
@@ -86,7 +86,7 @@ const ChaptersCard = () => {
                   </li>
                 ))}
               </ul>
-            )}
+                )}*/}
           </li>
         ))}
       </ul>
