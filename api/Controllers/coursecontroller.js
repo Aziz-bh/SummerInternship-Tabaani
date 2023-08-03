@@ -3,37 +3,40 @@ const firebase = require("../db");
 const Course = require("../models/course.model");
 const firestore = firebase.firestore();
 
+
 /****************************************************** */
 
 const allowedLevels = ["hard", "intermediate", "easy"];
-
 const addCourse = async (req, res) => {
   try {
-    const { title, description, level, price, done } = req.body;
-    if (
-      !title ||
-      !description ||
-      !level ||
-      !price ||
-      typeof done !== "boolean" ||
-      !allowedLevels.includes(level) // Check if the provided level is in the allowed levels
-    ) {
-      res.status(400).send("Invalid course data");
-      return;
+    let image = null;
+    if (req.file) {
+      console.log("File details:", req.file); // Vérifiez les détails du fichier téléchargé dans la console
+      image = req.file.path;
     }
+    
+    const { title, students, level, userpic, chapters, video, done, description } = req.body;
+
     const courseData = {
       title,
-      description,
+      students,
+      chapters,
       level,
-      price,
+      userpic,
+      video,
       done,
+      description,
+      image // Utilisez le chemin d'accès du fichier image ici
     };
+
+    // Enregistrez courseData dans Firestore
     await firestore.collection("courses").doc().set(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 
 
 /***************************************************** */
