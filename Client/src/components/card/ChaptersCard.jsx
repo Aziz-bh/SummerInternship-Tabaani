@@ -1,28 +1,10 @@
 import React, { useState } from "react";
 
-const chaptersData = [
-  {
-    title: "Cultural Immersion",
-    quizzes: ["Quiz 1.1", "Quiz 1.2", "Quiz 1.3"],
-  },
-  {
-    title: "StroyTelling",
-    quizzes: ["Quiz 2.1", "Quiz 2.2", "Quiz 2.3"],
-  },
-  {
-    title: "Hospitality",
-    quizzes: ["Quiz 3.1", "Quiz 3.2", "Quiz 3.3"],
-  },
-  {
-    title: "Safety and Security",
-    quizzes: ["Quiz 4.1", "Quiz 4.2", "Quiz 4.3"],
-  },
-
-  // Add more chapters and quizzes as needed
-];
-
-const ChaptersCard = ({ chapters }) => {
+const ChaptersCard = ({ chapters, lessons }) => {
   const [openChapter, setOpenChapter] = useState(null);
+
+  console.log("chapters", chapters);
+  console.log("lessons", lessons);
 
   const toggleChapter = (index) => {
     if (openChapter === index) {
@@ -33,7 +15,7 @@ const ChaptersCard = ({ chapters }) => {
   };
 
   return (
-    <div className="shadow- rounded-2xl bg-white p-4">
+    <div className="shadow- rounded-2xl bg-white p-4 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">Course Overview</h2>
       <ul>
         {chapters.map((chapter, index) => (
@@ -78,15 +60,19 @@ const ChaptersCard = ({ chapters }) => {
                 )}
               </button>
             </div>
-            {/*}{openChapter === index && (
+            {openChapter === index && (
               <ul className="mt-2">
-                {chapter.quizzes.map((quiz, quizIndex) => (
-                  <li key={quizIndex} className="py-2 pl-4">
-                    {quiz}
-                  </li>
-                ))}
+                {chapter.lessons && chapter.lessons.length > 0 ? (
+                  chapter.lessons.map((lesson, lessonIndex) => (
+                    <li key={lessonIndex} className="py-2 pl-4">
+                      {lesson.title}
+                    </li>
+                  ))
+                ) : (
+                  <li>No lessons available for this chapter.</li>
+                )}
               </ul>
-                )}*/}
+            )}
           </li>
         ))}
       </ul>

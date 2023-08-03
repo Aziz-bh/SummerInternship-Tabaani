@@ -27,7 +27,13 @@ const CourseOverview = () => {
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
       {/* Left Section*/}
       <div className="md:col-span-12 lg:col-span-4">
-        <ChaptersCard chapters={lesson.chapters} />
+        {/* Verify the structure of the lesson object */}
+        {lesson.chapters && lesson.chapters.length > 0 && (
+          <ChaptersCard
+            chapters={lesson.chapters}
+            lessons={lesson.chapters.flatMap((chapter) => chapter.lessons)}
+          />
+        )}
       </div>
 
       {/* Right Section*/}

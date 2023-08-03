@@ -1,9 +1,9 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const LessonCard = ({ title, UserPic, video, chapters, description }) => {
+const LessonCard = ({ title, UserPic, video, description }) => {
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-md">
+    <div className="rounded-2xl bg-white p-4 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">{title}</h2>
 
       {/* Video Container */}
