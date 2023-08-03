@@ -25,7 +25,7 @@ const LessonCard = ({ title, UserPic, video, chapters, description }) => {
           alt="Avatar"
           className="mr-2 h-10 w-10 rounded-full object-cover"
         />
-        <p className="font-semibold">{chapters}</p>
+        <p className="font-semibold">{title}</p>
       </div>
       <p>{description}</p>
       <div className="flex flex-row-reverse gap-3">
