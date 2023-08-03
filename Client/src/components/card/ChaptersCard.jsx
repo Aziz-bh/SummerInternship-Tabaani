@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ChaptersCard = ({ chapters, lessons }) => {
+const ChaptersCard = ({ chapters = [], lessons = [] }) => {
   const [openChapter, setOpenChapter] = useState(null);
 
   console.log("chapters", chapters);
@@ -63,11 +63,13 @@ const ChaptersCard = ({ chapters, lessons }) => {
             {openChapter === index && (
               <ul className="mt-2">
                 {chapter.lessons && chapter.lessons.length > 0 ? (
-                  chapter.lessons.map((lesson, lessonIndex) => (
-                    <li key={lessonIndex} className="py-2 pl-4">
-                      {lesson.title}
-                    </li>
-                  ))
+                  chapter.lessons.map((lesson, lessonIndex) =>
+                    lesson && lesson.title ? (
+                      <li key={lessonIndex} className="py-2 pl-4">
+                        {lesson.title}
+                      </li>
+                    ) : null
+                  )
                 ) : (
                   <li>No lessons available for this chapter.</li>
                 )}

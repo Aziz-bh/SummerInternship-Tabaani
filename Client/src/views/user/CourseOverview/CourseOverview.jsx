@@ -29,10 +29,7 @@ const CourseOverview = () => {
       <div className="md:col-span-12 lg:col-span-4">
         {/* Verify the structure of the lesson object */}
         {lesson.chapters && lesson.chapters.length > 0 && (
-          <ChaptersCard
-            chapters={lesson.chapters}
-            lessons={lesson.chapters.flatMap((chapter) => chapter.lessons)}
-          />
+          <ChaptersCard chapters={lesson.chapters} lessons={lesson.chapters} />
         )}
       </div>
 
