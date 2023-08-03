@@ -33,16 +33,22 @@ const ChaptersCard = () => {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-md">
+    <div className="rounded-2xl bg-white p-4 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">Course Overview</h2>
       <ul>
         {chaptersData.map((chapter, index) => (
           <li key={index} className="mb-4 border-b border-gray-300 pb-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-medium">{chapter.title}</span>
+              <div className="flex items-center gap-4">
+                <img
+                  alt="Avatar"
+                  className="h-16 w-16 rounded-lg bg-gray-500 object-cover"
+                />
+                <span className="text-lg font-medium">{chapter.title}</span>
+              </div>
               <button
                 type="button"
-                className="p-1"
+                className="p-1 hover:visible"
                 onClick={() => toggleChapter(index)}
               >
                 {openChapter === index ? (
