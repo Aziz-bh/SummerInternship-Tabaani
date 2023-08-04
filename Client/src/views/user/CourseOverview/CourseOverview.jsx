@@ -55,7 +55,6 @@ const CourseOverview = () => {
 
       {/* Right Section*/}
       <div className="md:col-span-12 lg:col-span-8">
-        {console.log(selectedLesson.content, "cont")}
         <LessonCard
           key={lessonData.id}
           CourseTitle={lessonData.title}
