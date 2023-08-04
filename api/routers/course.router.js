@@ -13,8 +13,10 @@ const {
   deletechapter,
   updatechapter,
 } = require("../Controllers/chaptercontroller");
+const upload = require('C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/api/multerconfig.js');
 
-Courserouter.post("/course", addCourse);
+Courserouter.post("/course" , upload.single('image'), addCourse);
+
 Courserouter.get("/courses", getAllcourses);
 Courserouter.get("/course/:id", getcourse);
 Courserouter.put("/course/:id", updatecourse);
