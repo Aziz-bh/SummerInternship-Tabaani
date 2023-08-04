@@ -6,9 +6,10 @@ const firestore = firebase.firestore();
 /****************************************************** */
 const addCourse = async (req, res) => {
   try {
-    const { title, description, level, price, done } = req.body;
+    const { title, description, instructor, level, price, done } = req.body;
     if (
       !title ||
+      !instructor ||
       !description ||
       !level ||
       !price ||
@@ -19,6 +20,7 @@ const addCourse = async (req, res) => {
     }
     const courseData = {
       title,
+      instructor,
       description,
       level,
       price,
