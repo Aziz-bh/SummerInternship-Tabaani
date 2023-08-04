@@ -71,7 +71,6 @@ const ChaptersCard = ({
                         key={lessonIndex}
                         className="cursor-pointer py-2 pl-4"
                         onClick={() => {
-                          console.log("Lesson Clicked:");
                           onChapterClick(index);
                           onLessonClick(lessonIndex);
                         }}
