@@ -8,7 +8,7 @@ const chapter = require("../models/chapter.model");
 const addchapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
-    const { title, description } = req.body;
+    const { title, description, lessons } = req.body;
     if (!title || !description) {
       res.status(400).send("Invalid chapter data");
       return;
@@ -17,6 +17,7 @@ const addchapter = async (req, res, next) => {
     const chapterData = {
       title,
       description,
+      lessons: lessons || [],
     };
 
     const courseRef = firestore.collection("courses").doc(courseId);

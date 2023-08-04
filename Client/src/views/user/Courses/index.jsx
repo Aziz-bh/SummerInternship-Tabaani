@@ -104,8 +104,8 @@ const Courses = () => {
               title={course.title}
               author={course.author}
               price={course.price}
-              image={course.image}
-              level={course.level}
+              thumbnail={course.thumbnail}
+              difficulty={course.difficulty}
               students={course.students}
               chapters={course.chapters.length}
             />

@@ -4,44 +4,56 @@ import ChaptersCard from "components/card/ChaptersCard";
 import { useParams } from "react-router-dom";
 
 const CourseOverview = () => {
-  const [lesson, setLesson] = useState("");
-  const id = useParams().id;
+  const [lessonData, setLessonData] = useState("");
+  const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+
+  const { id } = useParams();
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "baba");
-        setLesson(data);
+        console.log(data.chapters[0].lessons, "baba");
+        setLessonData(data);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, [id]);
 
-  if (!lesson) {
+  const handleLessonClick = (lessonIndex) => {
+    setSelectedLessonIndex(lessonIndex);
+  };
+
+  if (!lessonData) {
     return <div>Loading...</div>;
   }
+
+  const selectedLesson = lessonData.chapters[0].lessons[selectedLessonIndex];
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
       {/* Left Section*/}
       <div className="md:col-span-12 lg:col-span-4">
-        {/* Verify the structure of the lesson object */}
-        {lesson.chapters && lesson.chapters.length > 0 && (
-          <ChaptersCard chapters={lesson.chapters} lessons={lesson.chapters} />
+        {lessonData.chapters && lessonData.chapters.length > 0 && (
+          <ChaptersCard
+            chapters={lessonData.chapters}
+            lessons={selectedLesson || lessonData.chapters[0].lessons}
+            onLessonClick={handleLessonClick}
+          />
         )}
       </div>
 
       {/* Right Section*/}
       <div className="md:col-span-12 lg:col-span-8">
-        {/* Ensure lessons is an array before mapping */}
+        {console.log(selectedLesson.content, "cont")}
         <LessonCard
-          key={lesson.id}
-          title={lesson.title}
-          description={lesson.description}
-          UserPic={lesson.UserPic}
-          video={lesson.video}
+          key={lessonData.id}
+          CourseTitle={lessonData.title}
+          LessonTitle={selectedLesson.title}
+          content={selectedLesson.content}
+          UserPic={lessonData.UserPic}
+          video={selectedLesson.video}
         />
       </div>
     </div>
