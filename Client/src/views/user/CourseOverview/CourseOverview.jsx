@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 const CourseOverview = () => {
   const [lessonData, setLessonData] = useState("");
+  const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
 
   const { id } = useParams();
@@ -13,7 +14,7 @@ const CourseOverview = () => {
     fetch(`http://localhost:5000/api/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.chapters[0].lessons, "baba");
+        console.log(data, "baba");
         setLessonData(data);
       })
       .catch((err) => {
@@ -25,11 +26,18 @@ const CourseOverview = () => {
     setSelectedLessonIndex(lessonIndex);
   };
 
+  const handleChapterClick = (chapterIndex) => {
+    setSelectedChapterIndex(chapterIndex);
+    // Reset selected lesson index when changing chapters
+    setSelectedLessonIndex(0);
+  };
+
   if (!lessonData) {
     return <div>Loading...</div>;
   }
 
-  const selectedLesson = lessonData.chapters[0].lessons[selectedLessonIndex];
+  const selectedLesson =
+    lessonData.chapters[selectedChapterIndex].lessons[selectedLessonIndex];
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
@@ -38,8 +46,9 @@ const CourseOverview = () => {
         {lessonData.chapters && lessonData.chapters.length > 0 && (
           <ChaptersCard
             chapters={lessonData.chapters}
-            lessons={selectedLesson || lessonData.chapters[0].lessons}
+            lessons={selectedLesson}
             onLessonClick={handleLessonClick}
+            onChapterClick={handleChapterClick}
           />
         )}
       </div>

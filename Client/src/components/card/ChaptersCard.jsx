@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
-const ChaptersCard = ({ chapters = [], lessons = [], onLessonClick }) => {
+const ChaptersCard = ({
+  chapters = [],
+  lessons = [],
+  onLessonClick,
+  onChapterClick,
+}) => {
   const [openChapter, setOpenChapter] = useState(null);
-
-  console.log("chapters", chapters);
-  console.log("lessons", lessons);
 
   const toggleChapter = (index) => {
     if (openChapter === index) {
@@ -68,7 +70,10 @@ const ChaptersCard = ({ chapters = [], lessons = [], onLessonClick }) => {
                       <li
                         key={lessonIndex}
                         className="cursor-pointer py-2 pl-4"
-                        onClick={() => onLessonClick(lessonIndex)}
+                        onClick={() => {
+                          onLessonClick(lessonIndex);
+                          onChapterClick(index);
+                        }}
                       >
                         {lesson.title}
                       </li>
