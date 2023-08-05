@@ -4,7 +4,15 @@ import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({ title, image, level, students, chapters, extra, id }) => {
+const CourseCard = ({
+  title,
+  thumbnail,
+  difficulty,
+  students,
+  chapters,
+  extra,
+  id,
+}) => {
   return (
     <Card
       extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
@@ -12,7 +20,7 @@ const CourseCard = ({ title, image, level, students, chapters, extra, id }) => {
       <div className="h-full w-full">
         <div className="relative w-full">
           <img
-            src={image}
+            src={thumbnail}
             className="mb-3 h-56 w-full rounded-xl object-cover 3xl:h-full 3xl:w-full"
             alt=""
           />
@@ -34,7 +42,9 @@ const CourseCard = ({ title, image, level, students, chapters, extra, id }) => {
           </div>
           <div className="flex  items-center justify-center gap-3">
             <FaTrophy size={20} color="silver" />
-            <p className="text-md font-semibold  dark:text-white">{level}</p>
+            <p className="text-md font-semibold  dark:text-white">
+              {difficulty}
+            </p>
           </div>
         </div>
         <div className="mt-1  mb-4 flex justify-between">

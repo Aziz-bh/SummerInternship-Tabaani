@@ -3,41 +3,52 @@ const firebase = require("../db");
 const Course = require("../models/course.model");
 const firestore = firebase.firestore();
 
-
 /****************************************************** */
 
-const allowedLevels = ["hard", "intermediate", "easy"];
+const difficulties = ["Beginner", "Intermediate", "Hard"];
+
 const addCourse = async (req, res) => {
   try {
-    let image = null;
+    {
+      /*let thumbnail = null;
     if (req.file) {
-      console.log("File details:", req.file); // Vérifiez les détails du fichier téléchargé dans la console
-      image = req.file.path;
+      console.log("File details:", req.file);
+      thumbnail = req.file.path;
+    }*/
     }
-    
-    const { title, students, level, userpic, chapters, video, done, description } = req.body;
+    const {
+      title,
+      thumbnail,
+      description,
+      instructor,
+      courseDifficulty,
+      chapters,
+    } = req.body;
+
+    if (!difficulties.includes(courseDifficulty)) {
+      return res.status(400).send("Invalid difficulty level");
+    }
 
     const courseData = {
       title,
-      students,
-      chapters,
-      level,
-      userpic,
-      video,
-      done,
       description,
-      image // Utilisez le chemin d'accès du fichier image ici
+      instructor,
+      students: 0,
+      chapters: chapters || [],
+      price: 0,
+      difficulty: courseDifficulty,
+      thumbnail,
     };
+    {
+      /*thumbnail: req.file ? req.file.path : null,*/
+    }
 
-    // Enregistrez courseData dans Firestore
-    await firestore.collection("courses").doc().set(courseData);
+    await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
-
-
 
 /***************************************************** */
 

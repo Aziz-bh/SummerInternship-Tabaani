@@ -6,8 +6,8 @@ const addLessonToChapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
     const chapterId = req.params.chapterId;
-    const { title, content } = req.body;
-    if (!title || !content) {
+    const { title, content, video, quizzes } = req.body;
+    if (!title || !content || !video) {
       res.status(400).send("Invalid lesson data");
       return;
     }
@@ -15,6 +15,8 @@ const addLessonToChapter = async (req, res, next) => {
     const lessonData = {
       title,
       content,
+      video,
+      quizzes: quizzes || [],
     };
 
     const courseRef = firestore.collection("courses").doc(courseId);
