@@ -237,8 +237,68 @@ async function checkAnswer(req, res, next) {
       (result) => result.message === "Correct answer!"
     ).length;
     const score = (correctAnswers / length) * 100;
+    const quizID = quizArray[0].quizId;
+    const quizRef = db.collection("quizzes").doc(quizID);
+    const docSnapshot = await quizRef.get();
+   const ch=docSnapshot.data().ChapterId;
+    const coursesRef = db.collection("courses");
+    const querySnapshot = await coursesRef.get();
+    
+    
+    let foundCourseId = null;
 
-    // ... (remaining code)
+    for (const doc of querySnapshot.docs) {
+      const courseId = doc.id;
+      const chaptersRef = coursesRef.doc(courseId).collection("chapters");
+      const chaptersSnapshot = await chaptersRef.get();
+      
+      // Loop through chapters
+      for (const chapterDoc of chaptersSnapshot.docs) {
+        const chapterId = chapterDoc.id;
+        if (chapterId === ch) {
+          console.log("This is the course that has it all:", courseId);
+          foundCourseId = courseId;
+          break; // Exit the loop once the desired courseId is found
+        }
+      }
+      
+      if (foundCourseId) {
+        break; // Exit the outer loop once the courseId is found
+      }
+    }
+    
+
+      if (score>=90){
+        const subscriptionsRef = db.collection("subscriptions");
+        const querySnapshot = await subscriptionsRef
+          .where("courseId", "==", foundCourseId)
+          .where("userId", "==", "6Mf70xX01X6kfypHDVCC")
+          .get();
+        
+        const matchingSubscriptions = [];
+        
+        querySnapshot.forEach((doc) => {
+          const subscriptionData = doc.data();
+          matchingSubscriptions.push({ id: doc.id, ...subscriptionData });
+        });
+        
+        const subscriptionToUpdate = matchingSubscriptions[0];
+        
+        if (subscriptionToUpdate) {
+          const updatedProgress = subscriptionToUpdate.progress + 1;
+        
+          db.collection("subscriptions")
+            .doc(subscriptionToUpdate.id)
+            .update({ progress: updatedProgress })
+            .then(() => {
+              console.log("Progress updated successfully for the subscription.");
+            })
+            .catch((error) => {
+              console.error("Error updating progress for the subscription:", error);
+            });
+        }
+        
+      }
 
     res.status(200).json({ results, score });
   } catch (error) {

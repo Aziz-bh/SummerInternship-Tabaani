@@ -23,7 +23,7 @@ const Content = ({ generaltext, quiz,onSubmitAnswer }) => {
           <TrueFalseQuestion question={question} onSubmitAnswer={onSubmitAnswer} />
 
         ) : (
-          // Render regular options for other types of questions
+          
           <QCM  quiz={quiz} onSubmitAnswer={onSubmitAnswer}/>
            
         )}

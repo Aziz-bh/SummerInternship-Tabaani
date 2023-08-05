@@ -4,7 +4,7 @@
   "description": "SummerInternship",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently \"nodemon server\" \"cd.. && cd client && npm start\"",
+    "start": "nodemon app.js",
     "dev": "nodemon server"
   },
   "author": "",
