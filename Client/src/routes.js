@@ -20,6 +20,13 @@ import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
 import LandingPage from "views/LandingPage/LandingPage";
 
+const courseOverviewRoute = {
+  // Create a separate variable for Course Overview
+  name: "course overiew",
+  layout: "/user",
+  path: "course/:id",
+  component: <CourseOverview />,
+};
 const routes = [
   {
     name: "Dashboard",
@@ -54,9 +61,11 @@ const routes = [
   {
     name: "course overiew",
     layout: "/user",
-    path: "course/1",
+    path: "course/:id",
     component: <CourseOverview />,
+    hideInSidebar: true,
   },
+
   {
     name: "Settings",
     layout: "/user",

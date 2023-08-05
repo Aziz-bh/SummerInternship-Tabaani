@@ -4,27 +4,46 @@ const Course = require("../models/course.model");
 const firestore = firebase.firestore();
 
 /****************************************************** */
+
+const difficulties = ["Beginner", "Intermediate", "Hard"];
+
 const addCourse = async (req, res) => {
   try {
-    const { title, description, level, price, done } = req.body;
-    if (
-      !title ||
-      !description ||
-      !level ||
-      !price ||
-      typeof done !== "boolean"
-    ) {
-      res.status(400).send("Invalid course data");
-      return;
+    {
+      /*let thumbnail = null;
+    if (req.file) {
+      console.log("File details:", req.file);
+      thumbnail = req.file.path;
+    }*/
     }
+    const {
+      title,
+      thumbnail,
+      description,
+      instructor,
+      courseDifficulty,
+      chapters,
+    } = req.body;
+
+    if (!difficulties.includes(courseDifficulty)) {
+      return res.status(400).send("Invalid difficulty level");
+    }
+
     const courseData = {
       title,
       description,
-      level,
-      price,
-      done,
+      instructor,
+      students: 0,
+      chapters: chapters || [],
+      price: 0,
+      difficulty: courseDifficulty,
+      thumbnail,
     };
-    await firestore.collection("courses").doc().set(courseData);
+    {
+      /*thumbnail: req.file ? req.file.path : null,*/
+    }
+
+    await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);

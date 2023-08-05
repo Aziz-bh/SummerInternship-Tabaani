@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -33,30 +34,6 @@ const Courses = () => {
     // Add more courses as needed
   ];
 
-  const nextCoursesData = [
-    {
-      title: "Course – Introduction to Hosting Essential Training",
-      author: "Esthera Jackson",
-      price: "0.91",
-      image:
-        "  https://plus.unsplash.com/premium_photo-1661369931884-0706c99d88b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1212&q=80",
-    },
-    {
-      title: "Course – Introduction to Hosting Essential Training",
-      author: "Nick Wilson",
-      price: "0.7",
-      image:
-        "https://plus.unsplash.com/premium_photo-1661369931884-0706c99d88b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1212&q=80",
-    },
-    {
-      title: "Course – Introduction to Hosting Essential Training",
-      author: "Will Smith",
-      price: "2.91",
-      image:
-        "https://plus.unsplash.com/premium_photo-1661369931884-0706c99d88b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1212&q=80",
-    },
-  ];
-
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -73,6 +50,20 @@ const Courses = () => {
       },
     ],
   };
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/courses")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "rojla");
+        setCourses(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5">
@@ -106,13 +97,17 @@ const Courses = () => {
 
         {/* Next courses grid */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {nextCoursesData.map((course, index) => (
+          {courses.map((course, id) => (
             <CourseCard
-              key={index}
+              key={id}
+              id={course.id}
               title={course.title}
               author={course.author}
               price={course.price}
-              image={course.image}
+              thumbnail={course.thumbnail}
+              difficulty={course.difficulty}
+              students={course.students}
+              chapters={course.chapters.length}
             />
           ))}
         </div>

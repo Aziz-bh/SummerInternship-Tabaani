@@ -1,27 +1,11 @@
 import React, { useState } from "react";
 
-const chaptersData = [
-  {
-    title: "Cultural Immersion",
-    quizzes: ["Quiz 1.1", "Quiz 1.2", "Quiz 1.3"],
-  },
-  {
-    title: "StroyTelling",
-    quizzes: ["Quiz 2.1", "Quiz 2.2", "Quiz 2.3"],
-  },
-  {
-    title: "Hospitality",
-    quizzes: ["Quiz 3.1", "Quiz 3.2", "Quiz 3.3"],
-  },
-  {
-    title: "Safety and Security",
-    quizzes: ["Quiz 4.1", "Quiz 4.2", "Quiz 4.3"],
-  },
-
-  // Add more chapters and quizzes as needed
-];
-
-const ChaptersCard = () => {
+const ChaptersCard = ({
+  chapters = [],
+  lessons = [],
+  onLessonClick,
+  onChapterClick,
+}) => {
   const [openChapter, setOpenChapter] = useState(null);
 
   const toggleChapter = (index) => {
@@ -33,13 +17,19 @@ const ChaptersCard = () => {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-md">
+    <div className="shadow- rounded-2xl bg-white p-4 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">Course Overview</h2>
       <ul>
-        {chaptersData.map((chapter, index) => (
+        {chapters.map((chapter, index) => (
           <li key={index} className="mb-4 border-b border-gray-300 pb-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-medium">{chapter.title}</span>
+              <div className="flex items-center gap-4">
+                <img
+                  alt="Avatar"
+                  className="h-16 w-16 rounded-lg bg-gray-500 object-cover"
+                />
+                <span className="text-lg font-medium">{chapter.title}</span>
+              </div>
               <button
                 type="button"
                 className="p-1"
@@ -74,11 +64,24 @@ const ChaptersCard = () => {
             </div>
             {openChapter === index && (
               <ul className="mt-2">
-                {chapter.quizzes.map((quiz, quizIndex) => (
-                  <li key={quizIndex} className="py-2 pl-4">
-                    {quiz}
-                  </li>
-                ))}
+                {chapter.lessons && chapter.lessons.length > 0 ? (
+                  chapter.lessons.map((lesson, lessonIndex) =>
+                    lesson && lesson.title ? (
+                      <li
+                        key={lessonIndex}
+                        className="cursor-pointer py-2 pl-4"
+                        onClick={() => {
+                          onChapterClick(index);
+                          onLessonClick(lessonIndex);
+                        }}
+                      >
+                        {lesson.title}
+                      </li>
+                    ) : null
+                  )
+                ) : (
+                  <li>No lessons available for this chapter.</li>
+                )}
               </ul>
             )}
           </li>
