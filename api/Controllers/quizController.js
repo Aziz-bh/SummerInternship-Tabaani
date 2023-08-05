@@ -223,6 +223,9 @@ function arrayEquals(a, b) {
 
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;
+  console.log("🚀 ~ file: quizController.js:226 ~ checkAnswer ~ quizArray:", quizArray)
+
+  
   try {
     const results = await Promise.all(
       quizArray.map((quiz) => validateAnswer(quiz.quizId, quiz.selectedAnswer))

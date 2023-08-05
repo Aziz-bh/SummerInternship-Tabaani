@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-const TrueFalseQuestion = ({ question }) => {
+const TrueFalseQuestion = ({ question, onSubmitAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
-
   const handleOptionClick = (option) => {
-    setSelectedOption(option);
+    setSelectedOption(option); // Update the selected option
+    onSubmitAnswer(option); // Submit the answer
   };
+
 
   return (
     <div>
@@ -16,17 +17,17 @@ const TrueFalseQuestion = ({ question }) => {
           <div className="options">
             <button
               className={`option-button ${
-                selectedOption === "true" ? "selected-true" : ""
+                selectedOption === "option1" ? "selected-true" : ""
               }`}
-              onClick={() => handleOptionClick("true")}
+              onClick={() => handleOptionClick("option1")}
             >
               TRUE
             </button>
             <button
               className={`option-button ${
-                selectedOption === "false" ? "selected-false" : ""
+                selectedOption === "option2" ? "selected-false" : ""
               }`}
-              onClick={() => handleOptionClick("false")}
+              onClick={() => handleOptionClick("option2")}
             >
               FALSE
             </button>

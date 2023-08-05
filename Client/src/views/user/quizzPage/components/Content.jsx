@@ -3,7 +3,7 @@ import React from "react";
 import TrueFalseQuestion from "./TrueFalseQuestion";
 import QCM from "./QCM";
 
-const Content = ({ generaltext, quiz }) => {
+const Content = ({ generaltext, quiz,onSubmitAnswer }) => {
   const { question, option1, option2, option3, option4, type } = quiz;
 
   return (
@@ -20,11 +20,11 @@ const Content = ({ generaltext, quiz }) => {
     
         {type === 0 ? (
  
-          <TrueFalseQuestion question={question} />
+          <TrueFalseQuestion question={question} onSubmitAnswer={onSubmitAnswer} />
 
         ) : (
           // Render regular options for other types of questions
-          <QCM  quiz={quiz}/>
+          <QCM  quiz={quiz} onSubmitAnswer={onSubmitAnswer}/>
            
         )}
      
