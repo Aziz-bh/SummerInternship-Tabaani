@@ -12,6 +12,8 @@ const {
   addchapter,
   deletechapter,
   updatechapter,
+  getchapter,
+  getAllChapters,
 } = require("../Controllers/chaptercontroller");
 const upload = require("../multerconfig");
 
@@ -22,10 +24,8 @@ Courserouter.get("/course/:id", getcourse);
 Courserouter.put("/course/:id", updatecourse);
 Courserouter.delete("/course/:id", deletecourse);
 Courserouter.post("/course/:courseId/add-chapter", addchapter);
-Courserouter.delete(
-  "/course/:courseId/deletechapter/:chapterId",
-  deletechapter
-);
+Courserouter.delete("/course/:courseId/deletechapter/:chapterId",deletechapter);
 Courserouter.put("/course/:courseId/updatechapter/:chapterId", updatechapter);
-
+Courserouter.get("/course/:courseId/getchapter/:chapterId", getchapter);
+Courserouter.get("/course/:courseId/getchapter", getAllChapters);
 module.exports = Courserouter;

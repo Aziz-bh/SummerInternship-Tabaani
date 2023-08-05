@@ -76,9 +76,52 @@ const updatechapter = async (req, res, next) => {
   }
 };
 /***************************************************** */
+const getchapter = async (req, res, next) => {
+  try {
+    const courseId = req.params.courseId;
+    const chapterId = req.params.chapterId;
+
+    const courseRef = firestore.collection("courses").doc(courseId);
+
+    const chapterRef = courseRef.collection("chapters").doc(chapterId);
+
+    const chapterSnapshot = await chapterRef.get();
+
+    if (!chapterSnapshot.exists) {
+      res.status(404).send("Chapter not found");
+      return;
+    }
+
+    const chapterData = chapterSnapshot.data();
+
+    res.send(chapterData);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+const getAllChapters = async (req, res, next) => {
+  try {
+    const courseId = req.params.courseId;
+
+    const courseRef = firestore.collection("courses").doc(courseId);
+    const chaptersCollection = courseRef.collection("chapters");
+    const snapshot = await chaptersCollection.get();
+
+    const chapters = [];
+    snapshot.forEach((doc) => {
+      const chapterData = doc.data();
+      chapters.push(chapterData);
+    });
+
+    res.send(chapters);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }};
 
 module.exports = {
   addchapter,
   deletechapter,
   updatechapter,
+  getchapter,
+  getAllChapters
 };
