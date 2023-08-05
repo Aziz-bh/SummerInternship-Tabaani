@@ -69,7 +69,7 @@ const ChaptersCard = ({
                     lesson && lesson.title ? (
                       <li
                         key={lessonIndex}
-                        className="cursor-pointer py-2 pl-4"
+                        className="cursor-pointer py-2 pl-4 hover:text-yellow-500"
                         onClick={() => {
                           onChapterClick(index);
                           onLessonClick(lessonIndex);

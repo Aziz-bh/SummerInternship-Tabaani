@@ -36,8 +36,17 @@ const CourseOverview = () => {
     return <div>Loading...</div>;
   }
 
-  const selectedLesson =
-    lessonData.chapters[selectedChapterIndex].lessons[selectedLessonIndex];
+  const selectedChapter = lessonData.chapters[selectedChapterIndex];
+
+  if (
+    !selectedChapter ||
+    !selectedChapter.lessons ||
+    selectedChapter.lessons.length === 0
+  ) {
+    return <div>No lessons available.</div>;
+  }
+
+  const selectedLesson = selectedChapter.lessons[selectedLessonIndex];
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">

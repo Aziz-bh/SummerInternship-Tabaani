@@ -229,9 +229,58 @@ const GenerateCertificate = async (req, res) => {
   }
 };
 
+const GetUserSubscribedCourses = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userRef = firestore.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const subscriptionRef = firestore
+      .collection("subscriptions")
+      .where("userId", "==", userId);
+
+    const subscriptionSnapshot = await subscriptionRef.get();
+
+    if (subscriptionSnapshot.empty) {
+      return res.status(200).json({
+        message: `User has not subscribed to any courses`,
+        courses: [],
+      });
+    }
+
+    const courses = [];
+
+    // Loop through each subscription and fetch course information
+    for (const doc of subscriptionSnapshot.docs) {
+      const courseId = doc.data().courseId;
+      const courseRef = firestore.collection("courses").doc(courseId);
+      const courseDoc = await courseRef.get();
+
+      if (courseDoc.exists) {
+        const courseData = courseDoc.data();
+        courseData.id = courseId; // Add course ID to the course data
+        courses.push(courseData);
+      }
+    }
+
+    return res.status(200).json({
+      message: `User's subscribed courses retrieved successfully`,
+      courses: courses,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   verifyUserCompletion,
-  SubscribeToCourse,
   MoveToNextChapter,
+  SubscribeToCourse,
   GenerateCertificate,
+  GetUserSubscribedCourses,
 };

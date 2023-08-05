@@ -151,6 +151,7 @@ const deletecourse = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
 module.exports = {
   addCourse,
   getAllcourses,

@@ -1,64 +1,34 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 import CourseCard from "components/card/CourseCard";
-import avatar1 from "assets/img/avatars/avatar1.png";
-import avatar2 from "assets/img/avatars/avatar2.png";
+import { useParams } from "react-router-dom";
 
 const Courses = () => {
-  const coursesData = [
-    {
-      title: "Course – Introduction to Hosting",
-      image:
-        "https://images.unsplash.com/photo-1531761535209-180857e963b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
-      pic: avatar1,
-      points: 100,
-    },
-    {
-      title: "Course – Introduction to Hosting",
-      image:
-        "https://images.unsplash.com/photo-1494676051766-7a7454d53904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80",
-      pic: avatar2,
-      points: 80,
-    },
-    {
-      title: "Course – Introduction to Hosting",
-      image:
-        "https://images.unsplash.com/photo-1494676051766-7a7454d53904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80",
-      pic: avatar2,
-      points: 80,
-    },
-    // Add more courses as needed
-  ];
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
-
   const [courses, setCourses] = useState([]);
+  const [subscribedCourses, setSubscribedCourses] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     fetch("http://localhost:5000/api/courses")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "rojla");
+        console.log(data, "courses");
         setCourses(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `http://localhost:5000/api/user/6Mf70xX01X6kfypHDVCC/subscribed-courses`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "setSubscribedCourses");
+        setSubscribedCourses(data.courses);
       })
       .catch((err) => {
         console.log(err.message);
@@ -75,19 +45,21 @@ const Courses = () => {
         </div>
         <div className="z-20">
           {/* Unfinished courses slider */}
-          <Slider {...sliderSettings}>
-            {coursesData.map((course, index) => (
-              <div key={index} className="pr-2">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-2">
+            {subscribedCourses.map((subscribed, id) => (
+              <div className="pr-2">
                 <UnfinishedCoursesCard
-                  key={index}
-                  title={course.title}
-                  image={course.image}
-                  pic={course.pic}
-                  points={course.points}
+                  key={id}
+                  id={subscribed.id}
+                  title={subscribed.title}
+                  image={subscribed.thumbnail}
+                  difficulty={subscribed.difficulty}
+                  instructor={subscribed.instructor}
+                  students={subscribed.students}
                 />
               </div>
             ))}
-          </Slider>
+          </div>
         </div>
         <div className="mb-4 mt-5 flex flex-col justify-between md:flex-row md:items-center">
           <h4 className="text-2xl font-bold  dark:text-white">
