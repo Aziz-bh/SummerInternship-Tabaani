@@ -16,16 +16,13 @@ const Quiz = () => {
       .then((response) => response.json())
       .then((data) => setQuizData(data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, []); 
-
+  }, []);
 
   const totalPages = Math.ceil(quizData.length / itemsPerPage);
 
-  
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
-
 
   const getCurrentContent = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -42,7 +39,13 @@ const Quiz = () => {
         {/* Render the current content */}
         {getCurrentContent().map((quiz) => {
           console.log(quiz); // Log the content of each quiz
-          return <Content key={quiz.id} generaltext={generalTextContent} quiz={quiz} />;
+          return (
+            <Content
+              key={quiz.id}
+              generaltext={generalTextContent}
+              quiz={quiz}
+            />
+          );
         })}
 
         {/* Show the "Submit" button to move to the next page if there are more pages */}
@@ -50,8 +53,10 @@ const Quiz = () => {
           <button
             onClick={handleNextPage}
             value="Submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >Submit</button>
+            className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+          >
+            Submit
+          </button>
         )}
       </div>
     </div>

@@ -6,7 +6,8 @@ const addLessonToChapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
     const chapterId = req.params.chapterId;
-    const { title, content, video, quizzes } = req.body;
+    const { title, content, video } = req.body;
+
     if (!title || !content || !video) {
       res.status(400).send("Invalid lesson data");
       return;
@@ -16,11 +17,11 @@ const addLessonToChapter = async (req, res, next) => {
       title,
       content,
       video,
-      quizzes: quizzes || [],
     };
 
     const courseRef = firestore.collection("courses").doc(courseId);
     const chapterRef = courseRef.collection("chapters").doc(chapterId);
+    const lessonsCollectionRef = chapterRef.collection("lessons"); // Subcollection for lessons
 
     const chapterSnapshot = await chapterRef.get();
     if (!chapterSnapshot.exists) {
@@ -28,11 +29,8 @@ const addLessonToChapter = async (req, res, next) => {
       return;
     }
 
-    // Update the chapter document to include the lessons array
-    const lessonsArray = chapterSnapshot.data().lessons || [];
-    lessonsArray.push(lessonData);
-
-    await chapterRef.update({ lessons: lessonsArray });
+    // Add the lesson document to the lessons subcollection
+    await lessonsCollectionRef.add(lessonData);
 
     res.send("Lesson saved and added to chapter successfully");
   } catch (error) {
