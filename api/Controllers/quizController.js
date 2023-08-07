@@ -153,31 +153,29 @@ async function getQuizById(req, res, next) {
   }
 }
 
-async function findByChapterId(req, res, next) {
+async function findByLessonId(req, res, next) {
   try {
-    const ChapterId = req.params.chapterId;
+    const lessonId = req.params.lessonId;
 
     const quizzesRef = db.collection("quizzes");
     const querySnapshot = await quizzesRef
-      .where("ChapterId", "==", ChapterId)
+      .where("lessonId", "==", lessonId)
       .get();
 
     if (querySnapshot.empty) {
       res
         .status(404)
-        .json({ message: "No quizzes found for the given ChapterId" });
+        .json({ message: "No quizzes found for the given lessonId" });
     } else {
       const quizzes = [];
       querySnapshot.forEach((doc) => {
-        if (!doc.data().option3){
-        const type=0;
-
-        quizzes.push({ id: doc.id, ...doc.data(),type });}
-        else{
-        const type =doc.data().rightAnswer.length;
-        quizzes.push({ id: doc.id, ...doc.data(),type });
-      }
-
+        if (!doc.data().option3) {
+          const type = 0;
+          quizzes.push({ id: doc.id, ...doc.data(), type });
+        } else {
+          const type = doc.data().rightAnswer.length;
+          quizzes.push({ id: doc.id, ...doc.data(), type });
+        }
       });
 
       res.status(200).json(quizzes);
@@ -186,6 +184,7 @@ async function findByChapterId(req, res, next) {
     next(error);
   }
 }
+
 
 async function validateAnswer(quizId, selectedAnswer) {
   try {
@@ -240,7 +239,7 @@ async function checkAnswer(req, res, next) {
     const quizID = quizArray[0].quizId;
     const quizRef = db.collection("quizzes").doc(quizID);
     const docSnapshot = await quizRef.get();
-   const ch=docSnapshot.data().ChapterId;
+   const lesson=docSnapshot.data().lessonId;
     const coursesRef = db.collection("courses");
     const querySnapshot = await coursesRef.get();
     
@@ -255,11 +254,17 @@ async function checkAnswer(req, res, next) {
       // Loop through chapters
       for (const chapterDoc of chaptersSnapshot.docs) {
         const chapterId = chapterDoc.id;
-        if (chapterId === ch) {
-          console.log("This is the course that has it all:", courseId);
-          foundCourseId = courseId;
-          break; // Exit the loop once the desired courseId is found
+        const lessonRef = chaptersRef.doc(chapterId).collection("lessons");
+        const lessonSnapshot = await lessonRef.get();
+        for(const lessonDoc of  lessonSnapshot.docs){
+          const lessonId = lessonDoc.id;
+          if (lessonId === lesson) {
+            console.log("This is the course that has it all:", courseId);
+            foundCourseId = courseId;
+            break; // Exit the loop once the desired courseId is found
+          }
         }
+        
       }
       
       if (foundCourseId) {
@@ -313,7 +318,7 @@ module.exports = {
   deleteQuiz,
   getAllQuizzes,
   getQuizById,
-  findByChapterId,
+  findByLessonId,
   checkAnswer,
   addQuizT_F,
 };
