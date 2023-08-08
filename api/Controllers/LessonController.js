@@ -6,18 +6,7 @@ const addLessonToChapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
     const chapterId = req.params.chapterId;
-    const { title, content, video, quizzes } = req.body;
-    if (!title || !content || !video) {
-      res.status(400).send("Invalid lesson data");
-      return;
-    }
-
-    const lessonData = {
-      title,
-      content,
-      video,
-      quizzes: quizzes || [],
-    };
+   
 
     const courseRef = firestore.collection("courses").doc(courseId);
     const chapterRef = courseRef.collection("chapters").doc(chapterId);
@@ -30,7 +19,7 @@ const addLessonToChapter = async (req, res, next) => {
 
     // Update the chapter document to include the lessons array
     const lessonsArray = chapterSnapshot.data().lessons || [];
-    lessonsArray.push(lessonData);
+    lessonsArray.push(req.body);
 
     await chapterRef.update({ lessons: lessonsArray });
 

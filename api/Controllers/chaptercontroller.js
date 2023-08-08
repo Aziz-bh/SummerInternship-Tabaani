@@ -9,6 +9,7 @@ const addchapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
     const { title, description, lessons } = req.body;
+
     if (!title || !description) {
       res.status(400).send("Invalid chapter data");
       return;
@@ -29,13 +30,18 @@ const addchapter = async (req, res, next) => {
     }
 
     const chaptersCollection = courseRef.collection("chapters");
-    await chaptersCollection.add(chapterData);
+
+    // Use the add() method to add the new chapter data to Firestore
+    const newChapterRef = await chaptersCollection.add(chapterData);
 
     res.send("Chapter saved and added to course successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
+
+
 
 /********************************************************/
 

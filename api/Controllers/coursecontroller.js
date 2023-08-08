@@ -9,46 +9,42 @@ const difficulties = ["Beginner", "Intermediate", "Hard"];
 
 const addCourse = async (req, res) => {
   try {
-    {
-      /*let thumbnail = null;
-    if (req.file) {
-      console.log("File details:", req.file);
-      thumbnail = req.file.path;
-    }*/
-    }
-    const {
-      title,
-      thumbnail,
-      description,
-      instructor,
-      courseDifficulty,
-      chapters,
-    } = req.body;
+    let image = null;
+    let userpic = null;
 
-    if (!difficulties.includes(courseDifficulty)) {
-      return res.status(400).send("Invalid difficulty level");
-    }
+    if (req.files) {
+      // Assuming you are using 'image' and 'userpic' as the field names for the images in the form
+      if (req.files.image) {
+        console.log("Image details:", req.files.image);
+        image = req.files.image[0].filename;
+      }
+
+      if (req.files.userpic) {
+        console.log("Userpic details:", req.files.userpic);
+        userpic = req.files.userpic[0].filename;
+        console.log("userpic"+userpic)
+      }}
+    const { title, level,instructor, price, chaptersnumber,  description } = req.body;
 
     const courseData = {
       title,
+      level,
+      userpic,
+      chaptersnumber,
       description,
       instructor,
-      students: 0,
-      chapters: chapters || [],
-      price: 0,
-      difficulty: courseDifficulty,
-      thumbnail,
+      price,
+      image // Utilisez le nom de fichier généré par Multer (avec l'extension)
     };
-    {
-      /*thumbnail: req.file ? req.file.path : null,*/
-    }
 
-    await firestore.collection("courses").add(courseData);
+    // Enregistrez courseData dans Firestore
+    await firestore.collection("courses").doc().set(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 
 /***************************************************** */
 
@@ -89,6 +85,26 @@ const getAllcourses = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+const path = require('path');
+
+const getImage = async (req, res) => {
+  try {
+    const imageName = req.params.imageName;
+    const imagePath = path.join(__dirname, '..', 'uploads', imageName);
+
+    console.log('imagePath:', imagePath); // Add this line for debugging
+
+    res.sendFile(imagePath, (error) => {
+      if (error) {
+        console.error("Error sending image:", error);
+        res.status(404).send("Image not found.");
+      }
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 
 /********************************************************* */
 
@@ -157,4 +173,5 @@ module.exports = {
   getcourse,
   updatecourse,
   deletecourse,
+  getImage
 };

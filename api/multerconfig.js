@@ -1,14 +1,18 @@
-const multer = require("multer");
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const app = express();
 
 // Définissez le répertoire de destination pour les fichiers téléchargés
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads"); // Répertoire de destination
+  destination: (req, file, cb) => {
+    cb(null, 'uploads');
   },
-  filename: function (req, file, cb) {
-    // Générez un nom de fichier unique en concaténant la date actuelle avec le nom d'origine du fichier
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+  filename: (req, file, cb) => {
+    // Générez un nom de fichier unique en ajoutant un timestamp au nom d'origine
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
   },
 });
 
