@@ -6,12 +6,12 @@ import {
   MdOutlineCalendarToday,
   MdBarChart,
 } from "react-icons/md";
-import Card from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/components/card/index.jsx";
+import Card from "components/card/index.jsx";
 import {
   lineChartDataTotalSpent,
   lineChartOptionsTotalSpent,
-} from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/variables/charts.js";
-import LineChart from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/components/charts/LineChart.jsx";
+} from "variables/charts.js";
+import LineChart from "components/charts/LineChart.jsx";
 
 
 

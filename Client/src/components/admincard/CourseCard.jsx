@@ -1,6 +1,6 @@
-import Card from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/components/admincard/index.jsx";
+import Card from "components/admincard/index.jsx";
 import { FaTrophy } from "react-icons/fa";
-import ScoreIcon from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/assets/icons/ScoreIcon.png";
+import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import axios from 'axios';

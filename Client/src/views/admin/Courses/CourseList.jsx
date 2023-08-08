@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 //import UnfinishedCoursesCard from "C:/Users/hadil/Desktop/admin/src/components/card/UnfinishedCoursesCard";
 import axios from 'axios';
-import CourseCard from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/components/admincard/CourseCard.jsx';
+import CourseCard from 'components/admincard/CourseCard.jsx';
 
 
 const CourseList = () => {

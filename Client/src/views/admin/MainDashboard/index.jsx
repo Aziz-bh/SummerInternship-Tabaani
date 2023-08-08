@@ -1,10 +1,10 @@
 import React from 'react'
-import DashboardStatsGrid from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/MainDashboard/components/DashboardStatsGrid.jsx'
-import TransactionChart from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/MainDashboard/components/TransactionChart.jsx'
+import DashboardStatsGrid from './components/DashboardStatsGrid.jsx'
+import TransactionChart from './components/TransactionChart.jsx'
 
-import BuyerProfilePieChart from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/MainDashboard/components//BuyerProfilePieChart'
-import WeeklyRevenue from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/MainDashboard/components//total spent'
-import BuyerProfilePieChart2 from 'C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/MainDashboard/components//BuyerProfilePieChart copy'
+import BuyerProfilePieChart from './components//BuyerProfilePieChart'
+import WeeklyRevenue from './components//total spent'
+import BuyerProfilePieChart2 from './components//BuyerProfilePieChart copy'
 
 
 export default function Dashboard() {

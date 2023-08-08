@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
-import ChaptersCard from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/components/admincard/ChaptersCard.jsx";
+import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
 
 const CourseOverview = () => {
