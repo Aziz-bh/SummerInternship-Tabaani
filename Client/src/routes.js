@@ -14,8 +14,9 @@ import {
 } from "react-icons/md";
 import Dashboard from "views/admin/MainDashboard";
 import UsersProgress from "views/admin/UsersProgress";
-import Courses from "views/user/Courses";
+import Courses from "views/admin/Courses/Courses";
 import CourseOverview from "views/user/CourseOverview/CourseOverview";
+import CourseOverviewad from "views/admin/CourseOverview/CourseOverviewad";
 import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
 import LandingPage from "views/LandingPage/LandingPage";
@@ -27,6 +28,7 @@ const courseOverviewRoute = {
   path: "course/:id",
   component: <CourseOverview />,
 };
+
 const routes = [
   {
     name: "Dashboard",
@@ -36,6 +38,8 @@ const routes = [
     component: <Dashboard />,
     secondary: true,
   },
+  
+ 
   {
     name: "Messages",
     layout: "/admin",
@@ -43,6 +47,14 @@ const routes = [
     path: "users",
     component: <UsersProgress />,
   },
+  {
+    name: "Courses",
+    layout: "/admin",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "Courses",
+    component: <Courses />,
+  },
+ 
   {
     name: "Sign In",
     layout: "/auth",
@@ -65,7 +77,13 @@ const routes = [
     component: <CourseOverview />,
     hideInSidebar: true,
   },
-
+  {
+    name: "course overiewad",
+    layout: "/admin",
+    path: "Courses/coursead/:id",
+    component: <CourseOverviewad />,
+    hideInSidebar: true,
+  },
   {
     name: "Settings",
     layout: "/user",

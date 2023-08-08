@@ -29,6 +29,7 @@
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
     "react-table": "^7.8.0",
+    "recharts": "^2.7.2",
     "slick-carousel": "^1.8.1",
     "tailwindcss-rtl": "^0.9.0",
     "web-vitals": "^2.1.4"
