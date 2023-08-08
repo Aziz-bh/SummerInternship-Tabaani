@@ -4,7 +4,7 @@ import "../../../../assets/css/quiz.css";
 import Content from "./Content";
 import Result from "./Result";
 
-const Quiz = () => {
+const Quiz = (lessonId) => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizIds, setQuizIds] = useState([]);
   const [score, setScore] = useState(null);
@@ -24,8 +24,8 @@ const Quiz = () => {
   const itemsPerPage = 1; // Number of items to display per page
 
   // Fetch data from the API
-  useEffect(() => {
-    fetch("http://localhost:5000/api/quizzes/chapter/Oc1w9TOLDn29BLPuuMGj")
+  useEffect(() => { 
+    fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
       .then((response) => response.json())
       .then((data) => setQuizData(data))
       .catch((error) => console.error("Error fetching data:", error));

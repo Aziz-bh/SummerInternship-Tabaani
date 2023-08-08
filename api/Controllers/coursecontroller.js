@@ -109,16 +109,48 @@ const getcourse = async (req, res, next) => {
     const chaptersRef = courseRef.collection("chapters");
     const chaptersSnapshot = await chaptersRef.get();
 
-    const chapters = [];
-    chaptersSnapshot.forEach((chapter) => {
-      chapters.push(chapter.data());
-    });
-
     const courseWithChapters = {
       id: courseId,
       ...courseData,
-      chapters: chapters,
+      chapters: [],
     };
+
+    const chapterPromises = chaptersSnapshot.docs.map(async (chapterDoc) => {
+      const chapterData = chapterDoc.data();
+
+      const lessonsRef = chapterDoc.ref.collection("lessons");
+      const lessonsSnapshot = await lessonsRef.get();
+
+      const lessonsPromises = lessonsSnapshot.docs.map(async (lessonDoc) => {
+        const lessonData = lessonDoc.data();
+
+        const quizzesRef = lessonDoc.ref.collection("quizzes");
+        const quizzesSnapshot = await quizzesRef.get();
+
+        const quizzes = quizzesSnapshot.docs.map((quizDoc) => quizDoc.data());
+
+        const lessonWithQuizzes = {
+          id: lessonDoc.id,
+          ...lessonData,
+          quizzes: quizzes,
+        };
+
+        return lessonWithQuizzes;
+      });
+
+      const lessonsWithQuizzes = await Promise.all(lessonsPromises);
+
+      const chapterWithLessons = {
+        id: chapterDoc.id,
+        ...chapterData,
+        lessons: lessonsWithQuizzes,
+      };
+
+      return chapterWithLessons;
+    });
+
+    const chaptersWithLessons = await Promise.all(chapterPromises);
+    courseWithChapters.chapters = chaptersWithLessons;
 
     res.send(courseWithChapters);
   } catch (error) {
@@ -151,6 +183,7 @@ const deletecourse = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
 module.exports = {
   addCourse,
   getAllcourses,

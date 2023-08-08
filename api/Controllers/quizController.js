@@ -68,7 +68,12 @@ async function addQuizT_F(req, res, next) {
         ChapterId: ChapterId,
       };
 
-      if (!quiz.question || !quiz.option1 || !quiz.option2 || !quiz.rightAnswer) {
+      if (
+        !quiz.question ||
+        !quiz.option1 ||
+        !quiz.option2 ||
+        !quiz.rightAnswer
+      ) {
         res.status(400).json({ message: "Invalid quiz data" });
         return;
       }
@@ -218,7 +223,6 @@ function arrayEquals(a, b) {
   }
   return true;
 }
-
 
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;

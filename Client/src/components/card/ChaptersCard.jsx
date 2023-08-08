@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 const ChaptersCard = ({
   chapters = [],
-  lessons = [],
   onLessonClick,
   onChapterClick,
+  onQuizzClick,
 }) => {
   const [openChapter, setOpenChapter] = useState(null);
 
@@ -75,7 +75,29 @@ const ChaptersCard = ({
                           onLessonClick(lessonIndex);
                         }}
                       >
-                        {lesson.title}
+                        <span className="hover:text-yellow-500">
+                          {lesson.title}
+                        </span>
+                        {/* Quizzes */}
+                        {lesson.quizzes && lesson.quizzes.length > 0 ? (
+                          <ul className=" mt-2 list-disc  pl-4">
+                            {lesson.quizzes.map((quiz, quizIndex) => (
+                              <li
+                                key={quizIndex}
+                                onClick={() => {
+                                  onQuizzClick(quizIndex);
+                                }}
+                                className="cursor-pointer py-2"
+                              >
+                                <span className=" hover:text-orange-500">
+                                  {quiz.question}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>No quizzes available for this lesson.</p>
+                        )}
                       </li>
                     ) : null
                   )
