@@ -68,7 +68,12 @@ async function addQuizT_F(req, res, next) {
         ChapterId: ChapterId,
       };
 
-      if (!quiz.question || !quiz.option1 || !quiz.option2 || !quiz.rightAnswer) {
+      if (
+        !quiz.question ||
+        !quiz.option1 ||
+        !quiz.option2 ||
+        !quiz.rightAnswer
+      ) {
         res.status(400).json({ message: "Invalid quiz data" });
         return;
       }
@@ -169,15 +174,14 @@ async function findByChapterId(req, res, next) {
     } else {
       const quizzes = [];
       querySnapshot.forEach((doc) => {
-        if (!doc.data().option3){
-        const type=0;
+        if (!doc.data().option3) {
+          const type = 0;
 
-        quizzes.push({ id: doc.id, ...doc.data(),type });}
-        else{
-        const type =doc.data().rightAnswer.length;
-        quizzes.push({ id: doc.id, ...doc.data(),type });
-      }
-
+          quizzes.push({ id: doc.id, ...doc.data(), type });
+        } else {
+          const type = doc.data().rightAnswer.length;
+          quizzes.push({ id: doc.id, ...doc.data(), type });
+        }
       });
 
       res.status(200).json(quizzes);
@@ -219,7 +223,6 @@ function arrayEquals(a, b) {
   }
   return true;
 }
-
 
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;

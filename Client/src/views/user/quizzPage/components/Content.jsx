@@ -17,17 +17,13 @@ const Content = ({ generaltext, quiz }) => {
         />
       </div>
       <div className="horizontal-line"> </div>
-    
-        {type === 0 ? (
- 
-          <TrueFalseQuestion question={question} />
 
-        ) : (
-          // Render regular options for other types of questions
-          <QCM  quiz={quiz}/>
-           
-        )}
-     
+      {type === 0 ? (
+        <TrueFalseQuestion question={question} />
+      ) : (
+        // Render regular options for other types of questions
+        <QCM quiz={quiz} />
+      )}
     </div>
   );
 };

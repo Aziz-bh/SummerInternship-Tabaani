@@ -10,6 +10,7 @@ const addLessonToChapter = async (req, res, next) => {
 
     const courseRef = firestore.collection("courses").doc(courseId);
     const chapterRef = courseRef.collection("chapters").doc(chapterId);
+    const lessonsCollectionRef = chapterRef.collection("lessons"); // Subcollection for lessons
 
     const chapterSnapshot = await chapterRef.get();
     if (!chapterSnapshot.exists) {

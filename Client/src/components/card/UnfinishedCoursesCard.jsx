@@ -2,9 +2,10 @@ import Progress from "components/progress";
 import { FaTrophy } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaBook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-const UnfinishedCoursesCard = ({ title, image, pic }) => {
+const UnfinishedCoursesCard = ({ title, image, pic, difficulty, id }) => {
   const progressValue = 50;
   return (
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white pr-6">
@@ -16,8 +17,8 @@ const UnfinishedCoursesCard = ({ title, image, pic }) => {
         />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-6">
-          <div className="text-md h-[19px] w-[329px]  font-bold ">{title}</div>
+        <div className="inline-flex flex-col items-start justify-start gap-2 py-4 pb-4">
+          <div className="text-md w-[329px] font-bold">{title}</div>
         </div>
 
         <div className="inline-flex items-center justify-between pb-8">
@@ -36,11 +37,11 @@ const UnfinishedCoursesCard = ({ title, image, pic }) => {
           <div className="flex items-center justify-start gap-2">
             <FaTrophy size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              Beginner
+              {difficulty}
             </div>
           </div>
         </div>
-        <div className="inline-flex items-center justify-between gap-2 pb-8">
+        <div className="inline-flex items-center justify-between gap-2 pb-4">
           <Progress value={progressValue} />
           <p className=" text-sm"> {progressValue}%</p>
         </div>
@@ -63,10 +64,12 @@ const UnfinishedCoursesCard = ({ title, image, pic }) => {
               </div>
             </div>
           </div>
-          <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-2.5 pl-6 pr-2 text-center text-sm font-medium capitalize leading-tight text-white">
-            Let's go
-            <MdOutlineKeyboardArrowRight size={20} />
-          </button>
+          <Link to={`/course/${id}`}>
+            <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-2.5 pl-4 pr-2 text-center text-sm font-medium capitalize leading-tight text-white">
+              Let's go
+              <MdOutlineKeyboardArrowRight size={20} />
+            </button>
+          </Link>
         </div>
       </div>
     </div>
