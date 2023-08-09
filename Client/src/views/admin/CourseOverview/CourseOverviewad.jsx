@@ -3,7 +3,7 @@ import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
 
-const CourseOverview = () => {
+const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
@@ -77,4 +77,4 @@ const selectedLesson = selectedChapter && selectedChapter.lessons
   );
 };
 
-export default CourseOverview;
+export default CourseOverviewad;
