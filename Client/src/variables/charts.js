@@ -260,12 +260,12 @@ export const lineChartDataTotalSpent = [
   {
     name: "Revenue",
     data: [50, 64, 48, 66, 49, 68],
-    color: "#4318FF",
+    color: "#180600",
   },
   {
     name: "Profit",
     data: [30, 40, 24, 46, 20, 46],
-    color: "#6AD2FF",
+    color: "#FFBF66",
   },
 ];
 

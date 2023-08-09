@@ -18,7 +18,7 @@ export function SidebarLinks(props) {
   const createLinks = (routes) => {
     return routes.map((route, index) => {
       if (
-        (route.layout === "/admin" || route.layout === "/auth") &&
+        (route.layout === "/admin" || route.layout === "/auth"|| route.layout==="/MyCourses") &&
         !route.hideInSidebar // Check if hideInSidebar is not true
       ) {
         return (
@@ -52,6 +52,7 @@ export function SidebarLinks(props) {
                 >
                   {route.name}
                 </p>
+                
               </li>
               {activeRoute(route.path) ? (
                 <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-orange-400 dark:bg-orange-400" />

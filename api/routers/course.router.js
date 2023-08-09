@@ -7,6 +7,7 @@ const {
   getcourse,
   updatecourse,
   deletecourse,
+  getImage,
 } = require("../Controllers/coursecontroller");
 const {
   addchapter,
@@ -16,9 +17,13 @@ const {
   getAllChapters,
 } = require("../Controllers/chaptercontroller");
 const upload = require("../multerconfig");
+const { addLessonToChapter } = require("../Controllers/LessonController");
 
-Courserouter.post("/course", upload.single("image"), addCourse);
-
+Courserouter.post('/course', upload.fields([
+  { name: 'image', maxCount: 1 },
+  { name: 'userpic', maxCount: 1 }
+]), addCourse);
+Courserouter.get("/image/:imageName",getImage)
 Courserouter.get("/courses", getAllcourses);
 Courserouter.get("/course/:id", getcourse);
 Courserouter.put("/course/:id", updatecourse);
