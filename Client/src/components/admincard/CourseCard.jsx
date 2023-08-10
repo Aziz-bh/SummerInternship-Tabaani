@@ -24,13 +24,15 @@ const imageUrl = `${baseUrl}/api//image/${image}`;
      
     >
       <div className="h-full w-full">
-        <div className="relative w-full">
-          <img
-           src={imageUrl}
-            className="mb-3 h-56 w-full rounded-xl object-cover 3xl:h-full 3xl:w-full"
-            alt="" 
-          />
-        </div>
+      <div className="relative w-90 h-80">
+  <img
+    src={imageUrl}
+    className="mb-3 h-full w-full rounded-xl object-cover"
+    alt=""
+  />
+</div>
+
+
 
         <div className="p-![18px] mb-6 flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
           <div>

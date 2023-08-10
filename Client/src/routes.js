@@ -19,12 +19,13 @@ import {
 import Dashboard from "views/admin/MainDashboard";
 import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/user/Courses/index.jsx";
-import MyCourses from "C:/Users/hadil/Documents/GitHub/SummerInternship-Tabaani/Client/src/views/admin/Courses/Courses.jsx";
+import MyCourses from "views/admin/Courses/Courses.jsx";
 import CourseOverview from "views/user/CourseOverview/CourseOverview";
 import CourseOverviewad from "views/admin/CourseOverview/CourseOverviewad";
 import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
 import LandingPage from "views/LandingPage/LandingPage";
+import NewQuiz from "views/admin/quiz";
 
 const courseOverviewRoute = {
   // Create a separate variable for Course Overview
@@ -108,6 +109,13 @@ const routes = [
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
     component: <QuizPage />,
+  },
+  {
+    name: "quiz",
+    layout: "/admin",
+    path: "quizzes/:lessonId",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <NewQuiz/>,
   },
 ];
 

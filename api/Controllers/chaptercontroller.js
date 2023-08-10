@@ -78,6 +78,7 @@ const updatechapter = async (req, res, next) => {
 /***************************************************** */
 const getchapter = async (req, res, next) => {
   try {
+
     const courseId = req.params.courseId;
     const chapterId = req.params.chapterId;
 
@@ -93,7 +94,7 @@ const getchapter = async (req, res, next) => {
     }
 
     const chapterData = chapterSnapshot.data();
-
+    chapterData.chapterId = chapterId;
     res.send(chapterData);
   } catch (error) {
     res.status(400).send(error.message);
@@ -110,6 +111,7 @@ const getAllChapters = async (req, res, next) => {
     const chapters = [];
     snapshot.forEach((doc) => {
       const chapterData = doc.data();
+      chapterData.chapterId = doc.id;
       chapters.push(chapterData);
     });
 

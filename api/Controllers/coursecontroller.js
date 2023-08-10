@@ -91,6 +91,7 @@ const getImage = async (req, res) => {
   try {
     const imageName = req.params.imageName;
     const imagePath = path.join(__dirname, '..', 'uploads', imageName);
+    console.log("tessstt")
 
     console.log('imagePath:', imagePath); // Add this line for debugging
 

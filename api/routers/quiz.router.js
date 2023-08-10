@@ -16,7 +16,7 @@ quizrouter.post(
   "/quizzes/:idCourse/chapters/:idChapter/lessons/:idLesson/add",
   addQuiz
 );
-quizrouter.post("/quizzes/add/:idChapter", addQuiz);
+quizrouter.post("/quizzes/add/:LessonId", addQuiz);
 quizrouter.get("/quizzes/byId/:id", getQuizById);
 quizrouter.get("/quizzes", getAllQuizzes);
 quizrouter.get("/quizzes/chapter/:lessonId", findByLessonId);

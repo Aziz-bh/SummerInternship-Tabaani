@@ -132,7 +132,7 @@
 
 /* Content.css (you can create a separate CSS file for Content component) */
 .question-QCM {
-  font-size: 30px;
+  font-size: 18px;
   /* Smaller font size */
   font-weight: bold;
   /* Make the text bold */
@@ -144,6 +144,10 @@
   display: flex;
   justify-content: center;
   /* Center the content horizontally */
+}
+
+.bg-custom-color {
+  background-color: #10455B;
 }
 
   
@@ -194,6 +198,50 @@
   border-radius: 8px;
 }
 
+.option-button2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px; /* Allow height to adjust based on content */
+  border-radius: 15px;
+  background: var(--black-25, rgba(62, 50, 50, 0.25));
+  color: #231F20;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+  text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.custom-top-margin {
+  margin-top: -50px !important;
+}
+.opt {
+
+  width: 500px; 
+
+
+  white-space: normal;
+
+
+  padding: 10px;
+  margin: 10px;
+
+  word-break: break-word;
+}
+
+
+.option-button2:hover {
+  color: white;
+  background-color: #10455B;
+}
+
 .option-button:hover {
   background-color: #10455B;
 }
@@ -205,3 +253,5 @@
 .selected-false {
   background-color: blue;
 }
+
+

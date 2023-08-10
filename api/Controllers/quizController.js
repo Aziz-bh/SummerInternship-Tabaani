@@ -3,14 +3,11 @@ const db = firebase.firestore();
 
 async function addQuiz(req, res, next) {
   try {
-    const ChapterId = req.params.idChapter;
-    const chapterRef = db.collection("chapters").doc(ChapterId);
+    const LessonId = req.params.LessonId;
+    const chapterRef = db.collection("chapters").doc(LessonId);
     const documentSnapshot = await chapterRef.get();
 
-    if (!documentSnapshot.exists) {
-      console.log("Document does not exist");
-      return res.status(404).json({ error: "Chapter doesn't exist" });
-    } else {
+
       const rightAnswer = Array.isArray(req.body.rightAnswer)
         ? req.body.rightAnswer
         : [req.body.rightAnswer];
@@ -22,7 +19,7 @@ async function addQuiz(req, res, next) {
         option3: req.body.option3,
         option4: req.body.option4,
         rightAnswer: rightAnswer,
-        ChapterId: ChapterId,
+        lessonId: LessonId,
       };
 
       console.log("🚀 ~ file: quizController.js:10 ~ addQuiz ~ quiz:", quiz);
@@ -43,7 +40,7 @@ async function addQuiz(req, res, next) {
       await db.collection("quizzes").doc().set(quiz);
 
       res.status(201).json({ message: "Quiz added successfully" });
-    }
+    
   } catch (error) {
     console.error("Error fetching chapter:", error);
     return res.status(500).json({ error: "Failed to fetch chapter" });

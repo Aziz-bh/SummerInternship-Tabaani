@@ -17,23 +17,32 @@ const ChaptersCard = ( {chapters = [],
   const { id} = useParams(); 
  
 
- const toggleChapter = (index) => {
+ const toggleChapter = (chapter,index) => {
+ console.log("🚀 ~ file: ChaptersCard.jsx:21 ~ toggleChapter ~ chapter:", chapter)
+
   if (openChapter === index) {
     setOpenChapter(null);
   } else {
     setOpenChapter(index);
-
+    console.log("🚀 ~ file: ChaptersCard.jsx:26 ~ toggleChapter ~ index:", index)
+    
+    console.log("test"+openChapter)
+    
   }
 };
 
 
   
   useEffect(() => {
-   
+
+  
     const fetchChaptersData = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/course/${id}/getchapter`);
         setChaptersData(response.data);
+        console.log("🚀 ~ file: ChaptersCard.jsx:43 ~ fetchChaptersData ~ response.data:", response.data)
+
+        
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +77,7 @@ const ChaptersCard = ( {chapters = [],
     setNewChapterLessons((prevLessons) => [
       ...prevLessons,
       { title: "", lessonvideo: "" , lessondescription: ""},
+      
     ]);
   };
 
@@ -92,7 +102,7 @@ const ChaptersCard = ( {chapters = [],
         <button
           type="button"
           className="p-1"
-          onClick={() => toggleChapter(index)}
+          onClick={() => toggleChapter(chapter,index)}
         >
           {openChapter === index? (
             <svg

@@ -25,7 +25,8 @@ const Quiz = (lessonId) => {
 
   // Fetch data from the API
   useEffect(() => { 
-    fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
+    //fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
+    fetch("http://localhost:5000/api/quizzes/chapter/Oc1w9TOLDn29BLPuuMGj")
       .then((response) => response.json())
       .then((data) => setQuizData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -42,6 +43,7 @@ const Quiz = (lessonId) => {
       const newArray = userAnswers.map((item) =>
         Array.isArray(item) ? item : [item]
       );
+      setShowResult(true)
       const selectedAnswer = newArray[index] || [];
       return { quizId, selectedAnswer };
     });
@@ -93,35 +95,39 @@ const Quiz = (lessonId) => {
   }
 
   return (
-    <div>
+     <div>
       <div className="content">
-        <div className="title-container">
-          <h1>Check Your Knowledge</h1>
-        </div>
-        {/* Render the current content */}
-        {getCurrentContent().map((quiz) => {
-          return (
-            <React.Fragment key={quiz.id}>
-              <Content
-                generaltext={generalTextContent}
-                quiz={quiz}
-                onSubmitAnswer={(answer) => onSubmitAnswer(answer, quiz.id)}
-              />
-            </React.Fragment>
-          );
-        })}
+        {showResult ? ( // Conditionally render based on showResult
+          <Result score={score} />
+        ) : (
+          <>
+            <div className="title-container">
+              <h1>Check Your Knowledge</h1>
+            </div>
+            {/* Render the current content */}
+            {getCurrentContent().map((quiz) => {
+              return (
+                <React.Fragment key={quiz.id}>
+                  <Content
+                    generaltext={generalTextContent}
+                    quiz={quiz}
+                    onSubmitAnswer={(answer) => onSubmitAnswer(answer, quiz.id)}
+                  />
+                </React.Fragment>
+              );
+            })}
 
-        {/* Show the new button on the last page + 1 */}
-        {isLastPagePlusOne && (
-          <button
-            onClick={newFN}
-            className="my-4 rounded bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
-          >
-            SHOW RESULT
-          </button>
+            {/* Show the new button on the last page + 1 */}
+            {isLastPagePlusOne && (
+              <button
+                onClick={newFN} // Update showResult on button click
+                className="my-4 rounded bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+              >
+                SHOW RESULT
+              </button>
+            )}
+          </>
         )}
-
-        {showResult && score !== null && <Result score={score} />}
       </div>
     </div>
   );
