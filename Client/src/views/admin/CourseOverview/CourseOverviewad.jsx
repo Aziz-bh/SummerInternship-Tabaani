@@ -62,7 +62,7 @@ const selectedLesson = selectedChapter && selectedChapter.lessons
       LessonTitle={selectedLesson.LessonTitle}
 
       userpic={lessonData.userpic}
-      lessonVideo={selectedLesson.lessonvideo}
+      lessonVideo={selectedLesson.lessonVideo}
     
       LessonDescription={selectedLesson.LessonDescription}
     />
