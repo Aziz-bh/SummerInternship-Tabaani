@@ -14,7 +14,7 @@ const CourseOverviewad = () => {
     fetch(`http://localhost:5000/api/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
-       
+        console.log(data);
         setLessonData(data);
       })
       .catch((err) => {
@@ -59,12 +59,12 @@ const selectedLesson = selectedChapter && selectedChapter.lessons
     <LessonCard
       key={lessonData.id}
       CourseTitle={lessonData.title}
-      LessonTitle={selectedLesson.title}
+      LessonTitle={selectedLesson.LessonTitle}
 
       userpic={lessonData.userpic}
       lessonVideo={selectedLesson.lessonvideo}
     
-      LessonDescription={selectedLesson.lessondescription}
+      LessonDescription={selectedLesson.LessonDescription}
     />
     
   ) : (

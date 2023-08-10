@@ -2,10 +2,13 @@
 const firebase = require("../db");
 const Course = require("../models/course.model");
 const firestore = firebase.firestore();
+const multer = require('multer');
+
 
 /****************************************************** */
 
 const difficulties = ["Beginner", "Intermediate", "Hard"];
+
 
 const addCourse = async (req, res) => {
   try {
@@ -45,7 +48,62 @@ const addCourse = async (req, res) => {
   }
 };
 
+//hedhi khaliha haka fi commentaire bekchi moukim iji ybadalha ///
 
+// const storage = multer.memoryStorage();
+// const storageRef = firebase.storage().ref(); // Get the reference to Firebase Storage
+
+// const addCourse = async (req, res) => {
+//   try {
+//     const file = req.file;
+
+//     if (!file) {
+//       return res.status(400).json({ error: 'No file provided' });
+//     }
+    
+//     const filename = file.originalname;
+//     const uploadPath = `path/in/firebase/storage/${filename}`;
+//     const fileRef = storageRef.child(uploadPath); // Use storageRef to get a reference to the file
+
+//     const uploadTask = fileRef.put(file.buffer, { contentType: file.mimetype });
+//     uploadTask.on(
+//       'state_changed',
+//       (snapshot) => {
+//         // Monitor upload progress if needed
+//         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+//         console.log(`Upload progress: ${progress}%`);
+//       },
+//       (error) => {
+//         res.status(500).json({ error: 'Error uploading file' });
+//       },
+//       () => {
+//         // Once upload is complete, continue saving course data to Firestore
+//         const { title, level, instructor, price, chaptersnumber, description } = req.body;
+
+//         const courseData = {
+//           title,
+//           level,
+//           chaptersnumber,
+//           description,
+//           instructor,
+//           price,
+//           file: filename // Use the filename instead of the file buffer
+//         };
+
+//         // Save courseData to Firestore
+//         firestore.collection("courses").add(courseData)
+//           .then(() => {
+//             res.status(200).json({ message: 'Course and file uploaded successfully' });
+//           })
+//           .catch((error) => {
+//             res.status(500).json({ error: 'Error saving course data' });
+//           });
+//       }
+//     );
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// };
 /***************************************************** */
 
 const getAllcourses = async (req, res, next) => {
@@ -126,9 +184,20 @@ const getcourse = async (req, res, next) => {
     const chaptersSnapshot = await chaptersRef.get();
 
     const chapters = [];
-    chaptersSnapshot.forEach((chapter) => {
-      chapters.push(chapter.data());
-    });
+
+    for (const chapterDoc of chaptersSnapshot.docs) {
+      const chapterData = chapterDoc.data();
+      
+      // Fetch lessons for the current chapter
+      const lessonsRef = chapterDoc.ref.collection("lessons");
+      const lessonsSnapshot = await lessonsRef.get();
+      const lessons = lessonsSnapshot.docs.map(lessonDoc => lessonDoc.data());
+
+      chapters.push({
+        ...chapterData,
+        lessons: lessons
+      });
+    }
 
     const courseWithChapters = {
       id: courseId,
@@ -141,6 +210,7 @@ const getcourse = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
 
 /******************************************** */
 const updatecourse = async (req, res, next) => {
