@@ -197,15 +197,16 @@ async function validateAnswer(quizId, selectedAnswer) {
       return { quizId, message: "Quiz not found" };
     } else {
       const quizData = docSnapshot.data();
+      const question = quizData.question
       const rightAnswerSet = new Set(quizData.rightAnswer);
       const selectedAnswerSet = new Set(selectedAnswer);
 
       const isCorrectAnswer = arrayEquals(rightAnswerSet, selectedAnswerSet);
 
       if (isCorrectAnswer) {
-        return { quizId, message: "Correct answer!" };
+        return { quizId,question,message: "Correct answer!" };
       } else {
-        return { quizId, message: "Incorrect answer!" };
+        return { quizId,question, message: "Incorrect answer!" };
       }
     }
   } catch (error) {

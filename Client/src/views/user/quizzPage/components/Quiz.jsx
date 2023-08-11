@@ -8,6 +8,7 @@ const Quiz = (lessonId) => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizIds, setQuizIds] = useState([]);
   const [score, setScore] = useState(null);
+  const [ans, setAns] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const onSubmitAnswer = (answer, quizId) => {
     setUserAnswers((prevAnswers) => [...prevAnswers, answer]);
@@ -72,6 +73,7 @@ const Quiz = (lessonId) => {
         console.log(data.results);
         console.log(data.score);
         setScore(data.score);
+        setAns(data.results);
         setShowResult(true);
       })
       .catch((error) => {
@@ -98,7 +100,7 @@ const Quiz = (lessonId) => {
      <div>
       <div className="content">
         {showResult ? ( // Conditionally render based on showResult
-          <Result score={score} />
+          <Result score={score} ans={ans} />
         ) : (
           <>
             <div className="title-container">
