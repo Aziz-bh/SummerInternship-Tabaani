@@ -13,75 +13,33 @@ const Success = ({ result }) => {
   };
   return (
     <div className="ml-20 mt-10 mr-10 pl-4">
-      <div className="flex items-center justify-center">
+<div className="flex items-center justify-center">
+
+  {isModalOpen && (
+    <div className="fixed inset-0 z-10 flex items-center justify-center backdrop-blur-sm backdrop-filter">
+      <div className="rounded bg-white p-4 shadow-lg w-2/5 tailwind overflow-y-auto" style={{ maxHeight: '80vh', marginLeft: '20%' }}>
+        <h2 className="mb-4 text-xl font-semibold justify-center items-center">Review The Answers</h2>
+        <ul>
+          {result?.map((answer, index) => (
+            <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" key={index}>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Question: {answer.question}</h5>
+              <p className="font-normal text-gray-700 dark:text-gray-400">Result: {answer.message}</p>
+            </div>
+          ))}
+        </ul>
         <button
-          onClick={openModal}
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+          onClick={closeModal}
+          className="mt-4 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 focus:outline-none"
         >
-          Open Modal
+          Close
         </button>
-
-        {isModalOpen && (
-          <div className="fixed inset-0 z-10 flex  items-center justify-center backdrop-blur-sm backdrop-filter ">
-            <div className="rounded bg-white p-4 shadow-lg">
-              <h2 className="mb-4 text-xl font-semibold">Modal Content</h2>
-              <p>Your result:</p>
-              <ul>
-                {result?.map((answer, index) => (
-                  <li key={index}>
-                    <p>Question: {answer.question}</p>
-                    <p>Result: {answer.message}</p>
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={closeModal}
-                className="mt-4 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 focus:outline-none"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+    </div>
+  )}
+</div>
 
-      <div
-        id="extralarge-modal"
-        tabindex="-1"
-        className="fixed top-0 left-0 right-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
-      >
-        <div className="relative max-h-full w-full max-w-7xl">
-          <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-            <div className="flex items-center justify-between rounded-t border-b p-5 dark:border-gray-600">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                Extra Large modal
-              </h3>
-              <button
-                type="button"
-                className="bg-transparent ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="extralarge-modal"
-              >
-                <svg
-                  className="h-3 w-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
 
       <div className="overlap">
         <div className="overlap-group ">
@@ -108,7 +66,7 @@ const Success = ({ result }) => {
                 PELLENTESQUE.
               </p>
               <div className="mt-16 ml-4 pt-4">
-                <button className="lesson-complete rounded-md border border-gray-1200 px-8 py-3 text-lg font-medium tracking-wide text-gray-1000">
+                <button   onClick={openModal} className="lesson-complete rounded-md border border-gray-1200 px-8 py-3 text-lg font-medium tracking-wide text-gray-1000">
                   Review the Answers
                 </button>
               </div>

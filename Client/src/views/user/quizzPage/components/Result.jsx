@@ -1,29 +1,25 @@
 import React from "react";
 import Success from "./results/success";
+import Fail from "./results/fail";
 
-{/* <p>Your ans:</p>
-<ul>
-  {ans?.map((answer, index) => (
-    <li key={index}>
-      <p>Question: {answer.question}</p>
-      <p>Result: {answer.message}</p>
-    </li>
-  ))}
-</ul> */}
-
-const Result = ({ score,ans }) => {
+const Result = ({ score, ans }) => {
   return (
     <div>
-      {score <= 90 && (
-        <>
-          <h2>Quiz Result</h2>
+      {score == null &&(
+<>
+<h2>Quiz Result</h2>
           <p>Your score: {score}</p>
+</>
+      )}
+      {score != null && (
+        <>
 
+          {score >= 90 ? <Success result={ans} /> : <Fail result={ans} />}
         </>
       )}
-      {score > 90 ? <Success result={ans} /> : null}
     </div>
   );
 };
 
 export default Result;
+
