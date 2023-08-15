@@ -1,12 +1,13 @@
 import React, { useState,useEffect } from "react";
 import axios from 'axios'; 
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowRight, MdDeleteOutline   } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 
 const ChaptersCard = ( {chapters = [],lessons = [],
   onLessonClick,
-  onChapterClick,}) => {
+  onChapterClick,
+}) => {
   const [openChapter, setOpenChapter] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showForm2, setShowForm2] = useState(false);
@@ -35,7 +36,20 @@ const ChaptersCard = ( {chapters = [],lessons = [],
 };
 
 
-  
+const handleDeleteChapter = async (chapterId) => {
+  try {
+    await axios.delete(`http://localhost:5000/api/course/${id}/deletechapter/${chapterId}`);
+    console.log(`Chapter ${chapterId} deleted successfully`);
+    
+    // Mettez à jour les données de chapitre en supprimant le chapitre supprimé
+    setChaptersData((prevChapters) =>
+      prevChapters.filter((chapter) => chapter.id !== chapterId)
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 useEffect(() => {
   const fetchData = async () => {
     try {
@@ -113,15 +127,6 @@ useEffect(() => {
   };
   
 
-  // const handleLessonChange = (index, field, value) => {
-  //   setNewChapterLessons((prevLessons) =>
-  //     prevLessons.map((lesson, i) =>
-  //       i === index ? { ...lesson, [field]: value } : lesson
-  //     )
-  //   );
-  // };
-  
-  
 
   return (
     <div className="rounded-2xl bg-white p-4 shadow-md">
@@ -258,13 +263,24 @@ useEffect(() => {
    
         </form>
       ) : (
+        <div className=" flex space-x-4">
         <button
-          className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1  pl-6 pr-2  text-center text-sm  font-medium capitalize leading-tight text-white"
+          className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1 pl-6 pr-2 text-center text-sm font-medium capitalize leading-tight text-white"
           onClick={() => setShowForm2(true)}
         >
           Add lesson
           <MdOutlineKeyboardArrowRight size={20} />
         </button>
+        
+        <button
+          className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1 pl-6 pr-2 text-center text-sm font-medium capitalize leading-tight text-white"
+         onClick={() => handleDeleteChapter(chapter.id) }
+        >
+         <MdDeleteOutline size={20} /> 
+          <MdOutlineKeyboardArrowRight size={20} />
+        </button>
+      </div>
+      
       )}
           
    
