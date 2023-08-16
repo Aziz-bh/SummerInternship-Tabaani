@@ -9,15 +9,16 @@ const Content = ({ generaltext, quiz,onSubmitAnswer }) => {
 
   return (
     <div>
-      <div className="general-text-container">
-        <p className="general-text">{generaltext}</p>
-        <img
-          className="online-test-pana"
-          alt="Online test pana"
-          src="https://generation-sessions.s3.amazonaws.com/eedda6429764b025e8379445d48767ce/img/online-test-pana@2x.png"
-        />
-      </div>
-      <div className="horizontal-line"> </div>
+<div className="general-text-container w-[720px] h-[200px] ">
+  <p className="general-text">{generaltext}</p>
+  <img
+    className="online-test-pana"
+    alt="Online test pana"
+    src="https://generation-sessions.s3.amazonaws.com/eedda6429764b025e8379445d48767ce/img/online-test-pana@2x.png"
+  />
+</div>
+
+      <div className="horizontal-line" style={{ width: '40vw' }}> </div>
     
       {type === 0 ? (
   <TrueFalseQuestion question={question} onSubmitAnswer={onSubmitAnswer} />

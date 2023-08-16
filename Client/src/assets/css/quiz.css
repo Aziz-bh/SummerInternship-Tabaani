@@ -17,6 +17,7 @@
   
 .online-test-pana {
   width: 180px;
+  max-width: 180px;
   margin-left: 50px;
 }
 .title-container {
@@ -211,7 +212,7 @@
   font-style: normal;
   font-weight: 600;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 1px;
   margin: 4px;
   cursor: pointer;
   text-align: center;
