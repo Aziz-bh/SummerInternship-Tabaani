@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CourseList from './CourseList';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 export default function MyCourses() {
@@ -70,7 +70,7 @@ export default function MyCourses() {
 
     <div className="container mx-auto py-4">
 
-      {showForm ? (
+      {/* {showForm ? (
 
         <form onSubmit={handleFormSubmit} enctype="multipart/form-data">
           <div class="relative z-0 w-full mb-6 group">
@@ -152,7 +152,8 @@ export default function MyCourses() {
 
         </form>
 
-      ) : (
+      ) : ( */}
+      <Link to={`form`}>
         <button
           className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1  pl-6 pr-2  text-center text-sm  font-medium capitalize leading-tight text-white"
           onClick={handleAddCourseClick}
@@ -160,7 +161,8 @@ export default function MyCourses() {
           Add Course
           <MdOutlineKeyboardArrowRight size={20} />
         </button>
-      )}
+        </Link>
+      {/* )} */}
       {/* {previewImage && ( // Display the preview image if available
         <img
           className="h-56 rounded-l-lg object-cover md:hidden lg:block"

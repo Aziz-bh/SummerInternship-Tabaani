@@ -25,6 +25,7 @@ import CourseOverviewad from "views/admin/CourseOverview/CourseOverviewad";
 import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
 import LandingPage from "views/LandingPage/LandingPage";
+import CourseForm from "views/admin/Courses/CourseForm";
 
 const courseOverviewRoute = {
   // Create a separate variable for Course Overview
@@ -87,6 +88,13 @@ const routes = [
     layout: "/admin",
     path: "Courses/coursead/:id",
     component: <CourseOverviewad />,
+    hideInSidebar: true,
+  },
+  {
+    name: "form",
+    layout: "/admin",
+    path: "Courses/form",
+    component: <CourseForm />,
     hideInSidebar: true,
   },
   {

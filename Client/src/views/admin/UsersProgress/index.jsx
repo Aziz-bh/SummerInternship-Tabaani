@@ -7,8 +7,8 @@ const UsersProgress = () => {
   return (
     <div>
       <ComplexTable
-        columnsData={columnsDataComplex}
-        tableData={tableDataComplex}
+        // columnsData={columnsDataComplex}
+        // tableData={tableDataComplex}
       />
     </div>
   );
