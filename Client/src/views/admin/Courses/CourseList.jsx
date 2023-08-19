@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-//import UnfinishedCoursesCard from "C:/Users/hadil/Desktop/admin/src/components/card/UnfinishedCoursesCard";
 import axios from 'axios';
 import CourseCard from 'components/admincard/CourseCard.jsx';
-
-
-const CourseList = () => {
+import Card from "components/card";
+import { BsPlus } from "react-icons/bs";
+import { Link } from "react-router-dom";
+const CourseList = (props) => {
   const [coursesData, setCoursesData] = useState([]);
-
+  const { transparent } = props;
+  const [open, setOpen] = React.useState(false);
   useEffect(() => {
     // Fetch course data from your Node.js backend API
     const fetchCourses = async () => {
@@ -33,21 +34,30 @@ const CourseList = () => {
   };
 
 
- 
+
   // Concaténez le nom du fichier avec l'URL de base pour obtenir l'URL complète de l'image
- // const imageUrl = baseUrl + imageFileName;
+  // const imageUrl = baseUrl + imageFileName;
 
   return (
-    <div className="mx-auto bg-white py-10  md:px-11 lg:px-24" id="about">
-      <div className="flex items-center justify-between pb-8 pr-2">
-        <p className="text-left text-2xl font-bold text-[#000000]">
-          YOUR COURSES
-        </p>
-        <button className="rounded-lg bg-gray-200 py-2 px-6">See All</button>
+    <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
+      <div class="relative flex items-center justify-between">
+        <div class="text-xl font-bold  dark:text-white">Your courses</div>
+        <Link to={`form`}>
+          <button
+
+            className={`flex items-center text-xl hover:cursor-pointer ${transparent
+                ? "bg-none text-white hover:bg-none active:bg-none"
+                : "bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100 dark:bg-navy-700 dark:text-white dark:hover:bg-white/20 dark:active:bg-white/10"
+              } linear justify-center rounded-lg font-bold transition duration-200`}
+          >
+            <BsPlus style={{ color: 'black' }} size={30} />
+          </button>
+        </Link>
       </div>
+      <div class="mt-8 h-full overflow-x-scroll xl:overflow-hidden"></div>
       <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {coursesData.map((course, id) => (
-            <React.Fragment key={id}>
+        {coursesData.map((course, id) => (
+          <React.Fragment key={id}>
             <CourseCard
               id={course.id}
               title={course.title}
@@ -60,17 +70,17 @@ const CourseList = () => {
               description={course.description}
               onDelete={() => handleDeleteCourse(course.id)}
             />
-            
+
           </React.Fragment>
-            
-          ))}
-        </div>
-      
-    </div>
-      
+
+        ))}
+      </div>
+
+    </Card>
+
   );
-  
-  
+
+
 };
 
 
