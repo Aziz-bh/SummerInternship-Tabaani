@@ -46,7 +46,7 @@ const CourseOverview = () => {
 
   const selectedLesson = selectedChapter?.lessons[selectedLessonIndex];
 
-  const lessonId = selectedLesson.id;
+  const lessonId = selectedLesson?.id;
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
