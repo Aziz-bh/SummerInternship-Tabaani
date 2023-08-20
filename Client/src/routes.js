@@ -1,5 +1,5 @@
 import React from "react";
-import SignIn from "views/auth/SignIn";
+import SignIn from "./views/auth/SignIn";
 import {
   MdOutlineShoppingCart,
   MdBarChart,
@@ -8,16 +8,17 @@ import {
   MdSettings,
 } from "react-icons/md";
 import { HiOutlineCube } from "react-icons/hi";
-import Dashboard from "views/admin/MainDashboard";
-import UsersProgress from "views/admin/UsersProgress";
-import Courses from "views/user/Courses/index.jsx";
-import MyCourses from "views/admin/Courses/Courses";
-import CourseOverview from "views/user/CourseOverview/CourseOverview";
-import CourseOverviewad from "views/admin/CourseOverview/CourseOverviewad";
-import QuizPage from "views/user/quizzPage/QuizPage";
-import Settings from "views/user/SettingsPage/Settings";
-import LandingPage from "views/LandingPage/LandingPage";
-import CourseForm from "views/admin/Courses/CourseForm";
+import Dashboard from "./views/admin/MainDashboard";
+import UsersProgress from "./views/admin/UsersProgress";
+import Courses from "./views/user/Courses/index.jsx";
+import MyCourses from "./views/admin/Courses/Courses";
+import CourseOverview from "./views/user/CourseOverview/CourseOverview";
+import CourseOverviewad from "./views/admin/CourseOverview/CourseOverviewad";
+import QuizPage from "./views/user/quizzPage/QuizPage";
+import Settings from "./views/user/SettingsPage/Settings";
+import LandingPage from "./views/LandingPage/LandingPage";
+import CourseForm from "./views/admin/Courses/CourseForm";
+import SignUp from "views/auth/SignUp";
 
 const routes = [
   {
@@ -50,6 +51,13 @@ const routes = [
     path: "sign-in",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
+  },
+  {
+    name: "Sign Up",
+    layout: "/auth",
+    path: "sign-up",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <SignUp />,
   },
 
   {
