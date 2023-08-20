@@ -8,9 +8,13 @@ const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+  
+
  
 
   const { id } = useParams();
+  
+ 
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/course/${id}`)
@@ -23,10 +27,13 @@ const CourseOverviewad = () => {
         console.log(err.message);
       });
   }, [id]);
+  
 
-  const handleLessonClick = (lessonIndex) => {
-    setSelectedLessonIndex(lessonIndex);
-  };
+const handleLessonClick = async (index) => {
+ 
+  setSelectedLessonIndex(index); 
+  
+};
 
   const handleChapterClick = (chapterIndex) => {
     setSelectedChapterIndex(chapterIndex);
@@ -41,9 +48,10 @@ const selectedChapter = lessonData.chapters[selectedChapterIndex];
 const selectedLesson = selectedChapter && selectedChapter.lessons
     ? selectedChapter.lessons[selectedLessonIndex]
     : null;
+    const selectedLessonId = selectedLesson ? selectedLesson.id : undefined;
 
+ 
 
-    
   
 
   return (
