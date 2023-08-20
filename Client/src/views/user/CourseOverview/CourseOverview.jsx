@@ -42,9 +42,11 @@ const CourseOverview = () => {
     return <div>Loading...</div>;
   }
 
-  const selectedChapter = lessonData.chapters[selectedChapterIndex];
+  const selectedChapter = lessonData?.chapters[selectedChapterIndex];
+  console.log("selectedChapter", selectedChapter);
 
   const selectedLesson = selectedChapter?.lessons[selectedLessonIndex];
+  console.log("selectedLesson", selectedLesson);
 
   const lessonId = selectedLesson?.id;
 
@@ -71,17 +73,12 @@ const CourseOverview = () => {
           <LessonCard
             key={lessonData?.id}
             CourseTitle={lessonData?.title}
-            LessonTitle={selectedLesson?.title}
-            content={selectedLesson?.content}
-            UserPic={lessonData?.UserPic}
-            video={selectedLesson?.video}
+            LessonTitle={selectedLesson?.LessonTitle}
+            content={selectedLesson?.LessonDescription}
+            video={selectedLesson?.LessonVideo}
           />
         )}
-
-
-     {   lessonId && <Quiz lessonId={lessonId } />}
-
-
+        {/*<Quiz lessonId={lessonId } />*/}
       </div>
     </div>
   );

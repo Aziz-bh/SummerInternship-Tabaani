@@ -4,7 +4,7 @@
   "description": "SummerInternship",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "concurrently \"nodemon server\" \"cd.. && cd client && npm start\"",
     "dev": "nodemon server"
   },
   "author": "",
@@ -19,5 +19,8 @@
     "firebase-admin": "^11.10.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
