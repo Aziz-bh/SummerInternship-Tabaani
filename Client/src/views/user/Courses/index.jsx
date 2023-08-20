@@ -3,6 +3,7 @@ import useSubscribedCourses from "../../../hooks/userHook";
 import useFetchCourses from "../../../hooks/courseHook";
 import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 import CourseCard from "components/card/CourseCard";
+//the user dashboard
 
 const Courses = () => {
   const subscribedCourses = useSubscribedCourses();
