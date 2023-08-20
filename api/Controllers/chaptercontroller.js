@@ -162,9 +162,12 @@ const getAllChapters = async (req, res, next) => {
       const lessons = [];
       snapshot.forEach((doc) => {
         const lessonData = doc.data();
+       
         const lessonId = doc.id; // Get the ID of the document
-        lessons.push({ id: lessonId, ...lessonData }); // Include the id in the lesson object
+        lessons.push({ id: lessonId, ...lessonData });
+        console.log("hadil" + lessonId) // Include the id in the lesson object
       });
+     
   
       res.send(lessons);
     } catch (error) {

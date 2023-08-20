@@ -20,7 +20,7 @@ const ChaptersCard = ({ chapters = [], lessons = [],
   const [chaptersData, setChaptersData] = useState([]);
   const { id } = useParams();
   const { chapterId } = useParams();
-
+  const {lessonId}= useParams
   const toggleChapter = (index) => {
 
     if (openChapter !== index) {
@@ -34,6 +34,7 @@ const ChaptersCard = ({ chapters = [], lessons = [],
 
     }
   };
+
 
 
   const handleDeleteChapter = async (chapterId) => {
@@ -63,15 +64,25 @@ const ChaptersCard = ({ chapters = [], lessons = [],
         // Récupérer les leçons associées à chaque chapitre
         const chaptersWithLessons = await Promise.all(chaptersWithId.map(async (chapter) => {
           const lessonsResponse = await axios.get(`http://localhost:5000/api/course/${id}/chapter/${chapter.id}/getlesson`);
-          const lessons = lessonsResponse.data; // Assurez-vous que les données de la leçon sont correctes ici
+          const lessons = lessonsResponse.data; 
+          console.log("hello" + lessonsResponse.data);
+          const lessonsWithId = lessons.map((lesson) => ({
+            
+            id: lesson.id // Ajouter l'ID de la leçon
+          }));
+        
+          console.log("hello", lessonsWithId);// Assurez-vous que les données de la leçon sont correctes ici
           return {
             ...chapter,
-            lessons: lessons
+            lessons: lessons,
+            lesson: lessonsWithId,
+           
           };
         }));
 
         setChaptersData(chaptersWithLessons);
-        console.log("hello" + chaptersWithLessons)
+        console.log(chaptersWithLessons);
+       
       } catch (error) {
         console.error(error);
       }
@@ -110,15 +121,16 @@ const ChaptersCard = ({ chapters = [], lessons = [],
 
           const response = await axios.post(
             `http://localhost:5000/api/course/${id}/chapter/${chapter.id}/add-lesson`,
-            {
+            {  
               LessonTitle: newlessonTitle,
               LessonDescription: newlessonDescription,
               lessonVideo: newLessonvideo,
             }
           );
-          console.log("lesson" + newLessonvideo)
+         
           console.log("Lesson added successfully");
         }
+       
       }
     } catch (error) {
       console.error(error);
