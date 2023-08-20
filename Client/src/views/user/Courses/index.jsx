@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 import CourseCard from "components/card/CourseCard";
 import { useParams } from "react-router-dom";
+//the user dashboard
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
