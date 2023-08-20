@@ -40,4 +40,7 @@ Courserouter.get("/course/:courseId/getchapter/:chapterId", getchapter);
 Courserouter.post("/course/:courseId/chapter/:chapterId/add-lesson", addLesson);
 Courserouter.get("/course/:courseId/chapter/:chapterId/getlesson", getLesson);
 Courserouter.get("/course/:courseId/getchapter", getAllChapters);
+
+
+
 module.exports = Courserouter;

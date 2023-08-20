@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 const ChaptersCard = ({ chapters = [], lessons = [],
   onLessonClick,
   onChapterClick,
+
 }) => {
   const [openChapter, setOpenChapter] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -19,18 +20,16 @@ const ChaptersCard = ({ chapters = [], lessons = [],
   const [newLessonvideo, setNewLessonvideo] = useState("");
   const [chaptersData, setChaptersData] = useState([]);
   const { id } = useParams();
-  const { chapterId } = useParams();
-  const {lessonId}= useParams
+ 
   const toggleChapter = (index) => {
 
     if (openChapter !== index) {
       setOpenChapter(index);
 
-      console.log(index);
+      console.log("chap"+index);
     } else {
       setOpenChapter(null);
-      //const{chapterId} = useParams();
-      console.log("chapter" + chapterId);
+      
 
     }
   };
@@ -113,12 +112,12 @@ const ChaptersCard = ({ chapters = [], lessons = [],
     setShowForm(false);
   };
 
-  const handleAddLesson = async () => {
+  const handleAddLesson = async (e) => {
+    e.preventDefault();
     try {
       if (openChapter !== null) {
         const chapter = chaptersData.find((chapter) => chapter.id === openChapter);
         if (chapter) {
-
           const response = await axios.post(
             `http://localhost:5000/api/course/${id}/chapter/${chapter.id}/add-lesson`,
             {  
@@ -127,16 +126,18 @@ const ChaptersCard = ({ chapters = [], lessons = [],
               lessonVideo: newLessonvideo,
             }
           );
-         
-          console.log("Lesson added successfully");
+          
+          const newLessonId = response.data.lessonId;
+          
+          console.log("Lesson added successfully with ID:", newLessonId);
         }
-       
       }
     } catch (error) {
       console.error(error);
     }
     setShowForm2(false);
   };
+  
 
 
 
@@ -195,7 +196,9 @@ const ChaptersCard = ({ chapters = [], lessons = [],
                         className="cursor-pointer py-2 pl-4"
                         onClick={() => {
                           onChapterClick(index);
-                          onLessonClick(lessonIndex);
+                          onLessonClick(lesson.id,lessonIndex);
+                      
+
                         }}
                       >
                         {lesson.LessonTitle}

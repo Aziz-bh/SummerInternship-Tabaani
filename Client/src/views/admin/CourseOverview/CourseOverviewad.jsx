@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+
 
 const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+  const [selectedLessonId, setSelectedLessonId] = useState("")
  
 
   const { id } = useParams();
@@ -27,11 +28,12 @@ const CourseOverviewad = () => {
   }, [id]);
   
 
-const handleLessonClick = async (index) => {
- 
-  setSelectedLessonIndex(index); 
+  const handleLessonClick = async (id,index) => {
+    setSelectedLessonIndex(index);
+    setSelectedLessonId(id);
   
-};
+  };
+
 
   const handleChapterClick = (chapterIndex) => {
     setSelectedChapterIndex(chapterIndex);
@@ -47,9 +49,8 @@ const selectedLesson = selectedChapter && selectedChapter.lessons
     ? selectedChapter.lessons[selectedLessonIndex]
     : null;
 
-
-    
-  
+  //  console.log("lessondata", selectedLesson)
+  console.log("lessonid :  ", selectedLessonId)
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
