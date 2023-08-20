@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth } from "../../config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
@@ -13,6 +13,11 @@ export default function SignUp() {
   const handleSignUp = async (event) => {
     event.preventDefault();
 
+    if (password !== confirmPassword) {
+      console.error("Passwords do not match");
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -20,6 +25,11 @@ export default function SignUp() {
         password
       );
       const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: fullName,
+      });
+
       console.log("User registered:", user);
 
       navigate("/auth/sign-in");
@@ -47,15 +57,15 @@ export default function SignUp() {
             placeholder="Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none"
+            className="mt-2 h-12 w-full rounded-xl border p-3 text-sm outline-none"
           />
           <input
             id="email"
-            type="text"
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none"
+            className="mt-2 h-12 w-full rounded-xl border p-3 text-sm outline-none"
           />
           <input
             id="password"
@@ -63,7 +73,7 @@ export default function SignUp() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none"
+            className="mt-2 h-12 w-full rounded-xl border p-3 text-sm outline-none"
           />
           <input
             id="confirmPassword"
@@ -71,13 +81,13 @@ export default function SignUp() {
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none"
+            className="mt-2 h-12 w-full rounded-xl border p-3 text-sm outline-none"
           />
         </div>
 
         <button
           type="submit"
-          className="linear mt-2 w-full rounded-xl bg-yellow-500 py-[12px] text-base font-medium text-white transition duration-200 dark:bg-yellow-500 dark:text-white"
+          className="linear mt-2 w-full rounded-xl bg-yellow-500 py-[12px] text-base font-medium text-white transition duration-200"
         >
           Sign Up
         </button>

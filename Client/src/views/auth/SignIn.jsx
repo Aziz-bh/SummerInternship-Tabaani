@@ -108,7 +108,7 @@ export default function SignIn() {
             Not registered yet?
           </span>
           <a
-            href=" "
+            href="/auth/sign-up"
             className="ml-1 text-sm font-medium text-yellow-500 hover:text-yellow-600 dark:text-white"
           >
             Create an account

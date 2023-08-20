@@ -42,7 +42,7 @@ const CourseOverview = () => {
     return <div>Loading...</div>;
   }
 
-  const selectedChapter = lessonData.chapters[selectedChapterIndex];
+  const selectedChapter = lessonData?.chapters[selectedChapterIndex];
 
   const selectedLesson = selectedChapter?.lessons[selectedLessonIndex];
 
