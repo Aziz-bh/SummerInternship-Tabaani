@@ -42,11 +42,13 @@ const CourseOverview = () => {
     return <div>Loading...</div>;
   }
 
-  const selectedChapter = lessonData.chapters[selectedChapterIndex];
+  const selectedChapter = lessonData?.chapters[selectedChapterIndex];
+  console.log("selectedChapter", selectedChapter);
 
   const selectedLesson = selectedChapter?.lessons[selectedLessonIndex];
+  console.log("selectedLesson", selectedLesson);
 
-  const lessonId = selectedLesson.id;
+  const lessonId = selectedLesson?.id;
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
@@ -71,10 +73,9 @@ const CourseOverview = () => {
           <LessonCard
             key={lessonData?.id}
             CourseTitle={lessonData?.title}
-            LessonTitle={selectedLesson?.title}
-            content={selectedLesson?.content}
-            UserPic={lessonData?.UserPic}
-            video={selectedLesson?.video}
+            LessonTitle={selectedLesson?.LessonTitle}
+            content={selectedLesson?.LessonDescription}
+            video={selectedLesson?.LessonVideo}
           />
         )}
         {/*<Quiz lessonId={lessonId } />*/}

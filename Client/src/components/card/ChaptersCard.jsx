@@ -66,7 +66,7 @@ const ChaptersCard = ({
               <ul className="mt-2">
                 {chapter.lessons && chapter.lessons.length > 0 ? (
                   chapter.lessons.map((lesson, lessonIndex) =>
-                    lesson && lesson.title ? (
+                    lesson && lesson.LessonTitle ? (
                       <li
                         key={lessonIndex}
                         className="cursor-pointer py-2 pl-4"
@@ -76,7 +76,7 @@ const ChaptersCard = ({
                         }}
                       >
                         <span className="hover:text-yellow-500">
-                          {lesson.title}
+                          {lesson.LessonTitle}
                         </span>
                         {/* Quizzes */}
                         {lesson.quizzes && lesson.quizzes.length > 0 ? (

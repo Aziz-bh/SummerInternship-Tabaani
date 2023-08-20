@@ -4,15 +4,7 @@ import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({
-  title,
-  thumbnail,
-  difficulty,
-  students,
-  chapters,
-  extra,
-  id,
-}) => {
+const CourseCard = ({ title, image, level, chapters, extra, id, price }) => {
   return (
     <Card
       extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
@@ -20,7 +12,7 @@ const CourseCard = ({
       <div className="h-full w-full">
         <div className="relative w-full">
           <img
-            src={thumbnail}
+            src={image}
             className="mb-3 h-56 w-full rounded-xl object-cover 3xl:h-full 3xl:w-full"
             alt=""
           />
@@ -32,19 +24,17 @@ const CourseCard = ({
           </div>
         </div>
         <div className="mt-1  mb-6  flex justify-between">
-          <div className="flex  items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3">
             <p className="text-md font-medium">Chapters</p>
             <p className="text-md font-semibold  dark:text-white">{chapters}</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
-            <p className="text-md font-medium">Students</p>
-            <p className="text-md font-semibold  dark:text-white">{students}</p>
+            <p className="text-md font-medium">Price</p>
+            <p className="text-md font-semibold  dark:text-white">{price}</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
             <FaTrophy size={20} color="silver" />
-            <p className="text-md font-semibold  dark:text-white">
-              {difficulty}
-            </p>
+            <p className="text-md font-semibold  dark:text-white">{level}</p>
           </div>
         </div>
         <div className="mt-1  mb-4 flex justify-between">

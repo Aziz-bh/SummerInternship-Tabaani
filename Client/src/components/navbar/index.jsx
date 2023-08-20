@@ -6,10 +6,33 @@ import { BsArrowBarUp } from "react-icons/bs";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import avatar from "assets/img/avatars/avatar4.png";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const navigate = useNavigate();
+
+  console.log("user ", user);
   const { onOpenSidenav, brandText } = props;
   const [darkmode, setDarkmode] = React.useState(false);
+
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("user");
+
+    // Sign out using Firebase Authentication
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Redirect the user to the sign-in page
+        navigate("/auth/sign-in");
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
 
   return (
     <nav className="0 sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl p-2 backdrop-blur-xl ">
@@ -134,7 +157,7 @@ const Navbar = (props) => {
               <div className="p-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    👋 Hey, Hamza
+                    👋 Hey, {user?.displayName}
                   </p>
                 </div>
               </div>
@@ -142,15 +165,9 @@ const Navbar = (props) => {
 
               <div className="flex flex-col p-4">
                 <a
-                  href=" "
-                  className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
-                >
-                  Profile Settings
-                </a>
-
-                <a
-                  href=" "
+                  href="#"
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
+                  onClick={handleLogout}
                 >
                   Log Out
                 </a>
@@ -163,5 +180,6 @@ const Navbar = (props) => {
     </nav>
   );
 };
+//sss
 
 export default Navbar;
