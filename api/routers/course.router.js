@@ -1,5 +1,6 @@
 const express = require("express");
 const Courserouter = express.Router();
+const multer = require('multer');
 
 const {
   addCourse,
@@ -15,10 +16,14 @@ const {
   updatechapter,
   getchapter,
   getAllChapters,
+  addLesson,
+  getLesson
 } = require("../Controllers/chaptercontroller");
-const upload = require("../multerconfig");
-const { addLessonToChapter } = require("../Controllers/LessonController");
 
+//const upload = multer({ dest: 'temp/' }); // Specify your temp storage path
+ const upload = require("../multerconfig");
+
+//Courserouter.post('/course', upload.single('file'), addCourse);
 Courserouter.post('/course', upload.fields([
   { name: 'image', maxCount: 1 },
   { name: 'userpic', maxCount: 1 }
@@ -32,5 +37,7 @@ Courserouter.post("/course/:courseId/add-chapter", addchapter);
 Courserouter.delete("/course/:courseId/deletechapter/:chapterId",deletechapter);
 Courserouter.put("/course/:courseId/updatechapter/:chapterId", updatechapter);
 Courserouter.get("/course/:courseId/getchapter/:chapterId", getchapter);
+Courserouter.post("/course/:courseId/chapter/:chapterId/add-lesson", addLesson);
+Courserouter.get("/course/:courseId/chapter/:chapterId/getlesson", getLesson);
 Courserouter.get("/course/:courseId/getchapter", getAllChapters);
 module.exports = Courserouter;

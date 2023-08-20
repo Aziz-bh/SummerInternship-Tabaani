@@ -1,30 +1,78 @@
-import CardMenu from "components/card/CardMenu";
+
 import Card from "components/card";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
-} from "react-table";
-import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
-import { useMemo } from "react";
+} from 'react-table';
+import { MdCheckCircle, MdCancel } from "react-icons/md";
 import Progress from "components/progress";
-const ComplexTable = (props) => {
-  const { columnsData, tableData } = props;
+const ComplexTable = () => {
+  const [tableData, setTableData] = useState([]);
 
-  const columns = useMemo(() => columnsData, [columnsData]);
-  const data = useMemo(() => tableData, [tableData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/users'); // Replace USER_ID with the actual user ID
+        const responseData = response.data;
+        console.log(responseData.usersWithCourses);
+        // Check if the response has usersWithCourses array
+        if (Array.isArray(responseData.usersWithCourses)) {
+          const formattedData = responseData.usersWithCourses.map(user => ({
+            picture: user.userData.ProfilePic,
+            name: user.userData.firstname, // Replace with the actual user property
+            status: user.userData.verified ? "Verified" : "Unverified",
+            country: user.userData.country,
+            courses: user.subscribedCourses.map(course => course.title),
+            progress: user.subscriptions.map(subscription => subscription.progress),
+            // Replace with the actual progress property
+          }));
+          console.log("hh" + formattedData)
+          setTableData(formattedData);
+        } else {
+          console.error('Invalid API response:', responseData);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
+    fetchData();
+  }, []);
+
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: '',
+        accessor: 'picture', // Replace with the correct accessor for progress
+      },
+      {
+        Header: 'NAME',
+        accessor: 'name',
+      },
+      {
+        Header: 'STATUS',
+        accessor: 'status',
+      },
+      {
+        Header: 'COUNTRY',
+        accessor: 'country', // Replace with the correct accessor for date
+      },
+      {
+        Header: 'COURSES',
+        accessor: 'courses', // Replace with the correct accessor for date
+      },
+      {
+        Header: 'PROGRESS',
+        accessor: 'progress', // Replace with the correct accessor for progress
+      },
+
+    ],
+    []
   );
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -32,14 +80,23 @@ const ComplexTable = (props) => {
     page,
     prepareRow,
     initialState,
-  } = tableInstance;
+  } = useTable(
+    {
+      columns,
+      data: tableData,
+    },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
+
   initialState.pageSize = 5;
 
   return (
     <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between">
         <div class="text-xl font-bold  dark:text-white">Users Progress</div>
-        <CardMenu />
+
       </div>
 
       <div class="mt-8 h-full overflow-x-scroll xl:overflow-hidden">
@@ -68,21 +125,28 @@ const ComplexTable = (props) => {
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => {
                     let data = "";
-                    if (cell.column.Header === "NAME") {
+                    console.log("hello" + cell.value);
+                    if (cell.column.Header === "") {
                       data = (
                         <div className="flex items-center gap-2">
                           <div className=" h-[60px] w-[60px]  rounded-full border-[4px] border-white bg-orange-400 dark:!border-navy-700">
                             <img
                               className="h-full w-full rounded-full"
-                              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80"
-                            />
-                          </div>
+                              src={cell.value}
 
-                          <p className="text-sm font-bold text-navy-700 dark:text-white">
-                            {cell.value}
-                          </p>
+                            />
+
+                          </div>
                         </div>
                       );
+                    }
+                    else if (cell.column.Header === "NAME") {
+                      data = (
+                        <p className="text-sm font-bold text-navy-700 dark:text-white">
+                          {cell.value}
+                        </p>
+                      );
+
                     } else if (cell.column.Header === "STATUS") {
                       data = (
                         <div className="flex items-center gap-2">
@@ -98,17 +162,32 @@ const ComplexTable = (props) => {
                           </p>
                         </div>
                       );
-                    } else if (cell.column.Header === "DATE") {
+                    } else if (cell.column.Header === "COUNTRY") {
                       data = (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
                           {cell.value}
                         </p>
                       );
-                    } else if (cell.column.Header === "PROGRESS") {
+                    } else if (cell.column.Header === "COURSES") {
                       data = (
-                        <div className="w- flex items-center gap-5">
-                          <Progress width="w-48" value={cell.value} />
-                          <p className="font-bold">{cell.value} %</p>
+                        <div className="flex flex-col">
+                          {cell.value.map((course, index) => (
+                            <div key={index} className="flex items-center gap-2 ">
+                              <p className="font-bold">{course}</p>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+                    else if (cell.column.Header === "PROGRESS") {
+                      data = (
+                        <div className="flex flex-col">
+                          {cell.value.map((progress, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                              <Progress width="w-48" value={progress} />
+                              <p className="font-bold">{progress}%</p>
+                            </div>
+                          ))}
                         </div>
                       );
                     }

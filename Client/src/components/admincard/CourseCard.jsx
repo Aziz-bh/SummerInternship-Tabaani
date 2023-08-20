@@ -5,12 +5,12 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-const CourseCard = ({ title, image, level,price,chaptersnumber, id , onDelete}) => {
- 
- const baseUrl = 'http://localhost:5000';
-const imageUrl = `${baseUrl}/api//image/${image}`;
+const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }) => {
 
- 
+  const baseUrl = 'http://localhost:5000';
+  const imageUrl = `${baseUrl}/api//image/${image}`;
+
+
   const handleDeleteCourse = async () => {
     try {
       await onDelete(id);
@@ -18,21 +18,19 @@ const imageUrl = `${baseUrl}/api//image/${image}`;
       console.error("Error deleting course:", error);
     }
   };
-  
+
   return (
     <Card
-     
+
     >
-      <div className="h-full w-full">
-      <div className="relative w-90 h-80">
-  <img
-    src={imageUrl}
-    className="mb-3 h-full w-full rounded-xl object-cover"
-    alt=""
-  />
-</div>
-
-
+      <div className="h-full w-[20rem]">
+        <div className="relative w-full">
+          <img
+            src={imageUrl}
+            className="mb-3 h-56 w-full rounded-xl object-cover 3xl:h-full 3xl:w-full"
+            alt=""
+          />
+        </div>
 
         <div className="p-![18px] mb-6 flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
           <div>
@@ -55,20 +53,20 @@ const imageUrl = `${baseUrl}/api//image/${image}`;
         </div>
         <div className="mt-1  mb-4 flex justify-between">
 
-          
-        <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1 pl-6 pr-2 text-center text-sm font-medium capitalize leading-tight text-white"
-          onClick={() => handleDeleteCourse()}>  Delete   <MdOutlineKeyboardArrowRight size={20} /> 
-        </button>
-  
+
+          <button className="flex items-center justify-start gap-2 rounded-[10px] bg-[#000000] py-1 pl-6 pr-2 text-center text-sm font-medium capitalize leading-tight text-white"
+            onClick={() => handleDeleteCourse()}>  Delete   <MdOutlineKeyboardArrowRight size={20} />
+          </button>
+
           <div></div>
           <div>
-          <Link to={`coursead/${id}`}>
-            
-            <button className="flex items-center justify-start gap-2 h-[50px] rounded-[10px] bg-[#000000] py-1  pl-6 pr-2  text-center text-sm  font-medium capitalize leading-tight text-white">
-             Update
-            <MdOutlineKeyboardArrowRight size={20} />
-            </button>
-          </Link>
+            <Link to={`coursead/${id}`}>
+
+              <button className="flex items-center justify-start gap-2 h-[50px] rounded-[10px] bg-[#000000] py-1  pl-6 pr-2  text-center text-sm  font-medium capitalize leading-tight text-white">
+                Update
+                <MdOutlineKeyboardArrowRight size={20} />
+              </button>
+            </Link>
           </div>
           <div
             style={{

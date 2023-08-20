@@ -1,31 +1,24 @@
 import React from "react";
-
-// Admin Imports
-// Auth Imports
 import SignIn from "views/auth/SignIn";
-
-// Icon Imports
 import {
   MdOutlineShoppingCart,
   MdBarChart,
   MdLock,
   MdDashboard,
   MdSettings,
-  
 } from "react-icons/md";
-import {
-	HiOutlineCube,
-} from 'react-icons/hi'
+import { HiOutlineCube } from "react-icons/hi";
 import Dashboard from "views/admin/MainDashboard";
 import UsersProgress from "views/admin/UsersProgress";
 import Courses from "views/user/Courses/index.jsx";
-import MyCourses from "views/admin/Courses/Courses.jsx";
+import MyCourses from "views/admin/Courses/Courses";
 import CourseOverview from "views/user/CourseOverview/CourseOverview";
 import CourseOverviewad from "views/admin/CourseOverview/CourseOverviewad";
 import QuizPage from "views/user/quizzPage/QuizPage";
 import Settings from "views/user/SettingsPage/Settings";
 import LandingPage from "views/LandingPage/LandingPage";
 import NewQuiz from "views/admin/quiz";
+import CourseForm from "views/admin/Courses/CourseForm";
 
 const courseOverviewRoute = {
   // Create a separate variable for Course Overview
@@ -34,6 +27,7 @@ const courseOverviewRoute = {
   path: "course/:id",
   component: <CourseOverview />,
 };
+
 
 const routes = [
   {
@@ -44,8 +38,7 @@ const routes = [
     component: <Dashboard />,
     secondary: true,
   },
-  
- 
+
   {
     name: "Hosts",
     layout: "/admin",
@@ -60,7 +53,7 @@ const routes = [
     path: "Courses",
     component: <MyCourses />,
   },
- 
+
   {
     name: "Sign In",
     layout: "/auth",
@@ -88,6 +81,13 @@ const routes = [
     layout: "/admin",
     path: "Courses/coursead/:id",
     component: <CourseOverviewad />,
+    hideInSidebar: true,
+  },
+  {
+    name: "form",
+    layout: "/admin",
+    path: "Courses/form",
+    component: <CourseForm />,
     hideInSidebar: true,
   },
   {

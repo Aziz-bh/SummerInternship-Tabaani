@@ -8,8 +8,9 @@ const chapter = require("../models/chapter.model");
 const addchapter = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
-    const { title, description, lessons } = req.body;
-    if (!title || !description) {
+    const { title, description } = req.body;
+
+    if (!title || !description ) {
       res.status(400).send("Invalid chapter data");
       return;
     }
@@ -17,25 +18,51 @@ const addchapter = async (req, res, next) => {
     const chapterData = {
       title,
       description,
-      lessons: lessons || [],
     };
+    
 
     const courseRef = firestore.collection("courses").doc(courseId);
-
     const courseSnapshot = await courseRef.get();
+
     if (!courseSnapshot.exists) {
       res.status(404).send("Course not found");
       return;
     }
-
     const chaptersCollection = courseRef.collection("chapters");
     await chaptersCollection.add(chapterData);
+    
 
     res.send("Chapter saved and added to course successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+const addLesson = async (req, res, next) => {
+  try {
+    const courseId = req.params.courseId;
+    const chapterId = req.params.chapterId;
+    const { LessonTitle, LessonDescription, lessonVideo } = req.body;
+
+    const courseRef = firestore.collection("courses").doc(courseId);
+    const chapterRef = courseRef.collection("chapters").doc(chapterId);
+
+    const lessonData = {
+      LessonTitle,
+      lessonVideo,
+      LessonDescription,
+    };
+
+    // Ajouter la leçon à la sous-collection 'lessons'
+    await chapterRef.collection("lessons").add(lessonData);
+
+    res.send("Lesson added to chapter successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
+
 
 /********************************************************/
 
@@ -103,7 +130,7 @@ const getchapter = async (req, res, next) => {
 const getAllChapters = async (req, res, next) => {
   try {
     const courseId = req.params.courseId;
-
+    //const chapterId =req.params.chapterId;
     const courseRef = firestore.collection("courses").doc(courseId);
     const chaptersCollection = courseRef.collection("chapters");
     const snapshot = await chaptersCollection.get();
@@ -111,19 +138,48 @@ const getAllChapters = async (req, res, next) => {
     const chapters = [];
     snapshot.forEach((doc) => {
       const chapterData = doc.data();
-      chapterData.chapterId = doc.id;
-      chapters.push(chapterData);
+      const chapterId = doc.id; // Get the ID of the document
+      chapters.push({ id: chapterId, ...chapterData }); // Include the id in the chapter object
+      console.log(chapterId);
+      
     });
 
     res.send(chapters);
   } catch (error) {
     res.status(400).send(error.message);
   }};
+  const getLesson = async (req, res, next) => {
+    try {
+      const courseId = req.params.courseId;
+      const chapterId = req.params.chapterId;
+  
+      const courseRef = firestore.collection("courses").doc(courseId);
+      const chapterRef = courseRef.collection("chapters").doc(chapterId);
+  
+      const lessonsCollection = chapterRef.collection("lessons");
+      const snapshot = await lessonsCollection.get();
+  
+      const lessons = [];
+      snapshot.forEach((doc) => {
+        const lessonData = doc.data();
+        const lessonId = doc.id; // Get the ID of the document
+        lessons.push({ id: lessonId, ...lessonData }); // Include the id in the lesson object
+      });
+  
+      res.send(lessons);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+  
+  
 
 module.exports = {
+  getLesson,
   addchapter,
   deletechapter,
   updatechapter,
   getchapter,
-  getAllChapters
+  getAllChapters, 
+  addLesson
 };

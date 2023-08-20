@@ -276,6 +276,69 @@ const GetUserSubscribedCourses = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const GetUsers = async (req, res) => {
+  try {
+    const usersRef = firestore.collection("users");
+    const usersSnapshot = await usersRef.get();
+
+    if (usersSnapshot.empty) {
+      return res.status(200).json({
+        message: "No users found",
+        usersWithCourses: [],
+      });
+    }
+
+    const usersWithCourses = [];
+
+    for (const userDoc of usersSnapshot.docs) {
+      const userData = userDoc.data();
+      const userId = userDoc.id;
+
+      const subscriptionRef = firestore
+        .collection("subscriptions")
+        .where("userId", "==", userId);
+
+      const subscriptionSnapshot = await subscriptionRef.get();
+
+      if (!subscriptionSnapshot.empty) {
+        const courses = [];
+        const subscriptions = []; 
+
+        for (const doc of subscriptionSnapshot.docs) {
+          const courseId = doc.data().courseId;
+          const courseRef = firestore.collection("courses").doc(courseId);
+          const courseDoc = await courseRef.get();
+
+          if (courseDoc.exists) {
+            const courseData = courseDoc.data();
+            courseData.id = courseId;
+            courses.push(courseData);
+            subscriptions.push(doc.data()); 
+          }
+        }
+
+        const userWithCourses = {
+          userId: userId,
+          userData: userData,
+          subscribedCourses: courses,
+          subscriptions:subscriptions,
+        };
+
+        usersWithCourses.push(userWithCourses);
+      }
+    }
+
+    return res.status(200).json({
+      message: "Users with subscribed courses retrieved successfully",
+      usersWithCourses: usersWithCourses,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 
 module.exports = {
   verifyUserCompletion,
@@ -283,4 +346,5 @@ module.exports = {
   SubscribeToCourse,
   GenerateCertificate,
   GetUserSubscribedCourses,
+  GetUsers
 };

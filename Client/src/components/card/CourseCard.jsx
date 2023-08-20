@@ -32,7 +32,7 @@ const CourseCard = ({
           </div>
         </div>
         <div className="mt-1  mb-6  flex justify-between">
-          <div className="flex  items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3">
             <p className="text-md font-medium">Chapters</p>
             <p className="text-md font-semibold  dark:text-white">{chapters}</p>
           </div>
