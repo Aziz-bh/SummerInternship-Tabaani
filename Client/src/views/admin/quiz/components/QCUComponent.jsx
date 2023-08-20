@@ -52,7 +52,7 @@ const QCUComponent = () => {
         ))}
       </ul>
       <button               className="text-xl px-20"
-              style={{ maxWidth: '100%' }}  onClick={handleAddOption}>Add Option</button>
+              style={{ maxWidth: '100%' }}   onClick={handleAddOption}>Add Option</button>
       </div>
       </div>
       </div>
