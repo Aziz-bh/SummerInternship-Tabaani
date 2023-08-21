@@ -52,6 +52,7 @@ const routes = [
     path: "sign-in",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
+    hideInSidebar: true,
   },
   {
     name: "Sign Up",
@@ -59,6 +60,7 @@ const routes = [
     path: "sign-up",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignUp />,
+    hideInSidebar: true,
   },
   //the user dashboard
   {
@@ -114,7 +116,8 @@ const routes = [
     layout: "/admin",
     path: "quizzes/:lessonId",
     icon: <MdLock className="h-6 w-6" />,
-    component: <NewQuiz/>,
+    component: <NewQuiz />,
+    hideInSidebar: true,
   },
 ];
 

@@ -2,46 +2,45 @@
 const firebase = require("../db");
 const Course = require("../models/course.model");
 const firestore = firebase.firestore();
-const multer = require('multer');
-
+const multer = require("multer");
 
 /****************************************************** */
-
-const difficulties = ["Beginner", "Intermediate", "Hard"];
-
 
 const addCourse = async (req, res) => {
   try {
     let image = null;
-    let userpic = null;
 
-    if (req.files) {
-      // Assuming you are using 'image' and 'userpic' as the field names for the images in the form
-      if (req.files.image) {
-        console.log("Image details:", req.files.image);
-        image = req.files.image[0].filename;
-      }
+    if (req.files && req.files.image) {
+      console.log("Image details:", req.files.image);
+      image = req.files.image[0].filename;
+    }
 
-      if (req.files.userpic) {
-        console.log("Userpic details:", req.files.userpic);
-        userpic = req.files.userpic[0].filename;
-        console.log("userpic"+userpic)
-      }}
-    const { title, level,instructor, price, chaptersnumber,  description } = req.body;
+    const { title, level, instructorId, price, description } = req.body;
+
+    // Retrieve instructor details from Firestore based on instructorId
+    const instructorRef = firestore.collection("users").doc(instructorId);
+    const instructorSnapshot = await instructorRef.get();
+    if (!instructorSnapshot.exists) {
+      return res.status(404).send("Instructor not found");
+    }
+
+    const instructorData = instructorSnapshot.data();
 
     const courseData = {
       title,
       level,
-      userpic,
-      chaptersnumber,
       description,
-      instructor,
+      instructor: {
+        id: instructorId,
+        fullName: instructorData.displayName,
+        userpic: instructorData.photoURL,
+      },
       price,
-      image // Utilisez le nom de fichier généré par Multer (avec l'extension)
+      image,
     };
 
-    // Enregistrez courseData dans Firestore
-    await firestore.collection("courses").doc().set(courseData);
+    // Save courseData in Firestore
+    await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);
@@ -60,7 +59,7 @@ const addCourse = async (req, res) => {
 //     if (!file) {
 //       return res.status(400).json({ error: 'No file provided' });
 //     }
-    
+
 //     const filename = file.originalname;
 //     const uploadPath = `path/in/firebase/storage/${filename}`;
 //     const fileRef = storageRef.child(uploadPath); // Use storageRef to get a reference to the file
@@ -143,15 +142,15 @@ const getAllcourses = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
-const path = require('path');
+const path = require("path");
 
 const getImage = async (req, res) => {
   try {
     const imageName = req.params.imageName;
-    const imagePath = path.join(__dirname, '..', 'uploads', imageName);
-    console.log("tessstt")
+    const imagePath = path.join(__dirname, "..", "uploads", imageName);
+    console.log("tessstt");
 
-    console.log('imagePath:', imagePath); // Add this line for debugging
+    console.log("imagePath:", imagePath); // Add this line for debugging
 
     res.sendFile(imagePath, (error) => {
       if (error) {
@@ -163,7 +162,6 @@ const getImage = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 /********************************************************* */
 
@@ -188,15 +186,21 @@ const getcourse = async (req, res, next) => {
 
     for (const chapterDoc of chaptersSnapshot.docs) {
       const chapterData = chapterDoc.data();
-      
+
       // Fetch lessons for the current chapter
       const lessonsRef = chapterDoc.ref.collection("lessons");
       const lessonsSnapshot = await lessonsRef.get();
-      const lessons = lessonsSnapshot.docs.map(lessonDoc => lessonDoc.data());
+      const lessons = lessonsSnapshot.docs.map((lessonDoc) => {
+        const lessonData = lessonDoc.data();
+        return {
+          id: lessonDoc.id,
+          ...lessonData,
+        };
+      });
 
       chapters.push({
         ...chapterData,
-        lessons: lessons
+        lessons: lessons,
       });
     }
 
@@ -211,7 +215,6 @@ const getcourse = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
-
 
 /******************************************** */
 const updatecourse = async (req, res, next) => {
@@ -244,5 +247,5 @@ module.exports = {
   getcourse,
   updatecourse,
   deletecourse,
-  getImage
+  getImage,
 };

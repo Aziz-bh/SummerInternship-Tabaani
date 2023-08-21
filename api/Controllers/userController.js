@@ -39,11 +39,11 @@ const SubscribeToCourse = async (req, res) => {
       await firestore.collection("subscriptions").add(newSubscription);
 
       return res.status(200).json({
-        message: `User ${firstname} subscribed to the course successfully`,
+        message: `User subscribed to the course successfully`,
       });
     } else {
-      return res.status(200).json({
-        message: `User ${firstname} is already subscribed to the course`,
+      return res.status(400).json({
+        message: `User is already subscribed to the course`,
       });
     }
   } catch (error) {
@@ -255,15 +255,40 @@ const GetUserSubscribedCourses = async (req, res) => {
 
     const courses = [];
 
-    // Loop through each subscription and fetch course information
     for (const doc of subscriptionSnapshot.docs) {
       const courseId = doc.data().courseId;
+      const progress = doc.data().progress;
       const courseRef = firestore.collection("courses").doc(courseId);
       const courseDoc = await courseRef.get();
 
       if (courseDoc.exists) {
         const courseData = courseDoc.data();
-        courseData.id = courseId; // Add course ID to the course data
+        courseData.id = courseId;
+        courseData.progress = progress;
+
+        // Fetch associated chapters for the course
+        const chaptersSnapshot = await courseRef.collection("chapters").get();
+        const chapters = [];
+
+        for (const chapterDoc of chaptersSnapshot.docs) {
+          const chapterData = chapterDoc.data();
+          chapterData.id = chapterDoc.id;
+
+          // Fetch associated lessons for the chapter
+          const lessonsSnapshot = await chapterDoc.ref
+            .collection("lessons")
+            .get();
+          const lessons = lessonsSnapshot.docs.map((lessonDoc) => {
+            const lessonData = lessonDoc.data();
+            lessonData.id = lessonDoc.id;
+            return lessonData;
+          });
+
+          chapterData.lessons = lessons;
+          chapters.push(chapterData);
+        }
+
+        courseData.chapters = chapters;
         courses.push(courseData);
       }
     }
@@ -276,6 +301,7 @@ const GetUserSubscribedCourses = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 const GetUsers = async (req, res) => {
   try {
     const usersRef = firestore.collection("users");
@@ -302,7 +328,7 @@ const GetUsers = async (req, res) => {
 
       if (!subscriptionSnapshot.empty) {
         const courses = [];
-        const subscriptions = []; 
+        const subscriptions = [];
 
         for (const doc of subscriptionSnapshot.docs) {
           const courseId = doc.data().courseId;
@@ -313,7 +339,7 @@ const GetUsers = async (req, res) => {
             const courseData = courseDoc.data();
             courseData.id = courseId;
             courses.push(courseData);
-            subscriptions.push(doc.data()); 
+            subscriptions.push(doc.data());
           }
         }
 
@@ -321,7 +347,7 @@ const GetUsers = async (req, res) => {
           userId: userId,
           userData: userData,
           subscribedCourses: courses,
-          subscriptions:subscriptions,
+          subscriptions: subscriptions,
         };
 
         usersWithCourses.push(userWithCourses);
@@ -337,14 +363,50 @@ const GetUsers = async (req, res) => {
   }
 };
 
+const getUserRole = async (req, res) => {
+  const uid = req.params.uid;
 
+  try {
+    // Fetch the user's role from Firestore or any other database
+    const userDoc = await firestore.collection("users").doc(uid).get();
+    const userData = userDoc.data();
 
+    if (userData && userData.role) {
+      res.status(200).json({ role: userData.role });
+    } else {
+      res.status(404).json({ message: "User role not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching user role:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const GetAllUsers = async (req, res) => {
+  try {
+    const usersSnapshot = await firestore
+      .collection("users")
+      .where("role", "!=", "admin")
+      .get();
+
+    const users = usersSnapshot.docs.map((userDoc) => ({
+      id: userDoc.id,
+      ...userDoc.data(),
+    }));
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
+  GetAllUsers,
   verifyUserCompletion,
   MoveToNextChapter,
   SubscribeToCourse,
   GenerateCertificate,
   GetUserSubscribedCourses,
-  GetUsers
+  GetUsers,
+  getUserRole,
 };

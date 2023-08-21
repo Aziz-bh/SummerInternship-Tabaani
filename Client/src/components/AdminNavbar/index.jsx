@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsArrowBarUp } from "react-icons/bs";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { getAuth, signOut } from "firebase/auth";
 
 const AdminNavbar = (props) => {
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  const navigate = useNavigate();
   const { onOpenSidenav, brandText } = props;
-  const [darkmode, setDarkmode] = React.useState(false);
+  const [darkmode, setDarkmode] = useState(false);
+
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("user");
+
+    // Sign out using Firebase Authentication
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Redirect the user to the sign-in page
+        navigate("/auth/sign-in");
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
 
   return (
     <nav className="0 sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl p-2 backdrop-blur-xl ">
@@ -124,7 +144,7 @@ const AdminNavbar = (props) => {
           button={
             <img
               className="h-10 w-10 rounded-full"
-              src="https://scontent.ftun14-1.fna.fbcdn.net/v/t1.6435-9/119084388_3201919303236979_3357964953041296458_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=XsDHc3eguq8AX9gKamj&_nc_ht=scontent.ftun14-1.fna&oh=00_AfCuRo22IFM6vMCFvnAmAepbRN--a88AEBss_PXxDjuaKg&oe=64E9944C"
+              src={user?.photoURL}
               alt="Elon Musk"
             />
           }
@@ -133,7 +153,7 @@ const AdminNavbar = (props) => {
               <div className="p-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    👋 Hey, Hamza
+                    👋 Hey, {user?.displayName}
                   </p>
                 </div>
               </div>
@@ -141,15 +161,9 @@ const AdminNavbar = (props) => {
 
               <div className="flex flex-col p-4">
                 <a
-                  href=" "
-                  className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
-                >
-                  Profile Settings
-                </a>
-
-                <a
-                  href=" "
+                  href="#"
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
+                  onClick={handleLogout}
                 >
                   Log Out
                 </a>
