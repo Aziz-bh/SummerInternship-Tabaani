@@ -26,8 +26,8 @@ const Quiz = (lessonId) => {
 
   // Fetch data from the API
   useEffect(() => { 
-    //fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
-    fetch("http://localhost:5000/api/quizzes/chapter/Oc1w9TOLDn29BLPuuMGj")
+    fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
+   // fetch("http://localhost:5000/api/quizzes/chapter/Oc1w9TOLDn29BLPuuMGj")
       .then((response) => response.json())
       .then((data) => setQuizData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -40,7 +40,7 @@ const Quiz = (lessonId) => {
   };
 
   const newFN = () => {
-    const formattedAnswers = quizIds.map((quizId, index) => {
+    const formattedAnswers = quizIds?.map((quizId, index) => {
       const newArray = userAnswers.map((item) =>
         Array.isArray(item) ? item : [item]
       );
@@ -68,10 +68,6 @@ const Quiz = (lessonId) => {
         return response.json();
       })
       .then((data) => {
-        // Process the response from the API here if needed
-        console.log(data);
-        console.log(data.results);
-        console.log(data.score);
         setScore(data.score);
         setAns(data.results);
         setShowResult(true);
@@ -85,13 +81,13 @@ const Quiz = (lessonId) => {
   const getCurrentContent = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return quizData.slice(startIndex, endIndex);
+    return quizData?.slice(startIndex, endIndex);
   };
 
   const isLastPage = currentPage === totalPages;
   const isLastPagePlusOne = currentPage === totalPages + 1;
 
-  // Conditional rendering of the quiz content
+
   if (quizData.length === 0) {
     return <p>Loading...</p>;
   }
@@ -99,7 +95,7 @@ const Quiz = (lessonId) => {
   return (
      <div>
       <div className="content">
-        {showResult ? ( // Conditionally render based on showResult
+        {showResult ? ( 
           <Result score={score} ans={ans} />
         ) : (
           <>
@@ -119,11 +115,11 @@ const Quiz = (lessonId) => {
               );
             })}
 
-            {/* Show the new button on the last page + 1 */}
+      
             {isLastPagePlusOne && (
               <button
-                onClick={newFN} // Update showResult on button click
-                className="my-4 rounded bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700"
+                onClick={newFN} 
+                className="my-4 rounded bg-blackTheme py-4 px-8 font-bold text-white hover:bg-blackTheme"
               >
                 SHOW RESULT
               </button>

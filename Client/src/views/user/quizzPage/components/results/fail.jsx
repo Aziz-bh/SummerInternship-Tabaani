@@ -23,11 +23,7 @@ const Fail = ({ result }) => {
                 className="lorem-ipsum-dolor text-lg font-bold tracking-wide text-gray-1100 h-full"
                 style={{ fontWeight: 1000 }}
               >
-                LOREM IPSUM DOLOR SIT AMET CONSECTETUR. SED EGESTAS NISL
-                FRINGILLA HENDRERIT FAUCIBUS. PHASELLUS DAPIBUS SED TURPIS NULLA
-                PORTA GRAVIDA. DUIS ET IN SODALES ARCU VITAE ET. NUNC VELIT
-                MAURIS TRISTIQUE AMET IN FAUCIBUS URNA NULLAM SEMPER ID
-                PELLENTESQUE.
+               Keep pushing forward, you're almost there. Learning takes effort and persistence. Embrace mistakes as stepping stones toward success. Success is built upon a foundation of learning from failures. You're capable of more than you think. Stay determined and you'll conquer challenges.
               </p>
             </div>
             <img className="fail ml-5 w-80 h-full" alt="Fail" src={fail} />

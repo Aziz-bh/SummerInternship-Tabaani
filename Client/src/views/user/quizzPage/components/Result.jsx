@@ -8,7 +8,7 @@ const Result = ({ score, ans }) => {
       {score == null &&(
 <>
 <h2>Quiz Result</h2>
-          <p>Your score: {score}</p>
+          <p>In Progress {score}</p>
 </>
       )}
       {score != null && (
