@@ -77,6 +77,7 @@ export default function SignUp() {
             onChange={(e) => setProfilePicture(e.target.files[0])}
             className="mt-2 h-12 w-full rounded-xl border p-3 text-sm outline-none"
           />
+
           <p>image upload progress : {uploadProgress}%</p>
         </div>
 

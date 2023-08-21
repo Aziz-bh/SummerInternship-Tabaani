@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import uploadFile from "../utils/uploadFile";
@@ -21,6 +20,7 @@ function useSignUp() {
     }
 
     try {
+      // Create user using Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -28,20 +28,37 @@ function useSignUp() {
       );
       const user = userCredential.user;
 
+      let profilePictureURL = null; // Initialize profilePictureURL
+
+      // Handle profile picture upload and update profile
       if (profilePicture) {
-        const profilePictureURL = await uploadFile(
-          profilePicture,
-          setUploadProgress
-        );
-        await updateProfile(user, {
-          displayName: fullName,
-          photoURL: profilePictureURL,
-        });
+        try {
+          profilePictureURL = await uploadFile(
+            profilePicture,
+            setUploadProgress
+          );
+          await updateProfile(user, {
+            displayName: fullName,
+            photoURL: profilePictureURL,
+          });
+        } catch (uploadError) {
+          console.error("Error uploading profile picture:", uploadError);
+          // Handle the error, e.g., show a message to the user
+        }
       } else {
         await updateProfile(user, {
           displayName: fullName,
         });
       }
+
+      // Update user profile data in Firestore
+      const usersCollection = db.collection("users");
+      const userProfileData = {
+        displayName: fullName,
+        email: user.email,
+        photoURL: profilePictureURL,
+      };
+      await usersCollection.doc(user.uid).set(userProfileData);
 
       console.log("User registered:", user);
       navigate("/auth/sign-in");
@@ -49,6 +66,7 @@ function useSignUp() {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Error signing up:", errorMessage);
+      // Handle the error, e.g., show a message to the user
     }
   };
 
