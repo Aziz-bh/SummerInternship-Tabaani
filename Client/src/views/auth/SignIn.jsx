@@ -12,37 +12,43 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     console.log("Email:", email);
     console.log("Password:", password);
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("user :", user);
-        localStorage.setItem("user", JSON.stringify(user));
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("user:", user);
 
+      // Fetch user role from the API
+      const response = await fetch(
+        `http://localhost:5000/api/get-user-role/${user.uid}`
+      );
+      const data = await response.json();
+
+      const userRole = data.role;
+
+      if (userRole === "admin") {
+        navigate("/admin/dashboard");
+      } else {
         navigate("/dashboard");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setError(true);
-      });
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setError(true);
+    }
   };
 
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-
-  if (storedUser) {
-    console.log("Stored User:", storedUser);
-  } else {
-    console.log("User information not found in local storage.");
-  }
-
   return (
-    <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
+    <div className="mb-16 mt-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
       <form
         className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0"
         onSubmit={handleLogin}

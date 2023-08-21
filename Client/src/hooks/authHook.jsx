@@ -28,7 +28,7 @@ function useSignUp() {
       );
       const user = userCredential.user;
 
-      let profilePictureURL = null; // Initialize profilePictureURL
+      let profilePictureURL = null;
 
       // Handle profile picture upload and update profile
       if (profilePicture) {
@@ -43,7 +43,6 @@ function useSignUp() {
           });
         } catch (uploadError) {
           console.error("Error uploading profile picture:", uploadError);
-          // Handle the error, e.g., show a message to the user
         }
       } else {
         await updateProfile(user, {
@@ -57,10 +56,11 @@ function useSignUp() {
         displayName: fullName,
         email: user.email,
         photoURL: profilePictureURL,
+        role: "user",
       };
       await usersCollection.doc(user.uid).set(userProfileData);
 
-      console.log("User registered:", user);
+      console.log("user registered:", user);
       navigate("/auth/sign-in");
     } catch (error) {
       const errorCode = error.code;

@@ -302,7 +302,7 @@ const GetUsers = async (req, res) => {
 
       if (!subscriptionSnapshot.empty) {
         const courses = [];
-        const subscriptions = []; 
+        const subscriptions = [];
 
         for (const doc of subscriptionSnapshot.docs) {
           const courseId = doc.data().courseId;
@@ -313,7 +313,7 @@ const GetUsers = async (req, res) => {
             const courseData = courseDoc.data();
             courseData.id = courseId;
             courses.push(courseData);
-            subscriptions.push(doc.data()); 
+            subscriptions.push(doc.data());
           }
         }
 
@@ -321,7 +321,7 @@ const GetUsers = async (req, res) => {
           userId: userId,
           userData: userData,
           subscribedCourses: courses,
-          subscriptions:subscriptions,
+          subscriptions: subscriptions,
         };
 
         usersWithCourses.push(userWithCourses);
@@ -337,8 +337,24 @@ const GetUsers = async (req, res) => {
   }
 };
 
+const getUserRole = async (req, res) => {
+  const uid = req.params.uid;
 
+  try {
+    // Fetch the user's role from Firestore or any other database
+    const userDoc = await firestore.collection("users").doc(uid).get();
+    const userData = userDoc.data();
 
+    if (userData && userData.role) {
+      res.status(200).json({ role: userData.role });
+    } else {
+      res.status(404).json({ message: "User role not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching user role:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   verifyUserCompletion,
@@ -346,5 +362,6 @@ module.exports = {
   SubscribeToCourse,
   GenerateCertificate,
   GetUserSubscribedCourses,
-  GetUsers
+  GetUsers,
+  getUserRole,
 };
