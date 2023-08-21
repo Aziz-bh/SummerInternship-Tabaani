@@ -1,29 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+//----------------------------hooks----------------------//
 import useSubscribedCourses from "../../../hooks/userHook";
 import useFetchCourses from "../../../hooks/courseHook";
+//----------------------------cards----------------------//
 import UnfinishedCoursesCard from "components/card/UnfinishedCoursesCard";
 import CourseCard from "components/card/CourseCard";
-//the user dashboard
 
 const Courses = () => {
   const subscribedCourses = useSubscribedCourses();
+  console.log("subscribedCourses", subscribedCourses);
   const AllCourses = useFetchCourses();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;
+  const totalPages = Math.ceil(subscribedCourses.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const visibleCourses = subscribedCourses.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5">
       <div className="col-span-2 h-fit w-full xl:col-span-1 2xl:col-span-2">
-        <div className="mx-auto  py-10 ">
+        <div className="mx-auto py-10">
           <div className="flex items-center justify-between pb-8 pr-2">
             <p className="text-left text-2xl font-bold text-[#000000]">
               YOUR COURSES
             </p>
-            <button className="rounded-lg bg-gray-200 px-6 py-2">
-              See All
-            </button>
+            <div className="flex items-center">
+              {currentPage > 1 && (
+                <button
+                  className="rounded-full bg-gray-200 px-6 py-2"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  <FaChevronLeft />
+                </button>
+              )}
+              {currentPage < totalPages && (
+                <button
+                  className="rounded-full bg-gray-200 px-6 py-2"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  <FaChevronRight />
+                </button>
+              )}
+            </div>
           </div>
-          <div className="grid grid-cols-1  gap-4 sm:grid-cols-1 md:grid-cols-2 ">
-            {/* Unfinished courses slider */}
-            {subscribedCourses?.map((subscribed, index) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
+            {visibleCourses.map((subscribed, index) => (
               <div key={index} className="pr-2">
                 <UnfinishedCoursesCard
                   id={subscribed.id}
@@ -33,7 +64,10 @@ const Courses = () => {
                   instructor={subscribed.instructor}
                   userpic={subscribed.userpic}
                   progress={subscribed.progress}
-                  chaptersnumber={subscribed.chaptersnumber}
+                  lessons={subscribed.chapters.map(
+                    (chapter) => chapter.lessons.length
+                  )}
+                  chapters={subscribed.chapters.length}
                 />
               </div>
             ))}

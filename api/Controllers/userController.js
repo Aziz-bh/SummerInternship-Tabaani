@@ -265,6 +265,30 @@ const GetUserSubscribedCourses = async (req, res) => {
         const courseData = courseDoc.data();
         courseData.id = courseId;
         courseData.progress = progress;
+
+        // Fetch associated chapters for the course
+        const chaptersSnapshot = await courseRef.collection("chapters").get();
+        const chapters = [];
+
+        for (const chapterDoc of chaptersSnapshot.docs) {
+          const chapterData = chapterDoc.data();
+          chapterData.id = chapterDoc.id;
+
+          // Fetch associated lessons for the chapter
+          const lessonsSnapshot = await chapterDoc.ref
+            .collection("lessons")
+            .get();
+          const lessons = lessonsSnapshot.docs.map((lessonDoc) => {
+            const lessonData = lessonDoc.data();
+            lessonData.id = lessonDoc.id;
+            return lessonData;
+          });
+
+          chapterData.lessons = lessons;
+          chapters.push(chapterData);
+        }
+
+        courseData.chapters = chapters;
         courses.push(courseData);
       }
     }

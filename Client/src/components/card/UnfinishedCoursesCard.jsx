@@ -11,11 +11,11 @@ const UnfinishedCoursesCard = ({
   userpic,
   difficulty,
   id,
-  chaptersnumber,
+  chapters,
   instructor,
   progress,
+  lessons,
 }) => {
-  const progressValue = 50;
   return (
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white pr-6">
       <div className="h-56 w-[356px] rounded-[10px]">
@@ -34,13 +34,13 @@ const UnfinishedCoursesCard = ({
           <div className="flex items-center justify-start gap-2">
             <FaBook size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              Lesson : 6
+              Lessons : {lessons}
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
             <FaUser size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              chapters : {chaptersnumber}
+              chapters : {chapters}
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
