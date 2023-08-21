@@ -6,42 +6,41 @@ const multer = require("multer");
 
 /****************************************************** */
 
-const difficulties = ["Beginner", "Intermediate", "Hard"];
-
 const addCourse = async (req, res) => {
   try {
     let image = null;
-    let userpic = null;
 
-    if (req.files) {
-      // Assuming you are using 'image' and 'userpic' as the field names for the images in the form
-      if (req.files.image) {
-        console.log("Image details:", req.files.image);
-        image = req.files.image[0].filename;
-      }
-
-      if (req.files.userpic) {
-        console.log("Userpic details:", req.files.userpic);
-        userpic = req.files.userpic[0].filename;
-        console.log("userpic" + userpic);
-      }
+    if (req.files && req.files.image) {
+      console.log("Image details:", req.files.image);
+      image = req.files.image[0].filename;
     }
-    const { title, level, instructor, price, chaptersnumber, description } =
-      req.body;
+
+    const { title, level, instructorId, price, description } = req.body;
+
+    // Retrieve instructor details from Firestore based on instructorId
+    const instructorRef = firestore.collection("users").doc(instructorId);
+    const instructorSnapshot = await instructorRef.get();
+    if (!instructorSnapshot.exists) {
+      return res.status(404).send("Instructor not found");
+    }
+
+    const instructorData = instructorSnapshot.data();
 
     const courseData = {
       title,
       level,
-      userpic,
-      chaptersnumber,
       description,
-      instructor,
+      instructor: {
+        id: instructorId,
+        fullName: instructorData.displayName,
+        userpic: instructorData.photoURL,
+      },
       price,
-      image, // Utilisez le nom de fichier généré par Multer (avec l'extension)
+      image,
     };
 
-    // Enregistrez courseData dans Firestore
-    await firestore.collection("courses").doc().set(courseData);
+    // Save courseData in Firestore
+    await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
     res.status(400).send(error.message);

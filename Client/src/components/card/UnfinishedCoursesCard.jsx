@@ -8,17 +8,17 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 const UnfinishedCoursesCard = ({
   title,
   image,
-  userpic,
   difficulty,
   id,
   chapters,
   instructor,
   progress,
   lessons,
+  userpic,
 }) => {
   return (
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white pr-6">
-      <div className="h-56 w-[356px] rounded-[10px]">
+      <div className=" w-full rounded-[10px]">
         <img
           className=" h-56 rounded-l-lg object-cover md:hidden lg:block "
           src={image}

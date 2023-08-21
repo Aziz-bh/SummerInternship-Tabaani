@@ -6,7 +6,7 @@ import QuizzCard from "components/card/QuizzCard";
 import Quiz from "../quizzPage/components/Quiz";
 
 const CourseOverview = () => {
-  const [lessonData, setLessonData] = useState("");
+  const [courseData, setCourseData] = useState("");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   const [selectedQuizzIndex, setSelectedQuizzIndex] = useState("");
@@ -18,7 +18,7 @@ const CourseOverview = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "baba");
-        setLessonData(data);
+        setCourseData(data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -38,26 +38,26 @@ const CourseOverview = () => {
     setSelectedQuizzIndex(quizzIndex);
   };
 
-  if (!lessonData) {
+  if (!courseData) {
     return <div>Loading...</div>;
   }
 
-  const selectedChapter = lessonData?.chapters[selectedChapterIndex];
+  const selectedChapter = courseData?.chapters[selectedChapterIndex];
   console.log("selectedChapter", selectedChapter);
 
   const selectedLesson = selectedChapter?.lessons[selectedLessonIndex];
   console.log("selectedLesson", selectedLesson);
 
-  const lessonId = selectedLesson.id;
+  const lessonId = selectedLesson?.id;
   console.log("lessonId", lessonId);
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
       {/* Left Section*/}
       <div className="md:col-span-12 lg:col-span-4">
-        {lessonData.chapters && lessonData.chapters.length > 0 && (
+        {courseData.chapters && courseData.chapters.length > 0 && (
           <ChaptersCard
-            chapters={lessonData.chapters}
+            chapters={courseData.chapters}
             lessons={selectedLesson}
             onLessonClick={handleLessonClick}
             onChapterClick={handleChapterClick}
@@ -72,14 +72,15 @@ const CourseOverview = () => {
         {/* Display LessonCard or QuizzCard based on selection */}
         {selectedLesson && (
           <LessonCard
-            key={lessonData?.id}
-            CourseTitle={lessonData?.title}
+            key={courseData?.id}
+            CourseTitle={courseData?.title}
             LessonTitle={selectedLesson?.LessonTitle}
             content={selectedLesson?.LessonDescription}
-            video={selectedLesson?.LessonVideo}
+            lessonVideo={selectedLesson?.lessonVideo}
+            userpic={courseData?.instructor.userpic}
           />
         )}
-        {/*<Quiz lessonId={lessonId } />*/}
+        {/* <Quiz lessonId={lessonId} />*/}
       </div>
     </div>
   );

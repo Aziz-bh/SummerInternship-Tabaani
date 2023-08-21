@@ -81,7 +81,7 @@ const ChaptersCard = ({
                         {/* Quizzes */}
                         {lesson.quizzes && lesson.quizzes.length > 0 ? (
                           <ul className=" mt-2 list-disc  pl-4">
-                            {lesson.quizzes.map((quiz, quizIndex) => (
+                            {lesson?.quizzes?.map((quiz, quizIndex) => (
                               <li
                                 key={quizIndex}
                                 onClick={() => {
