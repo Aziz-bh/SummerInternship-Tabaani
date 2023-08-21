@@ -32,7 +32,7 @@ export default function SignIn() {
         `http://localhost:5000/api/get-user-role/${user.uid}`
       );
       const data = await response.json();
-
+      localStorage.setItem("user", JSON.stringify(user)); // Storing as a JSON string
       const userRole = data.role;
 
       if (userRole === "admin") {
