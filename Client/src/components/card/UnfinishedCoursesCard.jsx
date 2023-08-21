@@ -5,8 +5,17 @@ import { FaBook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-const UnfinishedCoursesCard = ({ title, image, pic, difficulty, id }) => {
-  const progressValue = 50;
+const UnfinishedCoursesCard = ({
+  title,
+  image,
+  userpic,
+  difficulty,
+  id,
+  chapters,
+  instructor,
+  progress,
+  lessons,
+}) => {
   return (
     <div className="bg-neutral-50 border-zinc-100 inline-flex w-full items-start justify-start gap-4 rounded-lg border bg-white pr-6">
       <div className="h-56 w-[356px] rounded-[10px]">
@@ -25,13 +34,13 @@ const UnfinishedCoursesCard = ({ title, image, pic, difficulty, id }) => {
           <div className="flex items-center justify-start gap-2">
             <FaBook size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              Lesson : 6
+              Lessons : {lessons}
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
             <FaUser size={16} color="silver" />
             <div className="text-zinc-950 text-[13px] font-medium capitalize text-opacity-75">
-              student : 198
+              chapters : {chapters}
             </div>
           </div>
           <div className="flex items-center justify-start gap-2">
@@ -42,8 +51,8 @@ const UnfinishedCoursesCard = ({ title, image, pic, difficulty, id }) => {
           </div>
         </div>
         <div className="inline-flex items-center justify-between gap-2 pb-4">
-          <Progress value={progressValue} />
-          <p className=" text-sm"> {progressValue}%</p>
+          <Progress value={progress} />
+          <p className=" text-sm"> {progress}%</p>
         </div>
 
         <div className="inline-flex items-end justify-between">
@@ -51,17 +60,17 @@ const UnfinishedCoursesCard = ({ title, image, pic, difficulty, id }) => {
             <div className="relative h-11 w-11">
               <img
                 className="h-11 w-11 rounded-lg object-cover"
-                src={pic}
+                src={userpic}
                 alt=""
               />
             </div>
             <div className="inline-flex shrink grow basis-0 flex-col items-start justify-start gap-1 rounded-lg">
               <div className="text-stone-700 self-stretch text-sm font-medium leading-snug tracking-tight">
-                Jon Kantner
+                {instructor}
               </div>
-              <div className="text-stone-700 l text-xs font-normal tracking-tight text-opacity-75">
+              {/*<div className="text-stone-700 l text-xs font-normal tracking-tight text-opacity-75">
                 Design teacher
-              </div>
+              </div>*/}
             </div>
           </div>
           <Link to={`/course/${id}`}>
