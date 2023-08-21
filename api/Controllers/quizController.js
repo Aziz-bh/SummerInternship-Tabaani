@@ -7,40 +7,38 @@ async function addQuiz(req, res, next) {
     const chapterRef = db.collection("chapters").doc(LessonId);
     const documentSnapshot = await chapterRef.get();
 
+    const rightAnswer = Array.isArray(req.body.rightAnswer)
+      ? req.body.rightAnswer
+      : [req.body.rightAnswer];
 
-      const rightAnswer = Array.isArray(req.body.rightAnswer)
-        ? req.body.rightAnswer
-        : [req.body.rightAnswer];
+    const quiz = {
+      question: req.body.question,
+      option1: req.body.option1,
+      option2: req.body.option2,
+      option3: req.body.option3,
+      option4: req.body.option4,
+      rightAnswer: rightAnswer,
+      lessonId: LessonId,
+    };
 
-      const quiz = {
-        question: req.body.question,
-        option1: req.body.option1,
-        option2: req.body.option2,
-        option3: req.body.option3,
-        option4: req.body.option4,
-        rightAnswer: rightAnswer,
-        lessonId: LessonId,
-      };
+    console.log("🚀 ~ file: quizController.js:10 ~ addQuiz ~ quiz:", quiz);
 
-      console.log("🚀 ~ file: quizController.js:10 ~ addQuiz ~ quiz:", quiz);
+    if (
+      !quiz.question ||
+      !quiz.option1 ||
+      !quiz.option2 ||
+      !quiz.option3 ||
+      !quiz.option4 ||
+      !quiz.rightAnswer ||
+      quiz.rightAnswer.length === 0
+    ) {
+      res.status(400).json({ message: "Invalid quiz data" });
+      return;
+    }
 
-      if (
-        !quiz.question ||
-        !quiz.option1 ||
-        !quiz.option2 ||
-        !quiz.option3 ||
-        !quiz.option4 ||
-        !quiz.rightAnswer ||
-        quiz.rightAnswer.length === 0
-      ) {
-        res.status(400).json({ message: "Invalid quiz data" });
-        return;
-      }
+    await db.collection("quizzes").doc().set(quiz);
 
-      await db.collection("quizzes").doc().set(quiz);
-
-      res.status(201).json({ message: "Quiz added successfully" });
-    
+    res.status(201).json({ message: "Quiz added successfully" });
   } catch (error) {
     console.error("Error fetching chapter:", error);
     return res.status(500).json({ error: "Failed to fetch chapter" });
@@ -49,36 +47,68 @@ async function addQuiz(req, res, next) {
 
 async function addQuizT_F(req, res, next) {
   try {
-    const ChapterId = req.params.idChapter;
-    const chapterRef = db.collection("chapters").doc(ChapterId);
-    const documentSnapshot = await chapterRef.get();
+    const lessonId = req.params.idChapter;
+    const coursesRef = db.collection("courses");
 
-    if (!documentSnapshot.exists) {
-      console.log("Document does not exist");
-      return res.status(404).json({ error: "Chapter doesn't exist" });
-    } else {
-      const quiz = {
-        question: req.body.question,
-        option1: req.body.option1,
-        option2: req.body.option2,
-        rightAnswer: req.body.rightAnswer,
-        ChapterId: ChapterId,
-      };
+    // Get all courses
+    const coursesSnapshot = await coursesRef.get();
 
-      if (
-        !quiz.question ||
-        !quiz.option1 ||
-        !quiz.option2 ||
-        !quiz.rightAnswer
-      ) {
-        res.status(400).json({ message: "Invalid quiz data" });
-        return;
-      }
-
-      await db.collection("quizzes").doc().set(quiz);
-
-      res.status(201).json({ message: "Quiz added successfully" });
+    if (coursesSnapshot.empty) {
+      console.log("No courses found.");
+      return; // Or you can return an error response
     }
+
+    let lessonDocument;
+
+    // Loop through each course
+    coursesSnapshot.forEach((courseDoc) => {
+      const courseId = courseDoc.id;
+
+      // Get the subcollection reference for the chapters
+      const chaptersRef = coursesRef.doc(courseId).collection("chapters");
+
+      chaptersRef.get().then((chaptersSnapshot) => {
+        chaptersSnapshot.forEach((chapterDoc) => {
+          const chapterId = chapterDoc.id;
+
+          // Get the subcollection reference for lessons within this chapter
+          const lessonsRef = chaptersRef.doc(chapterId).collection("lessons");
+
+          lessonsRef.get().then((lessonsSnapshot) => {
+            lessonsSnapshot.forEach(async (lessonDoc) => {
+              const lessonData = lessonDoc.data();
+
+              // Check if the lesson ID matches
+              if (lessonDoc.id === lessonId) {
+                lessonDocument = lessonData;
+
+                const quiz = {
+                  question: req.body.question,
+                  option1: req.body.option1,
+                  option2: req.body.option2,
+                  rightAnswer: req.body.rightAnswer,
+                  lessonId: lessonId,
+                };
+
+                if (
+                  !quiz.question ||
+                  !quiz.option1 ||
+                  !quiz.option2 ||
+                  !quiz.rightAnswer
+                ) {
+                  res.status(400).json({ message: "Invalid quiz data" });
+                  return;
+                }
+
+                await db.collection("quizzes").doc().set(quiz);
+
+                res.status(201).json({ message: "Quiz added successfully" });
+              }
+            });
+          });
+        });
+      });
+    });
   } catch (error) {
     console.error("Error fetching chapter:", error);
     return res.status(500).json({ error: "Failed to fetch chapter" });
@@ -187,7 +217,6 @@ async function findByLessonId(req, res, next) {
   }
 }
 
-
 async function validateAnswer(quizId, selectedAnswer) {
   try {
     const quizRef = db.collection("quizzes").doc(quizId);
@@ -197,16 +226,16 @@ async function validateAnswer(quizId, selectedAnswer) {
       return { quizId, message: "Quiz not found" };
     } else {
       const quizData = docSnapshot.data();
-      const question = quizData.question
+      const question = quizData.question;
       const rightAnswerSet = new Set(quizData.rightAnswer);
       const selectedAnswerSet = new Set(selectedAnswer);
 
       const isCorrectAnswer = arrayEquals(rightAnswerSet, selectedAnswerSet);
 
       if (isCorrectAnswer) {
-        return { quizId,question,message: "Correct answer!" };
+        return { quizId, question, message: "Correct answer!" };
       } else {
-        return { quizId,question, message: "Incorrect answer!" };
+        return { quizId, question, message: "Incorrect answer!" };
       }
     }
   } catch (error) {
@@ -224,9 +253,11 @@ function arrayEquals(a, b) {
 
 async function checkAnswer(req, res, next) {
   const quizArray = req.body.quizzes;
-  console.log("🚀 ~ file: quizController.js:226 ~ checkAnswer ~ quizArray:", quizArray)
+  console.log(
+    "🚀 ~ file: quizController.js:226 ~ checkAnswer ~ quizArray:",
+    quizArray
+  );
 
-  
   try {
     const results = await Promise.all(
       quizArray.map((quiz) => validateAnswer(quiz.quizId, quiz.selectedAnswer))
@@ -241,24 +272,23 @@ async function checkAnswer(req, res, next) {
     const quizID = quizArray[0].quizId;
     const quizRef = db.collection("quizzes").doc(quizID);
     const docSnapshot = await quizRef.get();
-   const lesson=docSnapshot.data().lessonId;
+    const lesson = docSnapshot.data().lessonId;
     const coursesRef = db.collection("courses");
     const querySnapshot = await coursesRef.get();
-    
-    
+
     let foundCourseId = null;
 
     for (const doc of querySnapshot.docs) {
       const courseId = doc.id;
       const chaptersRef = coursesRef.doc(courseId).collection("chapters");
       const chaptersSnapshot = await chaptersRef.get();
-      
+
       // Loop through chapters
       for (const chapterDoc of chaptersSnapshot.docs) {
         const chapterId = chapterDoc.id;
         const lessonRef = chaptersRef.doc(chapterId).collection("lessons");
         const lessonSnapshot = await lessonRef.get();
-        for(const lessonDoc of  lessonSnapshot.docs){
+        for (const lessonDoc of lessonSnapshot.docs) {
           const lessonId = lessonDoc.id;
           if (lessonId === lesson) {
             console.log("This is the course that has it all:", courseId);
@@ -266,46 +296,46 @@ async function checkAnswer(req, res, next) {
             break; // Exit the loop once the desired courseId is found
           }
         }
-        
       }
-      
+
       if (foundCourseId) {
         break; // Exit the outer loop once the courseId is found
       }
     }
-    
 
-      if (score>=90){
-        const subscriptionsRef = db.collection("subscriptions");
-        const querySnapshot = await subscriptionsRef
-          .where("courseId", "==", foundCourseId)
-          .where("userId", "==", "6Mf70xX01X6kfypHDVCC")
-          .get();
-        
-        const matchingSubscriptions = [];
-        
-        querySnapshot.forEach((doc) => {
-          const subscriptionData = doc.data();
-          matchingSubscriptions.push({ id: doc.id, ...subscriptionData });
-        });
-        
-        const subscriptionToUpdate = matchingSubscriptions[0];
-        
-        if (subscriptionToUpdate) {
-          const updatedProgress = subscriptionToUpdate.progress + 1;
-        
-          db.collection("subscriptions")
-            .doc(subscriptionToUpdate.id)
-            .update({ progress: updatedProgress })
-            .then(() => {
-              console.log("Progress updated successfully for the subscription.");
-            })
-            .catch((error) => {
-              console.error("Error updating progress for the subscription:", error);
-            });
-        }
-        
+    if (score >= 90) {
+      const subscriptionsRef = db.collection("subscriptions");
+      const querySnapshot = await subscriptionsRef
+        .where("courseId", "==", foundCourseId)
+        .where("userId", "==", "6Mf70xX01X6kfypHDVCC")
+        .get();
+
+      const matchingSubscriptions = [];
+
+      querySnapshot.forEach((doc) => {
+        const subscriptionData = doc.data();
+        matchingSubscriptions.push({ id: doc.id, ...subscriptionData });
+      });
+
+      const subscriptionToUpdate = matchingSubscriptions[0];
+
+      if (subscriptionToUpdate) {
+        const updatedProgress = subscriptionToUpdate.progress + 1;
+
+        db.collection("subscriptions")
+          .doc(subscriptionToUpdate.id)
+          .update({ progress: updatedProgress })
+          .then(() => {
+            console.log("Progress updated successfully for the subscription.");
+          })
+          .catch((error) => {
+            console.error(
+              "Error updating progress for the subscription:",
+              error
+            );
+          });
       }
+    }
 
     res.status(200).json({ results, score });
   } catch (error) {

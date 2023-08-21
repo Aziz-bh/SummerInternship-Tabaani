@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import TOFComponent from './components/TOFComponent';
 import QCMComponent from './components/QCMComponent';
 import QCUComponent from './components/QCUComponent';
+import QuizList from './components/QuizList';
 
-const NewQuiz = () => {
+const NewQuiz = (lessonId) => {
   const [selectedChoice, setSelectedChoice] = useState('');
 
   const handleChoiceChange = (event) => {
@@ -11,9 +12,10 @@ const NewQuiz = () => {
   };
 
   return (
-    <div className="mt-4 p-4 border rounded-lg shadow-md">
+    <div className="mt-4 p-4 border bg-white rounded-lg shadow-md">
       <h1 className="text-xl font-semibold mb-2">Add New Quiz</h1>
 
+<QuizList lessonId={lessonId} />
 <div className="flex space-x-4 mb-10">
   
   <div className="w-full">
@@ -23,7 +25,7 @@ const NewQuiz = () => {
         type="radio"
         value="tof"
         name="bordered-radio"
-        class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         onChange={handleChoiceChange}
       />
       <label
@@ -42,7 +44,7 @@ const NewQuiz = () => {
         type="radio"
         value="qcm"
         name="bordered-radio"
-        class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         onChange={handleChoiceChange}
       />
       <label
@@ -61,7 +63,7 @@ const NewQuiz = () => {
         type="radio"
         value="qcu"
         name="bordered-radio"
-        class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         onChange={handleChoiceChange}
       />
       <label

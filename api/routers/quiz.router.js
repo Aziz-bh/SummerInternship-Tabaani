@@ -19,6 +19,7 @@ quizrouter.post(
 quizrouter.post("/quizzes/add/:LessonId", addQuiz);
 quizrouter.get("/quizzes/byId/:id", getQuizById);
 quizrouter.get("/quizzes", getAllQuizzes);
+quizrouter.post("/quizzes/addt_f/:idChapter", addQuizT_F);
 quizrouter.get("/quizzes/chapter/:lessonId", findByLessonId);
 quizrouter.delete("/quizzes/delete/:id", deleteQuiz);
 quizrouter.put("/quizzes/update/:id", updateQuiz);

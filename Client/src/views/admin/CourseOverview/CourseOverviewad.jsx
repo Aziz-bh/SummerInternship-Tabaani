@@ -3,6 +3,7 @@ import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import NewQuiz from "../quiz";
 
 const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
@@ -82,6 +83,7 @@ const selectedLesson = selectedChapter && selectedChapter.lessons
     <div>No lessons available</div>
   )}
   
+  <NewQuiz lessonId='Cg7rFIxXhLebhRPAcdWg'/>
 </div>
 
     </div>
