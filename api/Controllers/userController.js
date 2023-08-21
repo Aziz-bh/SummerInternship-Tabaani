@@ -39,11 +39,11 @@ const SubscribeToCourse = async (req, res) => {
       await firestore.collection("subscriptions").add(newSubscription);
 
       return res.status(200).json({
-        message: `User ${firstname} subscribed to the course successfully`,
+        message: `User subscribed to the course successfully`,
       });
     } else {
-      return res.status(200).json({
-        message: `User ${firstname} is already subscribed to the course`,
+      return res.status(400).json({
+        message: `User is already subscribed to the course`,
       });
     }
   } catch (error) {
@@ -255,15 +255,16 @@ const GetUserSubscribedCourses = async (req, res) => {
 
     const courses = [];
 
-    // Loop through each subscription and fetch course information
     for (const doc of subscriptionSnapshot.docs) {
       const courseId = doc.data().courseId;
+      const progress = doc.data().progress;
       const courseRef = firestore.collection("courses").doc(courseId);
       const courseDoc = await courseRef.get();
 
       if (courseDoc.exists) {
         const courseData = courseDoc.data();
-        courseData.id = courseId; // Add course ID to the course data
+        courseData.id = courseId;
+        courseData.progress = progress;
         courses.push(courseData);
       }
     }
@@ -276,6 +277,7 @@ const GetUserSubscribedCourses = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 const GetUsers = async (req, res) => {
   try {
     const usersRef = firestore.collection("users");
