@@ -64,7 +64,7 @@ const ChaptersCard = ({ chapters = [], lessons = [],
         const chaptersWithLessons = await Promise.all(chaptersWithId.map(async (chapter) => {
           const lessonsResponse = await axios.get(`http://localhost:5000/api/course/${id}/chapter/${chapter.id}/getlesson`);
           const lessons = lessonsResponse.data; 
-          console.log("hello" + lessonsResponse.data);
+        
           const lessonsWithId = lessons.map((lesson) => ({
             
             id: lesson.id // Ajouter l'ID de la leçon
@@ -190,12 +190,12 @@ const ChaptersCard = ({ chapters = [], lessons = [],
                 {chapter.lessons && chapter.lessons.length > 0 ? (
                   chapter.lessons.map((lesson, lessonIndex) =>
                     lesson && lesson.LessonTitle ? (
-                      console.log("hhh" + lesson.LessonTitle),
+                     
                       <li
                         key={lessonIndex}
                         className="cursor-pointer py-2 pl-4"
                         onClick={() => {
-                          onChapterClick(index);
+                          onChapterClick(chapter.id,index);
                           onLessonClick(lesson.id,lessonIndex);
                       
 

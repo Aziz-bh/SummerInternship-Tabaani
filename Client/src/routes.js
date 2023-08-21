@@ -19,6 +19,7 @@ import Settings from "./views/user/SettingsPage/Settings";
 import LandingPage from "./views/LandingPage/LandingPage";
 import CourseForm from "./views/admin/Courses/CourseForm";
 import SignUp from "views/auth/SignUp";
+import NewQuiz from "views/admin/quiz";
 
 const routes = [
   {
@@ -107,6 +108,13 @@ const routes = [
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
     component: <QuizPage />,
+  },
+  {
+    name: "quiz",
+    layout: "/admin",
+    path: "quizzes/:lessonId",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <NewQuiz/>,
   },
 ];
 
