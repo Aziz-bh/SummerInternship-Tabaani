@@ -19,13 +19,14 @@ const CourseOverviewad = () => {
       .then((data) => {
         console.log(data);
         setLessonData(data);
+        console.log("lessondata",lessonData.instructor.userpic);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, [id]);
   
-
+console.log("lessondata",lessonData);
   const handleLessonClick = async (id,index) => {
     setSelectedLessonIndex(index);
     setSelectedLessonId(id);
@@ -69,7 +70,7 @@ const CourseOverviewad = () => {
             key={lessonData?.id}
             CourseTitle={lessonData.title}
             LessonTitle={selectedLesson.LessonTitle}
-            userpic={lessonData.userpic}
+            userpic={lessonData.instructor.userpic}
             lessonVideo={selectedLesson.lessonVideo}
             LessonDescription={selectedLesson.LessonDescription}
           />
