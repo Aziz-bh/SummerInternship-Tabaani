@@ -10,6 +10,7 @@ export default function CourseForm() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [Picture, setPicture] = useState(null);
 
   const handleImageChange = (event) => {
     setSelectedImage(event.target.files[0]);
@@ -110,7 +111,8 @@ export default function CourseForm() {
                     id="image"
                     name="image"
                     type="file"
-                    onChange={handleImageChange}
+                    onChange={(e) => setPicture(e.target.files[0])}
+                    
                     class="sr-only"
                     placeholder=" "
                     required
