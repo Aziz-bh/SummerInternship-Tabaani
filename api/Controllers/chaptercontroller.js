@@ -52,10 +52,14 @@ const addLesson = async (req, res, next) => {
       LessonDescription,
     };
 
-    // Ajouter la leçon à la sous-collection 'lessons'
-    await chapterRef.collection("lessons").add(lessonData);
+    const lessonRef = await chapterRef.collection("lessons").add(lessonData);
 
-    res.send("Lesson added to chapter successfully");
+    // Récupérer l'ID de la leçon nouvellement ajoutée
+    const newLessonId = lessonRef.id;
+
+    // Inclure l'ID dans la réponse
+    res.send({ message: "Lesson added successfully", lessonId: newLessonId });
+    console.log("hh"+newLessonId)
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -165,7 +169,7 @@ const getAllChapters = async (req, res, next) => {
        
         const lessonId = doc.id; // Get the ID of the document
         lessons.push({ id: lessonId, ...lessonData });
-        console.log("hadil" + lessonId) // Include the id in the lesson object
+       
       });
      
   

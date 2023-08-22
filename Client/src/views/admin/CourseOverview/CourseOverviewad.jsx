@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
-import NewQuiz from "../quiz";
 
 const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
- 
+  const [selectedLessonId, setSelectedLessonId] = useState("")
+  const [selectedchapterId, setSelectedchapterId] = useState("")
 
   const { id } = useParams();
-  
- 
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/course/${id}`)
@@ -28,14 +25,16 @@ const CourseOverviewad = () => {
   }, [id]);
   
 
-const handleLessonClick = async (index) => {
- 
-  setSelectedLessonIndex(index); 
+  const handleLessonClick = async (id,index) => {
+    setSelectedLessonIndex(index);
+    setSelectedLessonId(id);
   
-};
+  };
 
-  const handleChapterClick = (chapterIndex) => {
+
+  const handleChapterClick = (id,chapterIndex) => {
     setSelectedChapterIndex(chapterIndex);
+    setSelectedchapterId(id);
     setSelectedLessonIndex(0);
   };
 
@@ -43,49 +42,40 @@ const handleLessonClick = async (index) => {
     return <div>Loading...</div>;
   }
 
-const selectedChapter = lessonData.chapters[selectedChapterIndex];
-const selectedLesson = selectedChapter && selectedChapter.lessons
-    ? selectedChapter.lessons[selectedLessonIndex]
-    : null;
+  const selectedChapter = lessonData.chapters[selectedChapterIndex];
+  const selectedLesson =
+    selectedChapter && selectedChapter.lessons
+      ? selectedChapter.lessons[selectedLessonIndex]
+      : null;
 
-
-    
-  
-
+  //  console.log("lessondata", selectedLesson)
+  console.log("lessonid :  ", selectedLessonId)
+  console.log("chapterid :  ", selectedchapterId)
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
-    <div className="md:col-span-12 lg:col-span-4">
-      
-  <ChaptersCard
-    chapters={lessonData.chapters}
-    lessons={selectedLesson}
-    onLessonClick={handleLessonClick}
-    onChapterClick={handleChapterClick}
- 
-  />
-   </div>
+      <div className="md:col-span-12 lg:col-span-4">
+        <ChaptersCard
+          chapters={lessonData?.chapters}
+          lessons={selectedLesson}
+          onLessonClick={handleLessonClick}
+          onChapterClick={handleChapterClick}
+        />
+      </div>
 
-    
-<div className="md:col-span-12 lg:col-span-8">
-  {selectedLesson ? (
-    <LessonCard
-      key={lessonData.id}
-      CourseTitle={lessonData.title}
-      LessonTitle={selectedLesson.LessonTitle}
-
-      userpic={lessonData.userpic}
-      lessonVideo={selectedLesson.lessonVideo}
-    
-      LessonDescription={selectedLesson.LessonDescription}
-    />
-    
-  ) : (
-    <div>No lessons available</div>
-  )}
-  
-  <NewQuiz lessonId='Cg7rFIxXhLebhRPAcdWg'/>
-</div>
-
+      <div className="md:col-span-12 lg:col-span-8">
+        {selectedLesson ? (
+          <LessonCard
+            key={lessonData?.id}
+            CourseTitle={lessonData.title}
+            LessonTitle={selectedLesson.LessonTitle}
+            userpic={lessonData.userpic}
+            lessonVideo={selectedLesson.lessonVideo}
+            LessonDescription={selectedLesson.LessonDescription}
+          />
+        ) : (
+          <div>No lessons available</div>
+        )}
+      </div>
     </div>
   );
 };

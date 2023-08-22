@@ -1,7 +1,13 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const LessonCard = ({ CourseTitle, LessonTitle, UserPic, video, content }) => {
+const LessonCard = ({
+  CourseTitle,
+  LessonTitle,
+  lessonVideo,
+  content,
+  userpic,
+}) => {
   return (
     <div className="rounded-2xl bg-white p-4 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">{CourseTitle}</h2>
@@ -9,19 +15,18 @@ const LessonCard = ({ CourseTitle, LessonTitle, UserPic, video, content }) => {
       {/* Video Container */}
       <div className="mb-4 h-full w-full overflow-hidden rounded-3xl border-2 border-gray-300 bg-gray-100">
         <ReactPlayer
-          url={video}
-          type="video/webm"
+          url={lessonVideo}
           controls={false}
           volume={0.6}
           muted={false}
-          loop={false}
+          loop={true}
           width="100%"
         />
       </div>
 
       <div className="mb-4 flex items-center">
         <img
-          src={UserPic}
+          src={userpic}
           alt="Avatar"
           className="mr-2 h-10 w-10 rounded-full object-cover"
         />

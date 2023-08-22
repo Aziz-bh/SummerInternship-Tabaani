@@ -44,7 +44,7 @@ const Quiz = (lessonId) => {
       const newArray = userAnswers.map((item) =>
         Array.isArray(item) ? item : [item]
       );
-      setShowResult(true)
+      setShowResult(true);
       const selectedAnswer = newArray[index] || [];
       return { quizId, selectedAnswer };
     });
@@ -93,7 +93,7 @@ const Quiz = (lessonId) => {
   }
 
   return (
-     <div>
+    <div>
       <div className="content">
         {showResult ? ( 
           <Result score={score} ans={ans} />
@@ -103,7 +103,7 @@ const Quiz = (lessonId) => {
               <h1>Check Your Knowledge</h1>
             </div>
             {/* Render the current content */}
-            {getCurrentContent().map((quiz) => {
+            {getCurrentContent()?.map((quiz) => {
               return (
                 <React.Fragment key={quiz.id}>
                   <Content

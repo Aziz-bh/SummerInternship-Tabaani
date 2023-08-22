@@ -61,8 +61,8 @@ const Courses = () => {
                   title={subscribed.title}
                   image={subscribed.image}
                   difficulty={subscribed.level}
-                  instructor={subscribed.instructor}
-                  userpic={subscribed.userpic}
+                  instructor={subscribed.instructor.fullName}
+                  userpic={subscribed.instructor.userpic}
                   progress={subscribed.progress}
                   lessons={subscribed.chapters.map(
                     (chapter) => chapter?.lessons?.length

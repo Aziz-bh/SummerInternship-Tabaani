@@ -382,7 +382,26 @@ const getUserRole = async (req, res) => {
   }
 };
 
+const GetAllUsers = async (req, res) => {
+  try {
+    const usersSnapshot = await firestore
+      .collection("users")
+      .where("role", "!=", "admin")
+      .get();
+
+    const users = usersSnapshot.docs.map((userDoc) => ({
+      id: userDoc.id,
+      ...userDoc.data(),
+    }));
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
+  GetAllUsers,
   verifyUserCompletion,
   MoveToNextChapter,
   SubscribeToCourse,
