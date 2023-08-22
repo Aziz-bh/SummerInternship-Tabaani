@@ -20,11 +20,10 @@ const Fail = ({ result }) => {
           <div className="flex flex-col md:flex-row">
             <div className="w-3/6 h-full">
               <p
-                className="lorem-ipsum-dolor text-lg font-bold tracking-wide text-gray-1100 h-full"
+                className="my-8 lorem-ipsum-dolor text-lg font-bold tracking-wide text-gray-1100 h-full"
                 style={{ fontWeight: 1000 }}
               >
-               Keep pushing forward, you're almost there. Learning takes effort and persistence. Embrace mistakes as stepping stones toward success. Success is built upon a foundation of learning from failures. You're capable of more than you think. Stay determined and you'll conquer challenges.
-              </p>
+KEEP PUSHING FORWARD, YOU'RE ALMOST THERE. LEARNING TAKES EFFORT AND PERSISTENCE. EMBRACE MISTAKES AS STEPPING STONES TOWARD SUCCESS. SUCCESS IS BUILT UPON A FOUNDATION OF LEARNING FROM FAILURES. YOU'RE CAPABLE OF MORE THAN YOU THINK. STAY DETERMINED AND YOU'LL CONQUER CHALLENGES.              </p>
             </div>
             <img className="fail ml-5 w-80 h-full" alt="Fail" src={fail} />
           </div>

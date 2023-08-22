@@ -23,15 +23,30 @@ const Quiz = (lessonId) => {
     "This is a use case to check your knowledge about this chapter. Test your understanding of the concepts and topics covered in this chapter with the following quiz. ";
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1; // Number of items to display per page
-
+  const [quizDataNotFound, setQuizDataNotFound] = useState(false);
   // Fetch data from the API
   useEffect(() => { 
-    fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
-   // fetch("http://localhost:5000/api/quizzes/chapter/Oc1w9TOLDn29BLPuuMGj")
-      .then((response) => response.json())
-      .then((data) => setQuizData(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+
+   fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
+   //fetch("http://localhost:5000/api/quizzes/chapter/Yp6prxrOlvBVO2VFaAEH")
+   .then((response) => {
+     if (!response.ok) {
+       throw new Error("Data not found");
+     }
+     return response.json();
+   })
+   .then((data) => {
+     setQuizData(data);
+     setQuizDataNotFound(false);
+   })
+   .catch((error) => {
+     console.error("Error fetching data:", error);
+     setQuizDataNotFound(true);
+   });
+}, [lessonId]);
+if (quizDataNotFound) {
+  return <p>Quiz not found.</p>;
+}
 
   const totalPages = Math.ceil(quizData.length / itemsPerPage);
 
@@ -81,7 +96,7 @@ const Quiz = (lessonId) => {
   const getCurrentContent = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return quizData?.slice(startIndex, endIndex);
+    return quizData.slice(startIndex, endIndex);
   };
 
   const isLastPage = currentPage === totalPages;

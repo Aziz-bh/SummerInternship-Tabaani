@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/card/ChaptersCard";
 import { useParams } from "react-router-dom";
-import QuizzCard from "components/card/QuizzCard";
 import Quiz from "../quizzPage/components/Quiz";
 
 const CourseOverview = () => {
@@ -10,6 +9,7 @@ const CourseOverview = () => {
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   const [selectedQuizzIndex, setSelectedQuizzIndex] = useState("");
+  const [isQuizVisible, setIsQuizVisible] = useState(false);
 
   const { id } = useParams();
 
@@ -33,9 +33,13 @@ const CourseOverview = () => {
   const handleLessonClick = (lessonIndex) => {
     setSelectedLessonIndex(lessonIndex);
   };
+  const showLesson = () => {
+    setIsQuizVisible(false);
+  };
 
   const handleQuizzClick = (quizzIndex) => {
     setSelectedQuizzIndex(quizzIndex);
+    setIsQuizVisible(true);
   };
 
   if (!courseData) {
@@ -62,15 +66,15 @@ const CourseOverview = () => {
             onLessonClick={handleLessonClick}
             onChapterClick={handleChapterClick}
             onQuizzClick={handleQuizzClick}
+            showLesson={showLesson}
           />
         )}
       </div>
 
-      {/* Right Section*/}
-      {/* Right Section*/}
+  
       <div className="md:col-span-12 lg:col-span-8">
         {/* Display LessonCard or QuizzCard based on selection */}
-        {selectedLesson && (
+        {!isQuizVisible && selectedLesson && (
           <LessonCard
             key={courseData?.id}
             CourseTitle={courseData?.title}
@@ -80,7 +84,7 @@ const CourseOverview = () => {
             userpic={courseData?.instructor.userpic}
           />
         )}
-        {/* <Quiz lessonId={lessonId} />*/}
+        {isQuizVisible && <Quiz lessonId={lessonId} />}
       </div>
     </div>
   );

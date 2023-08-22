@@ -5,6 +5,7 @@ const ChaptersCard = ({
   onLessonClick,
   onChapterClick,
   onQuizzClick,
+  showLesson
 }) => {
   const [openChapter, setOpenChapter] = useState(null);
 
@@ -75,37 +76,48 @@ const ChaptersCard = ({
                           onLessonClick(lessonIndex);
                         }}
                       >
-                        <span className="hover:text-yellow-500">
+                        <span className="hover:text-yellow-500" onClick={()=>{
+                          showLesson();
+                        }}>
                           {lesson.LessonTitle}
                         </span>
                         {/* Quizzes */}
-                        {lesson.quizzes && lesson.quizzes.length > 0 ? (
+                        { (
+                          
                           <ul className=" mt-2 list-disc  pl-4">
-                            {lesson?.quizzes?.map((quiz, quizIndex) => (
+                            {((lessonIndex,lesson) => (
                               <li
-                                key={quizIndex}
+                                key={lessonIndex}
                                 onClick={() => {
-                                  onQuizzClick(quizIndex);
+                                  onQuizzClick(lessonIndex);
                                 }}
                                 className="cursor-pointer py-2"
                               >
                                 <span className=" hover:text-orange-500">
-                                  {quiz.question}
+                                  quiz
                                 </span>
                               </li>
                             ))}
+
+                             <>
+                          <p     key={lessonIndex}
+                                onClick={() => {
+                                  onQuizzClick(lessonIndex);
+                                }}>Quick Quiz {lessonIndex}</p>
+                        </>
                           </ul>
-                        ) : (
-                          <p>No quizzes available for this lesson.</p>
-                        )}
+                        ) 
+                        }
                       </li>
                     ) : null
                   )
                 ) : (
                   <li>No lessons available for this chapter.</li>
                 )}
+                <li>Final assestment</li>
               </ul>
             )}
+            
           </li>
         ))}
       </ul>
