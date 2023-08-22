@@ -8,16 +8,14 @@ const multer = require("multer");
 
 const addCourse = async (req, res) => {
   try {
-    let image = null;
-    
+    // let image = null;
 
-    if (req.files && req.files.image) {
-      console.log("Image details:", req.files.image);
-      image = req.files.image[0].filename;
-    }
-   
+    // if (req.files && req.files.image) {
+    //   console.log("Image details:", req.files.image);//
+    //   image = req.files.image[0].filename;
+    // }
 
-    const { title, level, instructorId, price, description } = req.body;
+    const { title, level, instructorId, price, description, image } = req.body;
 
     // Retrieve instructor details from Firestore based on instructorId
     const instructorRef = firestore.collection("users").doc(instructorId);
