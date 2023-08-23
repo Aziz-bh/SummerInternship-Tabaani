@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
+import NewQuiz from "../quiz";
 
 const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
@@ -13,6 +14,10 @@ const CourseOverviewad = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    console.log(selectedLessonId)
+    console.log(selectedLessonId)
+    console.log(selectedLessonId)
+    console.log(selectedLessonId)
     fetch(`http://localhost:5000/api/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -22,7 +27,7 @@ const CourseOverviewad = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [id]);
+  }, [id,selectedLessonId]);
   
 
   const handleLessonClick = async (id,index) => {
@@ -64,6 +69,7 @@ const CourseOverviewad = () => {
 
       <div className="md:col-span-12 lg:col-span-8">
         {selectedLesson ? (
+           <>
           <LessonCard
             key={lessonData?.id}
             CourseTitle={lessonData.title}
@@ -72,9 +78,13 @@ const CourseOverviewad = () => {
             lessonVideo={selectedLesson.lessonVideo}
             LessonDescription={selectedLesson.LessonDescription}
           />
+         
+          <NewQuiz lessonId={selectedLessonId}/>
+          </>
         ) : (
           <div>No lessons available</div>
         )}
+
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const QCUComponent = () => {
+const QCUComponent = (lessonId) => {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [rightAnswer, setRightAnswer] = useState('');
@@ -29,7 +29,7 @@ const QCUComponent = () => {
       rightAnswer: [rightAnswer]
     };
 
-    fetch('http://localhost:5000/api/quizzes/add/Oc1w9TOLDn29BLPuuMGj', {
+    fetch('http://localhost:5000/api/quizzes/add/'+lessonId.lessonId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

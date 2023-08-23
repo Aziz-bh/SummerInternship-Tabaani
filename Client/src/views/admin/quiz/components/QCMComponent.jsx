@@ -16,7 +16,7 @@ const QCMComponent = () => {
     setRightAnswer(selectedOptions);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (lessonId) => {
     const newQuiz = {
       question: question,
       option1: options[0],
@@ -26,7 +26,7 @@ const QCMComponent = () => {
       rightAnswer: rightAnswer.map((index) => `option${parseInt(index)}`)
     };
 
-    fetch('http://localhost:5000/api/quizzes/add/Oc1w9TOLDn29BLPuuMGj', {
+    fetch('http://localhost:5000/api/quizzes/add/'+lessonId.lessonId, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

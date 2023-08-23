@@ -10,7 +10,7 @@ const QuizList = (lessonId) => {
 
   const fetchQuizzes = () => {
     fetch(
-      "http://localhost:5000/api/quizzes/chapter/" + lessonId.lessonId.lessonId
+      "http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId
     )
       .then((response) => {
         return response.json();

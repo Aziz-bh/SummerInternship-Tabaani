@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TOFComponent from './components/TOFComponent';
 import QCMComponent from './components/QCMComponent';
 import QCUComponent from './components/QCUComponent';
@@ -6,8 +6,16 @@ import QuizList from './components/QuizList';
 
 const NewQuiz = (lessonId) => {
   const [selectedChoice, setSelectedChoice] = useState('');
-
+  let idlesson;
+  useEffect(() => {
+    idlesson=lessonId
+    console.log("🚀 ~ file: index.jsx:12 ~ useEffect ~ idlesson:", idlesson)
+    console.log("lesson from index "+lessonId)
+  }, [lessonId]);
   const handleChoiceChange = (event) => {
+    console.log("lesson from index "+lessonId)
+    console.log("lesson from index "+lessonId.lessonId)
+    console.log("lesson from index "+lessonId.lessonId.lessonId)
     setSelectedChoice(event.target.value);
   };
 
@@ -15,7 +23,7 @@ const NewQuiz = (lessonId) => {
     <div className="mt-4 p-4 border bg-white rounded-lg shadow-md">
       <h1 className="text-xl font-semibold mb-2">Add New Quiz</h1>
 
-<QuizList lessonId={lessonId} />
+<QuizList lessonId={lessonId.lessonId} />
 <div className="flex space-x-4 mb-10">
   
   <div className="w-full">
@@ -77,9 +85,9 @@ const NewQuiz = (lessonId) => {
 </div>
 
 <div className="">
-      {selectedChoice === 'tof' && <TOFComponent />}
-      {selectedChoice === 'qcm' && <QCMComponent />}
-      {selectedChoice === 'qcu' && <QCUComponent />}
+      {selectedChoice === 'tof' && <TOFComponent lessonId={lessonId.lessonId} />}
+      {selectedChoice === 'qcm' && <QCMComponent lessonId={lessonId.lessonId}/>}
+      {selectedChoice === 'qcu' && <QCUComponent lessonId={lessonId.lessonId}/>}
       </div>
     </div>
 

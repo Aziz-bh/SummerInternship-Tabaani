@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 
-const TOFComponent = () => {
+const TOFComponent = (lessonId) => {
   const [question, setQuestion] = useState("");
   const [selectedChoice, setSelectedChoice] = useState("");
 
+  console.log("tesst lessonId " +lessonId.lessonId)
+  console.log("tesst lessonId " +lessonId.lessonId)
+  console.log("tesst lessonId " +lessonId.lessonId)
+  console.log("tesst lessonId " +lessonId.lessonId)
+  
+
   const handleChoiceChange = (event) => {
+ 
     setSelectedChoice(event.target.value);
   };
 
@@ -16,7 +23,7 @@ const TOFComponent = () => {
       rightAnswer: selectedChoice=="true"?["option1"]:["option2"]
     };
 
-    fetch("http://localhost:5000/api/quizzes/addt_f/Cg7rFIxXhLebhRPAcdWg", {
+    fetch("http://localhost:5000/api/quizzes/addt_f/"+ lessonId.lessonId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
