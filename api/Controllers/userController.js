@@ -192,7 +192,8 @@ const GenerateCertificate = async (req, res) => {
     }
 
     const subscriptionData = subscriptionSnapshot.docs[0].data();
-    const progress = subscriptionData.progress || 0;
+    const completedLessons = subscriptionData.progress || [];
+    console.log("completedLessons", completedLessons);
 
     const courseRef = firestore.collection("courses").doc(courseId);
     const courseDoc = await courseRef.get();
@@ -201,12 +202,23 @@ const GenerateCertificate = async (req, res) => {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    const chaptersArray = courseDoc.data().chapters;
-    const totalChapters = chaptersArray.length;
+    const lessonsArray = [];
+    const chaptersSnapshot = await courseRef.collection("chapters").get();
 
-    console.log("totalChapters", totalChapters);
+    for (const chapterDoc of chaptersSnapshot.docs) {
+      const lessonsSnapshot = await chapterDoc.ref.collection("lessons").get();
+      lessonsSnapshot.forEach((lessonDoc) => {
+        lessonsArray.push(lessonDoc.data());
+      });
+    }
 
-    if (progress === totalChapters) {
+    const totalLessons = lessonsArray.length;
+    const progress = completedLessons;
+
+    console.log("totalLessons", totalLessons);
+    console.log("progress", progress);
+
+    if (progress == totalLessons) {
       const certificateData = {
         userId: userId,
         courseId: courseId,
