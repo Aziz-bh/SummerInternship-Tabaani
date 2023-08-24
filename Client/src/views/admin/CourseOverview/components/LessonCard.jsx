@@ -2,10 +2,7 @@ import React from "react";
 import ReactPlayer from "react-player";
 
 const LessonCard = ({  CourseTitle, LessonTitle, userpic, lessonVideo,LessonDescription }) => {
-  const baseUrl = 'http://localhost:5000';
-  const imageUrl2 = `${baseUrl}/api//image/${userpic}`;
-  console.log("image"+imageUrl2)
-  console.log("hhh"+lessonVideo)
+ 
   
   return (
     <div className="rounded-2xl bg-white p-4 shadow-lg">
@@ -27,7 +24,8 @@ const LessonCard = ({  CourseTitle, LessonTitle, userpic, lessonVideo,LessonDesc
    
       <div className="mb-4 flex items-center">
         <img
-          src={imageUrl2}
+          src={userpic}
+        
           alt="Avatar"
           className="mr-2 h-10 w-10 rounded-full object-cover"
         />
