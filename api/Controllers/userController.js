@@ -207,7 +207,6 @@ const GetUserSubscribedCourses = async (req, res) => {
       if (courseDoc.exists) {
         const courseData = courseDoc.data();
         courseData.id = courseId;
-        courseData.progress = progress;
 
         // Fetch associated chapters for the course
         const chaptersSnapshot = await courseRef.collection("chapters").get();
@@ -221,17 +220,25 @@ const GetUserSubscribedCourses = async (req, res) => {
           const lessonsSnapshot = await chapterDoc.ref
             .collection("lessons")
             .get();
-          const lessons = lessonsSnapshot.docs.map((lessonDoc) => {
-            const lessonData = lessonDoc.data();
-            lessonData.id = lessonDoc.id;
-            return lessonData;
-          });
+          const lessons = lessonsSnapshot.docs.map((lessonDoc) =>
+            lessonDoc.data()
+          );
 
           chapterData.lessons = lessons;
           chapters.push(chapterData);
         }
 
         courseData.chapters = chapters;
+
+        const totalLessons = chapters.reduce(
+          (sum, chapter) => sum + chapter.lessons.length,
+          0
+        );
+
+        // Calculate progress percentage
+        const progressPercentage = (progress / totalLessons) * 100;
+        courseData.progress = `${progressPercentage.toFixed(2)}%`;
+
         courses.push(courseData);
       }
     }
