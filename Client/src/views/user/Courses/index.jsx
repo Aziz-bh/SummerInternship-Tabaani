@@ -56,14 +56,15 @@ const Courses = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
             {visibleCourses.map((subscribed, index) => (
               <div key={index} className="pr-2">
+                {console.log("subscribed:", subscribed)}{" "}
                 <UnfinishedCoursesCard
-                  id={subscribed.id}
-                  title={subscribed.title}
-                  image={subscribed.image}
-                  difficulty={subscribed.level}
-                  instructor={subscribed.instructor.fullName}
-                  userpic={subscribed.instructor.userpic}
-                  progress={subscribed.progress}
+                  id={subscribed?.id}
+                  title={subscribed?.title}
+                  image={subscribed?.image}
+                  difficulty={subscribed?.level}
+                  instructor={subscribed?.instructor.fullName}
+                  userpic={subscribed?.instructor.userpic}
+                  progress={subscribed?.progress}
                   lessons={subscribed.chapters.map(
                     (chapter) => chapter?.lessons?.length
                   )}

@@ -7,6 +7,8 @@ import {
   MdDashboard,
   MdSettings,
 } from "react-icons/md";
+import { FaCertificate } from "react-icons/fa";
+
 import { HiOutlineCube } from "react-icons/hi";
 import Dashboard from "./views/admin/MainDashboard";
 import UsersProgress from "./views/admin/UsersProgress";
@@ -15,7 +17,7 @@ import MyCourses from "./views/admin/Courses/Courses";
 import CourseOverview from "./views/user/CourseOverview/CourseOverview";
 import CourseOverviewad from "./views/admin/CourseOverview/CourseOverviewad";
 import QuizPage from "./views/user/quizzPage/QuizPage";
-import Settings from "./views/user/SettingsPage/Settings";
+import Certificates from "./views/user/CertificatePage/Certificate";
 import LandingPage from "./views/LandingPage/LandingPage";
 import CourseForm from "./views/admin/Courses/CourseForm";
 import SignUp from "views/auth/SignUp";
@@ -92,11 +94,11 @@ const routes = [
     hideInSidebar: true,
   },
   {
-    name: "Settings",
+    name: "Certificates",
     layout: "/user",
-    path: "settings",
-    icon: <MdSettings className="h-6 w-6" />,
-    component: <Settings />,
+    path: "certificates",
+    icon: <FaCertificate className="h-6 w-6" />,
+    component: <Certificates />,
   },
   {
     name: "landing",
@@ -110,6 +112,7 @@ const routes = [
     path: "quiz",
     icon: <MdLock className="h-6 w-6" />,
     component: <QuizPage />,
+    hideInSidebar: true,
   },
   {
     name: "quiz",
