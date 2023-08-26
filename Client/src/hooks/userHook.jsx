@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const useSubscribedCourses = () => {
   const [subscribedCourses, setSubscribedCourses] = useState([]);
   const auth = getAuth();
+  console.log(auth, "dddddddddddddddddddd");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

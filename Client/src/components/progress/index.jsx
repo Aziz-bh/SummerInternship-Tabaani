@@ -1,7 +1,7 @@
 import React from "react";
 
 const Progress = (props) => {
-  const { value, color = "yellow", width } = props; // Set 'yellow' as the default color
+  const { value, color = "yellow", width } = props;
 
   return (
     <div

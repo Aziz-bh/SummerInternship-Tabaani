@@ -51,129 +51,6 @@ const SubscribeToCourse = async (req, res) => {
   }
 };
 
-const verifyUserCompletion = async (req, res) => {
-  const { userId, courseId } = req.params;
-
-  try {
-    const userDoc = await firestore.collection("users").doc(userId).get();
-    const courseDoc = await firestore.collection("courses").doc(courseId).get();
-    if (!userDoc.exists || !courseDoc.exists) {
-      return res.status(404).json({ error: "User or course not found" });
-    }
-
-    const user = userDoc.data();
-    const course = courseDoc.data();
-
-    const chapterQuerySnapshot = await firestore
-      .collection("chapters")
-      .where("courseId", "==", courseId)
-      .get();
-
-    const totalChapters = course.chapters.length;
-    const completedChapters = chapterQuerySnapshot.size;
-
-    const score =
-      user.scores && user.scores[courseId] ? user.scores[courseId] : 0;
-
-    let verified = false;
-
-    if (completedChapters === totalChapters && score >= 70) {
-      verified = true;
-    }
-
-    // Update the user document with the verified attribute
-    await firestore.collection("users").doc(userId).update({
-      verified: verified,
-    });
-
-    if (verified) {
-      return res.status(200).json({
-        message: `Course completed successfully. User verified.`,
-      });
-    } else {
-      return res.status(200).json({
-        message: `Course not completed yet or did not achieve the required score`,
-      });
-    }
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
-const MoveToNextChapter = async (req, res) => {
-  const { userId, courseId, chapterId, score } = req.body;
-
-  try {
-    const userRef = firestore.collection("users").doc(userId);
-    const userDoc = await userRef.get();
-
-    if (!userDoc.exists) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const user = userDoc.data();
-
-    const courseRef = firestore.collection("courses").doc(courseId);
-    const courseDoc = await courseRef.get();
-
-    if (!courseDoc.exists) {
-      return res.status(404).json({ error: "Course not found" });
-    }
-
-    const course = courseDoc.data();
-
-    if (!user.subscribedCourses.includes(courseId)) {
-      return res
-        .status(400)
-        .json({ error: "User is not subscribed to the course" });
-    }
-
-    const chapterRef = firestore.collection("chapters").doc(chapterId);
-    const chapterDoc = await chapterRef.get();
-
-    if (!chapterDoc.exists) {
-      return res.status(404).json({ error: "Chapter not found" });
-    }
-
-    const chapterData = chapterDoc.data();
-    const chapterTitle = chapterData.title;
-
-    console.log("chapterTitle", chapterTitle);
-
-    const quizRef = firestore
-      .collection("quizzes")
-      .doc(chapterDoc.data().quizId);
-
-    const quizDoc = await quizRef.get();
-
-    if (!quizDoc.exists) {
-      return res.status(404).json({ error: "Quiz not found" });
-    }
-
-    const quizData = quizDoc.data();
-    const rightAnswer = quizData.rightAnswer;
-
-    console.log("rightAnswer", rightAnswer);
-
-    if (score >= 70) {
-      const nextChapterIndex = course.chapters.indexOf(chapterId) + 1;
-      if (nextChapterIndex < course.chapters.length) {
-        const nextChapterId = course.chapters[nextChapterIndex];
-        await userRef.update({ currentChapter: nextChapterId });
-        return res
-          .status(200)
-          .json({ message: "User moved to the next chapter" });
-      }
-
-      return res.status(200).json({ message: "User completed all chapters" });
-    } else {
-      return res.status(400).json({ error: "User score is below 70%" });
-    }
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
 const GenerateCertificate = async (req, res) => {
   try {
     const { userId, courseId } = req.body;
@@ -192,7 +69,8 @@ const GenerateCertificate = async (req, res) => {
     }
 
     const subscriptionData = subscriptionSnapshot.docs[0].data();
-    const progress = subscriptionData.progress || 0;
+    const completedLessons = subscriptionData.progress || [];
+    console.log("completedLessons", completedLessons);
 
     const courseRef = firestore.collection("courses").doc(courseId);
     const courseDoc = await courseRef.get();
@@ -201,12 +79,23 @@ const GenerateCertificate = async (req, res) => {
       return res.status(404).json({ error: "Course not found" });
     }
 
-    const chaptersArray = courseDoc.data().chapters;
-    const totalChapters = chaptersArray.length;
+    const lessonsArray = [];
+    const chaptersSnapshot = await courseRef.collection("chapters").get();
 
-    console.log("totalChapters", totalChapters);
+    for (const chapterDoc of chaptersSnapshot.docs) {
+      const lessonsSnapshot = await chapterDoc.ref.collection("lessons").get();
+      lessonsSnapshot.forEach((lessonDoc) => {
+        lessonsArray.push(lessonDoc.data());
+      });
+    }
 
-    if (progress === totalChapters) {
+    const totalLessons = lessonsArray.length;
+    const progress = completedLessons;
+
+    console.log("totalLessons", totalLessons);
+    console.log("progress", progress);
+
+    if (progress == totalLessons) {
       const certificateData = {
         userId: userId,
         courseId: courseId,
@@ -224,6 +113,60 @@ const GenerateCertificate = async (req, res) => {
     } else {
       return res.status(400).json({ error: "Course not completed yet" });
     }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const GetCertificatesForUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const certificatesRef = firestore
+      .collection("certificates")
+      .where("userId", "==", userId);
+
+    const certificatesSnapshot = await certificatesRef.get();
+
+    if (certificatesSnapshot.empty) {
+      return res
+        .status(404)
+        .json({ error: "No certificates found for this user" });
+    }
+
+    const certificates = [];
+
+    // Fetch user and course data for each certificate
+    for (const certificateDoc of certificatesSnapshot.docs) {
+      const certificateData = certificateDoc.data();
+
+      const userRef = firestore.collection("users").doc(certificateData.userId);
+      const userDoc = await userRef.get();
+
+      if (!userDoc.exists) {
+        console.log(`User with ID ${certificateData.userId} not found.`);
+        continue;
+      }
+
+      const userData = userDoc.data();
+
+      const courseRef = firestore
+        .collection("courses")
+        .doc(certificateData.courseId);
+      const courseDoc = await courseRef.get();
+      const courseData = courseDoc.data();
+
+      certificates.push({
+        certificateId: certificateDoc.id,
+        userId: certificateData.userId,
+        displayName: userData.displayName,
+        courseId: certificateData.courseId,
+        courseTitle: courseData.title,
+        completionDate: certificateData.completionDate,
+      });
+    }
+
+    return res.status(200).json(certificates);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -264,7 +207,6 @@ const GetUserSubscribedCourses = async (req, res) => {
       if (courseDoc.exists) {
         const courseData = courseDoc.data();
         courseData.id = courseId;
-        courseData.progress = progress;
 
         // Fetch associated chapters for the course
         const chaptersSnapshot = await courseRef.collection("chapters").get();
@@ -278,17 +220,25 @@ const GetUserSubscribedCourses = async (req, res) => {
           const lessonsSnapshot = await chapterDoc.ref
             .collection("lessons")
             .get();
-          const lessons = lessonsSnapshot.docs.map((lessonDoc) => {
-            const lessonData = lessonDoc.data();
-            lessonData.id = lessonDoc.id;
-            return lessonData;
-          });
+          const lessons = lessonsSnapshot.docs.map((lessonDoc) =>
+            lessonDoc.data()
+          );
 
           chapterData.lessons = lessons;
           chapters.push(chapterData);
         }
 
         courseData.chapters = chapters;
+
+        const totalLessons = chapters.reduce(
+          (sum, chapter) => sum + chapter.lessons.length,
+          0
+        );
+
+        // Calculate progress percentage
+        const progressPercentage = (progress / totalLessons) * 100;
+        courseData.progress = `${progressPercentage.toFixed(2)}%`;
+
         courses.push(courseData);
       }
     }
@@ -401,9 +351,8 @@ const GetAllUsers = async (req, res) => {
 };
 
 module.exports = {
+  GetCertificatesForUser,
   GetAllUsers,
-  verifyUserCompletion,
-  MoveToNextChapter,
   SubscribeToCourse,
   GenerateCertificate,
   GetUserSubscribedCourses,
