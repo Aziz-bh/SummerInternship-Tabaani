@@ -3,14 +3,10 @@ import { FaTrophy } from "react-icons/fa";
 import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
-import axios from 'axios';
 
 const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }) => {
 
-  const baseUrl = 'http://localhost:5000';
-  const imageUrl = `${baseUrl}/api//image/${image}`;
-
-
+  
   const handleDeleteCourse = async () => {
     try {
       await onDelete(id);
@@ -26,7 +22,7 @@ const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }
       <div className="h-full w-[20rem]">
         <div className="relative w-full">
           <img
-            src={imageUrl}
+            src={image}
             className="mb-3 h-56 w-full rounded-xl object-cover 3xl:h-full 3xl:w-full"
             alt=""
           />
