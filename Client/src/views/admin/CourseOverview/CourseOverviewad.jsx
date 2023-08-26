@@ -55,7 +55,7 @@ console.log("lessondata",lessonData);
       : null;
 
   //  console.log("lessondata", selectedLesson)
-  console.log("lessonid :  ", selectedLessonId)
+  //console.log("lessonid :  ", selectedChapter.title)
   console.log("chapterid :  ", selectedchapterId)
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
@@ -74,6 +74,7 @@ console.log("lessondata",lessonData);
           <LessonCard
             key={lessonData?.id}
             CourseTitle={lessonData.title}
+             chapterTitle={selectedChapter.title}
             LessonTitle={selectedLesson.LessonTitle}
             userpic={lessonData.instructor.userpic}
             lessonVideo={selectedLesson.lessonVideo}
@@ -85,7 +86,6 @@ console.log("lessondata",lessonData);
         ) : (
           <div>No lessons available</div>
         )}
-
       </div>
     </div>
   );

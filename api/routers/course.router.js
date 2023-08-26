@@ -20,12 +20,10 @@ const {
   getLesson,
 } = require("../Controllers/chaptercontroller");
 
-//const upload = multer({ dest: 'temp/' }); // Specify your temp storage path
-const upload = require("../multerconfig");
+const configureStorage = require('../multerconfig');
 
-//Courserouter.post('/course', upload.single('file'), addCourse);
-Courserouter.post("/course", addCourse);
-Courserouter.get("/image/:imageName", getImage);
+Courserouter.post('/course', configureStorage(), addCourse);
+
 Courserouter.get("/courses", getAllcourses);
 Courserouter.get("/course/:id", getcourse);
 Courserouter.put("/course/:id", updatecourse);

@@ -14,6 +14,7 @@ const CourseList = (props) => {
       try {
         const response = await axios.get("http://localhost:5000/api/courses");
         setCoursesData(response.data);
+        console.log("hh"+coursesData);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
@@ -34,8 +35,6 @@ const CourseList = (props) => {
     }
   };
 
-  // Concaténez le nom du fichier avec l'URL de base pour obtenir l'URL complète de l'image
-  // const imageUrl = baseUrl + imageFileName;
 
   return (
     <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
@@ -65,7 +64,7 @@ const CourseList = (props) => {
               level={course.level}
               userpic={course.userpic}
               instructor={course.instructor}
-              //chaptersnumber={course.chaptersnumber}
+              chaptersnumber={course.chapters.length}
               description={course.description}
               onDelete={() => handleDeleteCourse(course.id)}
             />
