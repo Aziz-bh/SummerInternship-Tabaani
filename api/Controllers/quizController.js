@@ -344,6 +344,57 @@ async function checkAnswer(req, res, next) {
   }
 }
 
+async function addFinalTest(req, res, next){
+  try {
+    const courseId = req.params.CourseId;
+
+    const courseRef = db.collection("courses").doc(courseId);
+    const courseSnapshot = await courseRef.get();
+
+    if (!courseSnapshot.exists) {
+      res.status(404).send("Course not found");
+      return;
+    }
+
+
+    const rightAnswer = Array.isArray(req.body.rightAnswer)
+    ? req.body.rightAnswer
+    : [req.body.rightAnswer];
+
+  const exam = {
+    question: req.body.question,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    rightAnswer: rightAnswer,
+    courseId: courseId,
+  };
+
+
+  if (
+    !exam.question ||
+    !exam.option1 ||
+    !exam.option2 ||
+    !exam.option3 ||
+    !exam.option4 ||
+    !exam.rightAnswer ||
+    exam.rightAnswer.length === 0
+  ) {
+    res.status(400).json({ message: "Invalid  data" });
+    return;
+  }
+
+  await db.collection("finalExam").doc().set(exam);
+
+  res.status(201).json({ message: "A quiz in the exam is added successfully" });
+
+
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
 module.exports = {
   addQuiz,
   updateQuiz,
@@ -353,4 +404,5 @@ module.exports = {
   findByLessonId,
   checkAnswer,
   addQuizT_F,
+  addFinalTest
 };
