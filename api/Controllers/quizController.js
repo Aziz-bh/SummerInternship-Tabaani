@@ -395,6 +395,59 @@ async function addFinalTest(req, res, next){
   }
 }
 
+
+async function deleteFinalTest(req, res, next) {
+  try {
+    const examId = req.params.ExamId; 
+
+    const examRef = db.collection("finalExam").doc(examId);
+    const examSnapshot = await examRef.get();
+
+    if (!examSnapshot.exists) {
+      res.status(404).send("Exam not found");
+      return;
+    }
+
+    await examRef.delete();
+
+    res.status(200).json({ message: "Exam deleted successfully" });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+
+async function getAllFinalExamsByCourseId(req, res, next) {
+  try {
+    const courseId = req.params.CourseId;
+
+    const examsSnapshot = await db.collection("finalExam")
+      .where("courseId", "==", courseId)
+      .get();
+
+    const exams = [];
+
+    examsSnapshot.forEach((doc) => {
+      const examData = doc.data();
+      exams.push({
+        examId: doc.id,
+        question: examData.question,
+        option1: examData.option1,
+        option2: examData.option2,
+        option3: examData.option3,
+        option4: examData.option4,
+        rightAnswer: examData.rightAnswer,
+      });
+    });
+
+    res.status(200).json(exams);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+
+
 module.exports = {
   addQuiz,
   updateQuiz,
@@ -404,5 +457,7 @@ module.exports = {
   findByLessonId,
   checkAnswer,
   addQuizT_F,
-  addFinalTest
+  addFinalTest,
+  deleteFinalTest,
+  getAllFinalExamsByCourseId
 };

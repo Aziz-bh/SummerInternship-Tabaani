@@ -4,10 +4,6 @@ const TOFComponent = (lessonId) => {
   const [question, setQuestion] = useState("");
   const [selectedChoice, setSelectedChoice] = useState("");
 
-  console.log("tesst lessonId " +lessonId.lessonId)
-  console.log("tesst lessonId " +lessonId.lessonId)
-  console.log("tesst lessonId " +lessonId.lessonId)
-  console.log("tesst lessonId " +lessonId.lessonId)
   
 
   const handleChoiceChange = (event) => {

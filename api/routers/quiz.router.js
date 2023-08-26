@@ -10,7 +10,9 @@ const {
   findByLessonId,
   checkAnswer,
   addQuizT_F,
-  addFinalTest
+  addFinalTest,
+  deleteFinalTest,
+  getAllFinalExamsByCourseId
 } = require("../Controllers/quizController");
 
 quizrouter.post(
@@ -26,6 +28,8 @@ quizrouter.delete("/quizzes/delete/:id", deleteQuiz);
 quizrouter.put("/quizzes/update/:id", updateQuiz);
 quizrouter.post("/quizzes/checker", checkAnswer);
 quizrouter.post("/finalexam/add/:CourseId", addFinalTest);
+quizrouter.delete("/finalexam/delete/:ExamId", deleteFinalTest);
+quizrouter.get("/finalexam/byId/:CourseId", getAllFinalExamsByCourseId);
 
 
 
