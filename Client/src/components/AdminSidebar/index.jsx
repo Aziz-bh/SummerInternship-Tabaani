@@ -5,6 +5,7 @@ import Links from "./components/Links";
 
 import routes from "routes.js";
 import Vector from "assets/img/Logos/TabaaniAcademyLogo.png";
+import { Link } from "react-router-dom";
 
 const AdminSidebar = ({ open, onClose }) => {
   return (
@@ -13,16 +14,15 @@ const AdminSidebar = ({ open, onClose }) => {
         open ? "translate-x-0" : "-translate-x-96"
       }`}
     >
-      
       <span
-         className="absolute top-4 right-4 block cursor-pointer xl:hidden"
+        className="absolute right-4 top-4 block cursor-pointer xl:hidden"
         onClick={onClose}
       >
         <HiX />
       </span>
       <div className="mt-9 flex items-center space-x-1 font-poppins text-[20px] font-bold uppercase dark:text-white">
-          <img src={Vector} alt="Tabaani Academy Logo" />
-        </div>
+        <img src={Vector} alt="Tabaani Academy Logo" />
+      </div>
       <div className={`mx-[40px] mt-[50px] flex items-center`}>
         <div className="mt-1 flex items-center space-x-1 font-poppins text-[24px] font-bold uppercase dark:text-white">
           <span className="mt-5 font-medium text-white">Admin</span>
@@ -33,7 +33,7 @@ const AdminSidebar = ({ open, onClose }) => {
       {/* Nav item */}
 
       <ul className="mb-auto pt-1">
-        <Links routes={routes} />
+        <Link routes={routes} />
       </ul>
     </div>
   );

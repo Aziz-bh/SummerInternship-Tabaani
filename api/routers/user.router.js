@@ -1,5 +1,6 @@
 const express = require("express");
 const Userouter = express.Router();
+const authenticateUser = require("../middlewares/authenticateUser");
 
 const {
   SubscribeToCourse,

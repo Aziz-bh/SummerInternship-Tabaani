@@ -25,14 +25,25 @@ export default function SignIn() {
         password
       );
       const user = userCredential.user;
-      console.log("user:", user);
+      console.log(user, "usssssssssssssssss");
+      const token = await user.getIdToken();
+      console.log("token", token);
 
-      // Fetch user role from the API
+      localStorage.setItem("userToken", token);
+
       const response = await fetch(
-        `http://localhost:5000/api/get-user-role/${user.uid}`
+        `http://localhost:5000/api/get-user-role/${user.uid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = await response.json();
-      localStorage.setItem("user", JSON.stringify(user)); // Storing as a JSON string
+
+      // Storing user data in localStorage (if needed)
+      localStorage.setItem("user", JSON.stringify(user));
+
       const userRole = data.role;
 
       if (userRole === "admin") {

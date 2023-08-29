@@ -34,6 +34,7 @@ const SubscribeToCourse = async (req, res) => {
         userId: userId,
         courseId: courseId,
         progress: 0,
+        finalExam: false,
       };
 
       await firestore.collection("subscriptions").add(newSubscription);
@@ -70,6 +71,7 @@ const GenerateCertificate = async (req, res) => {
 
     const subscriptionData = subscriptionSnapshot.docs[0].data();
     const completedLessons = subscriptionData.progress || [];
+    const finalExamCompleted = subscriptionData.finalExam || false;
     console.log("completedLessons", completedLessons);
 
     const courseRef = firestore.collection("courses").doc(courseId);
@@ -95,7 +97,8 @@ const GenerateCertificate = async (req, res) => {
     console.log("totalLessons", totalLessons);
     console.log("progress", progress);
 
-    if (progress == totalLessons) {
+    if (finalExamCompleted && progress === totalLessons) {
+      // Updated condition
       const certificateData = {
         userId: userId,
         courseId: courseId,

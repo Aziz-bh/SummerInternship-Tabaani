@@ -40,8 +40,9 @@ const LandingNavBar = () => {
       </div>
       <div className="hidden gap-4 md:flex">
         <button className="cursor-pointer font-medium capitalize text-gray-500 duration-200 hover:scale-105 hover:text-orange-500">
-          Login
+          <a>Login</a>
         </button>
+
         <button className=" rounded-3xl bg-orange-400 px-4 py-2 font-medium text-[#000000] duration-200 hover:scale-105">
           Sign up
         </button>
@@ -55,7 +56,7 @@ const LandingNavBar = () => {
       </div>
 
       {nav && (
-        <ul className="absolute top-0 left-0 flex h-screen w-full flex-col items-center justify-center bg-white  text-gray-500">
+        <ul className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center bg-white  text-gray-500">
           <li className="cursor-pointer px-4 py-6 text-4xl capitalize">
             <Link onClick={handleLinkClick} to="home" smooth duration={500}>
               Home
