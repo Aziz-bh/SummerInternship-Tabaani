@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/admincard/ChaptersCard.jsx";
 import { useParams } from "react-router-dom";
-
+import Quiz from "../quiz/index.jsx";
 
 const CourseOverviewad = () => {
   const [lessonData, setLessonData] = useState("");
@@ -51,7 +51,7 @@ console.log("lessondata",lessonData);
       : null;
 
   //  console.log("lessondata", selectedLesson)
-  console.log("lessonid :  ", selectedLessonId)
+  //console.log("lessonid :  ", selectedChapter.title)
   console.log("chapterid :  ", selectedchapterId)
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
@@ -69,6 +69,7 @@ console.log("lessondata",lessonData);
           <LessonCard
             key={lessonData?.id}
             CourseTitle={lessonData.title}
+             chapterTitle={selectedChapter.title}
             LessonTitle={selectedLesson.LessonTitle}
             userpic={lessonData.instructor.userpic}
             lessonVideo={selectedLesson.lessonVideo}
@@ -77,6 +78,7 @@ console.log("lessondata",lessonData);
         ) : (
           <div>No lessons available</div>
         )}
+         {/* <Quiz lessonId={selectedLessonId} /> */}
       </div>
     </div>
   );

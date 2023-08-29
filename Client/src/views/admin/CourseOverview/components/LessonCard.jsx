@@ -1,13 +1,13 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const LessonCard = ({  CourseTitle, LessonTitle, userpic, lessonVideo,LessonDescription }) => {
+const LessonCard = ({  CourseTitle, LessonTitle, userpic, lessonVideo,LessonDescription , chapterTitle}) => {
  
   
   return (
     <div className="rounded-2xl bg-white p-4 shadow-lg">
-      <h2 className="mb-4 text-2xl font-bold">{CourseTitle}</h2>
-
+      <h2 className="mb-4 text-2xl font-bold">Course - {CourseTitle}</h2>
+       <h3 className="mb-4 text-xl ">Chapter - {chapterTitle}</h3> 
      
       {/* Video Container */}
       <div className="mb-4 h-full w-full overflow-hidden rounded-3xl border-2 border-gray-300 bg-gray-100">

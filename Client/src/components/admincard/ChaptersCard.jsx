@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { MdOutlineKeyboardArrowRight, MdDeleteOutline, MdClose } from "react-icons/md";
 import { useParams } from "react-router-dom";
-
+import  vectorimage from "assets/icons/logo1.png";
 
 const ChaptersCard = ({ chapters = [], lessons = [],
   onLessonClick,
@@ -113,7 +113,7 @@ const ChaptersCard = ({ chapters = [], lessons = [],
   };
 
   const handleAddLesson = async (e) => {
-    e.preventDefault();
+   
     try {
       if (openChapter !== null) {
         const chapter = chaptersData.find((chapter) => chapter.id === openChapter);
@@ -145,10 +145,20 @@ const ChaptersCard = ({ chapters = [], lessons = [],
     <div className="rounded-2xl bg-white p-4 shadow-md">
       <h2 className="mb-4 text-2xl font-bold">Course Overview</h2>
       <ul>
-        {chaptersData.map((chapter, index) => (
+        {chaptersData 
+          .filter(chapter => chapter && chapter.title)
+          .sort((a, b) => a.chapterIndex - b.chapterIndex)
+          .map((chapter, index) =>( 
           <li key={index} className="mb-4 border-b border-gray-300 pb-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-medium">{chapter.title}</span>
+            <div className="flex items-center gap-4">
+                <img
+                  src= {vectorimage}
+                  alt="Avatar"
+                  className="h-16 w-16 rounded-lg bg-gray-500 object-cover"
+                />
+                <span className="text-lg font-medium">{chapter.title}</span>
+              </div>
 
               <button
                 type="button"
@@ -187,27 +197,30 @@ const ChaptersCard = ({ chapters = [], lessons = [],
             {openChapter === chapter.id && (
 
               <div>
-                {chapter.lessons && chapter.lessons.length > 0 ? (
-                  chapter.lessons.map((lesson, lessonIndex) =>
-                    lesson && lesson.LessonTitle ? (
-                     
-                      <li
-                        key={lessonIndex}
-                        className="cursor-pointer py-2 pl-4"
-                        onClick={() => {
-                          onChapterClick(chapter.id,index);
-                          onLessonClick(lesson.id,lessonIndex);
-                      
+                {
+                chapter.lessons && chapter.lessons.length > 0 ? (
+                  chapter.lessons
+                  .filter(lesson => lesson && lesson.LessonTitle)
+                  .sort((a, b) => a.lessonIndex - b.lessonIndex)
+                  .map((lesson, lessonIndex) => (
+                    <li
+                      key={lessonIndex}
+                      className="cursor-pointer py-2 pl-4"
+                      onClick={() => {
+                        onChapterClick(chapter.id, index);
+                        onLessonClick(lesson.id, lessonIndex);
+                      }}
+                    >
+                      <span className="hover:text-yellow-500">
+                        Lesson {lessonIndex + 1} : {lesson.LessonTitle}
+                      </span>
+                    </li>
+                  ))
+                
 
-                        }}
-                      >
-                        {lesson.LessonTitle}
-
-                      </li>
-
-                    ) : null
+                    
                   )
-                ) : null}
+                : null}
                 <div class="mt-8 h-full "></div>
 
                 {showForm2 ? (

@@ -7,10 +7,20 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
-import { MdCheckCircle, MdCancel } from "react-icons/md";
+import { MdCheckCircle, MdCancel,MdClose } from "react-icons/md";
 import Progress from "components/progress";
 const ComplexTable = () => {
   const [tableData, setTableData] = useState([]);
+  const [showCoursesModal, setShowCoursesModal] = useState(false);
+
+
+  const openCoursesModal = () => {
+    setShowCoursesModal(true);
+  };
+
+  const closeCoursesModal = () => {
+    setShowCoursesModal(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +53,16 @@ const ComplexTable = () => {
 
     fetchData();
   }, []);
+  const Modal = ({ children, onClose }) => {
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          {children}
+          <button   className="absolute top-50 right-5 p-1 h-6 w-6 text-gray-600" onClick={onClose}> <MdClose size={24} /></button>
+        </div>
+      </div>
+    );
+  };
 
   const columns = React.useMemo(
     () => [
@@ -63,13 +83,13 @@ const ComplexTable = () => {
         accessor: "country", // Replace with the correct accessor for date
       },
       {
-        Header: "COURSES",
-        accessor: "courses", // Replace with the correct accessor for date
+        Header: "COURSES WITH PROGRESS" ,
+        accessor: "courses    ", // Replace with the correct accessor for date
       },
-      {
-        Header: "PROGRESS",
-        accessor: "progress", // Replace with the correct accessor for progress
-      },
+      //  {
+      //    Header: "PROGRESS",
+      //   accessor: "progress", // Replace with the correct accessor for progress
+      //  },
     ],
     []
   );
@@ -96,7 +116,9 @@ const ComplexTable = () => {
     <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between">
         <div class="text-xl font-bold  dark:text-white">Users Progress</div>
+
       </div>
+
 
       <div class="mt-8 h-full overflow-x-scroll xl:overflow-hidden">
         <table {...getTableProps()} className="w-full">
@@ -163,34 +185,59 @@ const ComplexTable = () => {
                           {cell.value}
                         </p>
                       );
-                    } else if (cell.column.Header === "COURSES") {
+                    } else if (cell.column.Header === "COURSES WITH PROGRESS") {
                       data = (
                         <div className="flex flex-col">
-                          {cell.value.map((course, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-2 "
-                            >
-                              <p className="font-bold">{course}</p>
-                            </div>
-                          ))}
+                          {/* <button onClick={openCoursesModal}>Courses</button> */}
+                          <button className="rounded-lg bg-gray-200 px-5 py-2 w-[150px]" onClick={openCoursesModal}>See All</button>
+                          
+                          {showCoursesModal && (
+                            <Modal onClose={closeCoursesModal}>
+                              
+                             
+                              <ul>
+                                {tableData.map((user, index) => (
+                                  <li key={index}>
+
+                                    {/* Display the list of courses and progressions for this user */}
+                                    <div className="flex flex-col">
+                                      {user.courses.map((course, courseIndex) => (
+                                        <div key={courseIndex} className="flex items-center gap-2">
+                                          <p className="font-bold">{course}</p>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="flex flex-col">
+                                      {user.progress.map((progress, progressIndex) => (
+                                        <div key={progressIndex} className="flex items-center gap-2">
+                                          <Progress width="w-48" value={progress} />
+                                          <p className="font-bold">{progress}%</p>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </Modal>
+                          )}
                         </div>
                       );
-                    } else if (cell.column.Header === "PROGRESS") {
-                      data = (
-                        <div className="flex flex-col">
-                          {cell.value.map((progress, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-2"
-                            >
-                              <Progress width="w-48" value={progress} />
-                              <p className="font-bold">{progress}%</p>
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    }
+                    } 
+                    // else if (cell.column.Header === "PROGRESS") {
+                    //   data = (
+                    //     <div className="flex flex-col">
+                    //       {cell.value.map((progress, index) => (
+                    //         <div
+                    //           key={index}
+                    //           className="flex items-center gap-2"
+                    //         >
+                    //           <Progress width="w-48" value={progress} />
+                    //           <p className="font-bold">{progress}%</p>
+                    //         </div>
+                    //       ))}
+                    //     </div>
+                    //   );
+                    // }
                     return (
                       <td
                         className="pb-[18px] pt-[14px] sm:text-[14px]"

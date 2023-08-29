@@ -8,18 +8,13 @@ const multer = require("multer");
 
 const addCourse = async (req, res) => {
   try {
-    // let image = null;
+    let image = null;
+    const { title, level, instructorId, price, description, imageURL } = req.body;
 
-    // if (req.files && req.files.image) {
-    //   console.log("Image details:", req.files.image);//
-    //   image = req.files.image[0].filename;
-    // }
-
-    const { title, level, instructorId, price, description, image } = req.body;
-
-    // Retrieve instructor details from Firestore based on instructorId
     const instructorRef = firestore.collection("users").doc(instructorId);
+    
     const instructorSnapshot = await instructorRef.get();
+    console.log(instructorSnapshot.data())
     if (!instructorSnapshot.exists) {
       return res.status(404).send("Instructor not found");
     }
@@ -36,10 +31,9 @@ const addCourse = async (req, res) => {
         userpic: instructorData.photoURL,
       },
       price,
-      image,
+      image :imageURL,
     };
 
-    // Save courseData in Firestore
     await firestore.collection("courses").add(courseData);
     res.send("Course saved successfully");
   } catch (error) {
@@ -47,62 +41,7 @@ const addCourse = async (req, res) => {
   }
 };
 
-//hedhi khaliha haka fi commentaire bekchi moukim iji ybadalha ///
 
-// const storage = multer.memoryStorage();
-// const storageRef = firebase.storage().ref(); // Get the reference to Firebase Storage
-
-// const addCourse = async (req, res) => {
-//   try {
-//     const file = req.file;
-
-//     if (!file) {
-//       return res.status(400).json({ error: 'No file provided' });
-//     }
-
-//     const filename = file.originalname;
-//     const uploadPath = `path/in/firebase/storage/${filename}`;
-//     const fileRef = storageRef.child(uploadPath); // Use storageRef to get a reference to the file
-
-//     const uploadTask = fileRef.put(file.buffer, { contentType: file.mimetype });
-//     uploadTask.on(
-//       'state_changed',
-//       (snapshot) => {
-//         // Monitor upload progress if needed
-//         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//         console.log(`Upload progress: ${progress}%`);
-//       },
-//       (error) => {
-//         res.status(500).json({ error: 'Error uploading file' });
-//       },
-//       () => {
-//         // Once upload is complete, continue saving course data to Firestore
-//         const { title, level, instructor, price, chaptersnumber, description } = req.body;
-
-//         const courseData = {
-//           title,
-//           level,
-//           chaptersnumber,
-//           description,
-//           instructor,
-//           price,
-//           file: filename // Use the filename instead of the file buffer
-//         };
-
-//         // Save courseData to Firestore
-//         firestore.collection("courses").add(courseData)
-//           .then(() => {
-//             res.status(200).json({ message: 'Course and file uploaded successfully' });
-//           })
-//           .catch((error) => {
-//             res.status(500).json({ error: 'Error saving course data' });
-//           });
-//       }
-//     );
-//   } catch (error) {
-//     res.status(400).send(error.message);
-//   }
-// };
 /***************************************************** */
 
 const getAllcourses = async (req, res, next) => {
