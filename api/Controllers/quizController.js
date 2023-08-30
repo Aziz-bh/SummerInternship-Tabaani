@@ -334,7 +334,7 @@ async function checkAnswer(req, res, next) {
       const subscriptionsRef = db.collection("subscriptions");
       const querySnapshot = await subscriptionsRef
         .where("courseId", "==", foundCourseId)
-        .where("userId", "==", "6Mf70xX01X6kfypHDVCC")
+        .where("userId", "==", req.body.uid)
         .get();
 
       const matchingSubscriptions = [];
@@ -347,7 +347,7 @@ async function checkAnswer(req, res, next) {
       const subscriptionToUpdate = matchingSubscriptions[0];
 
       if (subscriptionToUpdate) {
-        const updatedProgress = subscriptionToUpdate.progress + 1;
+        const updatedProgress = ++subscriptionToUpdate.progress;
 
         db.collection("subscriptions")
           .doc(subscriptionToUpdate.id)

@@ -37,7 +37,8 @@ const handleFinalExamClick = (finalExamIndex) => {
   }, [id]);
 
   const [progress, setProgress] = useState(null);
-
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,8 +48,8 @@ const handleFinalExamClick = (finalExamIndex) => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            userId: 'KuO2AllgwWdpkQydSDekXkyJT1I2',
-            courseId: 'vSnDnHmw9f9YMArJ05RU'
+            userId: user.uid,
+            courseId: id
           })
         });
 
