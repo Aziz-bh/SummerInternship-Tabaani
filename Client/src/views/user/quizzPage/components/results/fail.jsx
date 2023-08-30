@@ -9,7 +9,7 @@ const Fail = ({ result }) => {
       <div className="overlap">
         <div className="overlap-group">
           <div className="flex flex-col">
-            <div className="lesson-complete text-sm font-semibold tracking-wide text-gray-1000">
+            <div className="lesson-complete text-md font-semibold tracking-wide text-gray-1000">
               Check Your Knowledge
             </div>
             <h1 className="thats-right-great mt-5 mb-10 pb-5 text-4xl font-normal">

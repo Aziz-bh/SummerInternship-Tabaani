@@ -243,6 +243,33 @@ async function validateAnswer(quizId, selectedAnswer) {
   }
 }
 
+async function validateAnswer2(quizId, selectedAnswer) {
+  try {
+    const quizRef = db.collection("finalExam").doc(quizId);
+    const docSnapshot = await quizRef.get();
+
+    if (!docSnapshot.exists) {
+      return { quizId, message: "Exam not found" };
+    } else {
+      const quizData = docSnapshot.data();
+      const question = quizData.question;
+      const rightAnswerSet = new Set(quizData.rightAnswer);
+      const selectedAnswerSet = new Set();
+      selectedAnswerSet.add(selectedAnswer);
+
+      const isCorrectAnswer = arrayEquals(rightAnswerSet, selectedAnswerSet);
+
+      if (isCorrectAnswer) {
+        return { quizId,selectedAnswer, question, message: "Correct answer!" };
+      } else {
+        return { quizId,selectedAnswer,question, message: "Incorrect answer!" };
+      }
+    }
+  } catch (error) {
+    throw error;
+  }
+} 
+
 function arrayEquals(a, b) {
   if (a.size !== b.size) return false;
   for (const item of a) {
@@ -283,7 +310,7 @@ async function checkAnswer(req, res, next) {
       const chaptersRef = coursesRef.doc(courseId).collection("chapters");
       const chaptersSnapshot = await chaptersRef.get();
 
-      // Loop through chapters
+   
       for (const chapterDoc of chaptersSnapshot.docs) {
         const chapterId = chapterDoc.id;
         const lessonRef = chaptersRef.doc(chapterId).collection("lessons");
@@ -293,13 +320,13 @@ async function checkAnswer(req, res, next) {
           if (lessonId === lesson) {
             console.log("This is the course that has it all:", courseId);
             foundCourseId = courseId;
-            break; // Exit the loop once the desired courseId is found
+            break; 
           }
         }
       }
 
       if (foundCourseId) {
-        break; // Exit the outer loop once the courseId is found
+        break;
       }
     }
 
@@ -447,6 +474,55 @@ async function getAllFinalExamsByCourseId(req, res, next) {
 }
 
 
+async function checkAnswerExam(req, res, next) {
+  const quizArray = req.body.quizzes;
+  console.log(
+    "🚀 ~ file: quizController.js:226 ~ checkAnswer ~ quizArray:",
+    quizArray
+  );
+
+  try {
+    const results = await Promise.all(
+      quizArray.map((quiz) => validateAnswer2(quiz.quizId, quiz.selectedAnswer))
+    );
+    console.log(results);
+
+    const length = results.length;
+    const correctAnswers = results.filter(
+      (result) => result.message === "Correct answer!"
+    ).length;
+    const score = (correctAnswers / length) * 100;
+    if (score >=90){
+      const uid = req.body?.userId;
+      //const uid = "onRlwU0WuvXAn1K1MY4KcX9jlVR2";
+      const courseId = req.body?.courseId;
+      //const courseId = "vSnDnHmw9f9YMArJ05RU"
+      
+      const querySnapshot = await db.collection("subscriptions")
+        .where("userId", "==", uid)
+        .where("courseId", "==", courseId)
+        .get();
+      
+        querySnapshot.forEach(async (doc) => {
+          const subData = doc.data();
+          const subRef = doc.ref;
+        
+          if (subData.finalExam !== undefined) {
+            await subRef.update({ finalExam: true });
+          } else {
+            await subRef.set({ finalExam: true }, { merge: true });
+          }
+        });
+      
+    }
+ 
+    res.status(200).json({ results, score });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to check answers" });
+  }
+}
+
 
 module.exports = {
   addQuiz,
@@ -459,5 +535,6 @@ module.exports = {
   addQuizT_F,
   addFinalTest,
   deleteFinalTest,
-  getAllFinalExamsByCourseId
+  getAllFinalExamsByCourseId,
+  checkAnswerExam
 };

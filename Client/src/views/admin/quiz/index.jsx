@@ -3,14 +3,13 @@ import TOFComponent from './components/TOFComponent';
 import QCMComponent from './components/QCMComponent';
 import QCUComponent from './components/QCUComponent';
 import QuizList from './components/QuizList';
+import FinalExamAdd from '../FinalExam';
 
-const NewQuiz = (lessonId) => {
+const NewQuiz = ({lessonId ,id}) => {
   const [selectedChoice, setSelectedChoice] = useState('');
   let idlesson;
   useEffect(() => {
     idlesson=lessonId
-    console.log("🚀 ~ file: index.jsx:12 ~ useEffect ~ idlesson:", idlesson)
-    console.log("lesson from index "+lessonId)
   }, [lessonId]);
   const handleChoiceChange = (event) => {
     console.log("lesson from index "+lessonId)
@@ -88,6 +87,7 @@ const NewQuiz = (lessonId) => {
       {selectedChoice === 'tof' && <TOFComponent lessonId={lessonId.lessonId} />}
       {selectedChoice === 'qcm' && <QCMComponent lessonId={lessonId.lessonId}/>}
       {selectedChoice === 'qcu' && <QCUComponent lessonId={lessonId.lessonId}/>}
+      <FinalExamAdd id={id}/>
       </div>
     </div>
 

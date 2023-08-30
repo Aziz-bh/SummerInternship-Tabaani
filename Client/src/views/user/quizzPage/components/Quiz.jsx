@@ -4,7 +4,16 @@ import "../../../../assets/css/quiz.css";
 import Content from "./Content";
 import Result from "./Result";
 
-const Quiz = (lessonId) => {
+const Quiz = (lessonId, id) => {
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizIds, setQuizIds] = useState([]);
   const [score, setScore] = useState(null);
@@ -25,28 +34,26 @@ const Quiz = (lessonId) => {
   const itemsPerPage = 1; // Number of items to display per page
   const [quizDataNotFound, setQuizDataNotFound] = useState(false);
   // Fetch data from the API
-  useEffect(() => { 
-
-   fetch("http://localhost:5000/api/quizzes/chapter/"+lessonId.lessonId)
-   //fetch("http://localhost:5000/api/quizzes/chapter/Yp6prxrOlvBVO2VFaAEH")
-   .then((response) => {
-     if (!response.ok) {
-       throw new Error("Data not found");
-     }
-     return response.json();
-   })
-   .then((data) => {
-     setQuizData(data);
-     setQuizDataNotFound(false);
-   })
-   .catch((error) => {
-     console.error("Error fetching data:", error);
-     setQuizDataNotFound(true);
-   });
-}, [lessonId]);
-if (quizDataNotFound) {
-  return <p>Quiz not found.</p>;
-}
+  useEffect(() => {
+    fetch("http://localhost:5000/api/quizzes/chapter/" + lessonId.lessonId)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Data not found");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setQuizData(data);
+        setQuizDataNotFound(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setQuizDataNotFound(true);
+      });
+  }, [lessonId]);
+  if (quizDataNotFound) {
+    return <p>Quiz not found.</p>;
+  }
 
   const totalPages = Math.ceil(quizData.length / itemsPerPage);
 
@@ -64,9 +71,12 @@ if (quizDataNotFound) {
       return { quizId, selectedAnswer };
     });
 
-    const formattedData = { quizzes: formattedAnswers };
+    const formattedData = {
+  uid: user.uid, 
+  quizzes: formattedAnswers
+};
 
-    const url = "http://localhost:5000/api/quizzes/checker";
+    const url = "http://localhost:5000/api/quizzes/checker/";
     const requestOptions = {
       method: "POST",
       headers: {
@@ -102,7 +112,6 @@ if (quizDataNotFound) {
   const isLastPage = currentPage === totalPages;
   const isLastPagePlusOne = currentPage === totalPages + 1;
 
-
   if (quizData.length === 0) {
     return <p>Loading...</p>;
   }
@@ -110,7 +119,7 @@ if (quizDataNotFound) {
   return (
     <div>
       <div className="content">
-        {showResult ? ( 
+        {showResult ? (
           <Result score={score} ans={ans} />
         ) : (
           <>
@@ -130,10 +139,9 @@ if (quizDataNotFound) {
               );
             })}
 
-      
             {isLastPagePlusOne && (
               <button
-                onClick={newFN} 
+                onClick={newFN}
                 className="my-4 rounded bg-blackTheme py-4 px-8 font-bold text-white hover:bg-blackTheme"
               >
                 SHOW RESULT

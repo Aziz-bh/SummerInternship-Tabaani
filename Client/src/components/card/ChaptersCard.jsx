@@ -6,8 +6,13 @@ const ChaptersCard = ({
   onLessonClick,
   onChapterClick,
   onQuizzClick,
+  onFinalExamClick,
   showLesson,
+  progress
 }) => {
+  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ Progress:", progress)
+  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ progress:", progress)
+  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ progress:", progress)
   const [openChapter, setOpenChapter] = useState(null);
 
   const toggleChapter = (index) => {
@@ -77,15 +82,18 @@ const ChaptersCard = ({
                     lesson && lesson.LessonTitle ? (
                       <li
                         key={lessonIndex}
-                        className="cursor-pointer py-2 pl-4"
+                        className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4':'text-gray-400 cursor-not-allowed'}`}
                         onClick={() => {
+                          if(progress >= lessonIndex){
                           onChapterClick(index);
                           onLessonClick(lessonIndex);
+                        }
                         }}
                       >
                         <span
-                          className="hover:text-yellow-500"
+                           className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4 hover:text-yellow-500':'text-gray-400 cursor-not-allowed'}`}
                           onClick={() => {
+                            if(progress >= lessonIndex)
                             showLesson();
                           }}
                         >
@@ -98,11 +106,12 @@ const ChaptersCard = ({
                               <li
                                 key={lessonIndex}
                                 onClick={() => {
+                                  if(progress >= lessonIndex)
                                   onQuizzClick(lessonIndex);
                                 }}
                                 className="cursor-pointer py-2"
                               >
-                                <span className=" hover:text-orange-500">
+                                <span   className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4 hover:text-yellow-500':'text-gray-400 cursor-not-allowed'}`}>
                                   quiz
                                 </span>
                               </li>
@@ -112,6 +121,7 @@ const ChaptersCard = ({
                               <p
                                 key={lessonIndex}
                                 onClick={() => {
+                                  if(progress >= lessonIndex)
                                   onQuizzClick(lessonIndex);
                                 }}
                               >
@@ -126,7 +136,15 @@ const ChaptersCard = ({
                 ) : (
                   <li>No lessons available for this chapter.</li>
                 )}
-                <li>Final assestment</li>
+                  <li
+      key="final-assessment"
+      onClick={() => {
+        onFinalExamClick(index); // Handle the click event for the final exam
+      }}
+      className="cursor-pointer py-2"
+    >
+      <span className="hover:text-red-500">Final Assessment</span>
+    </li>
               </ul>
             )}
           </li>

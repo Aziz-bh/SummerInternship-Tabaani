@@ -67,6 +67,16 @@
   }
   
   
+
+  .general-question {
+    flex: 1; /* The text will take all available space */
+    font-size: 24px;
+    font-weight: bold;
+    /* Set a maximum width for the text container if needed */
+    max-width: 490px;
+    color: rgba(8, 8, 8, 0.75);
+  }
+  
   
   /* Container for the entire quiz */
   .quiz {

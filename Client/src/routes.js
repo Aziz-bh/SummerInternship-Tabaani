@@ -22,6 +22,8 @@ import LandingPage from "./views/LandingPage/LandingPage";
 import CourseForm from "./views/admin/Courses/CourseForm";
 import SignUp from "views/auth/SignUp";
 import NewQuiz from "views/admin/quiz";
+import Validate from "views/user/FinalExam/components/Validate";
+
 
 const routes = [
   {
@@ -106,12 +108,13 @@ const routes = [
     path: "home",
     component: <LandingPage />,
   },
-  {
-    name: "quiz",
+
+    {
+    name: "Exam",
     layout: "/user",
-    path: "quiz",
+    path: "Exam",
     icon: <MdLock className="h-6 w-6" />,
-    component: <QuizPage />,
+    component: <Validate />,
     hideInSidebar: true,
   },
   {

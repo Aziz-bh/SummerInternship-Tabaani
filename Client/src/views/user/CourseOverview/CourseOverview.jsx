@@ -3,6 +3,8 @@ import LessonCard from "./components/LessonCard";
 import ChaptersCard from "components/card/ChaptersCard";
 import { useParams } from "react-router-dom";
 import Quiz from "../quizzPage/components/Quiz";
+import FinalExam from "../FinalExam";
+import Ready from "../FinalExam/components/Ready";
 
 const CourseOverview = () => {
   const [courseData, setCourseData] = useState("");
@@ -10,6 +12,15 @@ const CourseOverview = () => {
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   const [selectedQuizzIndex, setSelectedQuizzIndex] = useState("");
   const [isQuizVisible, setIsQuizVisible] = useState(false);
+  const [selectedFinalExamIndex, setSelectedFinalExamIndex] = useState("");
+const [isFinalExamVisible, setIsFinalExamVisible] = useState(false);
+
+
+const handleFinalExamClick = (finalExamIndex) => {
+  setSelectedFinalExamIndex(finalExamIndex);
+  setIsFinalExamVisible(true);
+};
+
 
   const { id } = useParams();
 
@@ -25,6 +36,33 @@ const CourseOverview = () => {
       });
   }, [id]);
 
+  const [progress, setProgress] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/progress', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: 'KuO2AllgwWdpkQydSDekXkyJT1I2',
+            courseId: 'vSnDnHmw9f9YMArJ05RU'
+          })
+        });
+
+        const data = await response.json();
+
+        setProgress(data.progress);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleChapterClick = (chapterIndex) => {
     setSelectedChapterIndex(chapterIndex);
     setSelectedLessonIndex(0);
@@ -35,11 +73,13 @@ const CourseOverview = () => {
   };
   const showLesson = () => {
     setIsQuizVisible(false);
+    setIsFinalExamVisible(false);
   };
 
   const handleQuizzClick = (quizzIndex) => {
     setSelectedQuizzIndex(quizzIndex);
     setIsQuizVisible(true);
+    setIsFinalExamVisible(false);
   };
 
   if (!courseData) {
@@ -66,7 +106,9 @@ const CourseOverview = () => {
             onLessonClick={handleLessonClick}
             onChapterClick={handleChapterClick}
             onQuizzClick={handleQuizzClick}
+            onFinalExamClick={handleFinalExamClick} 
             showLesson={showLesson}
+            progress= {progress}
           />
         )}
       </div>
@@ -74,7 +116,7 @@ const CourseOverview = () => {
   
       <div className="md:col-span-12 lg:col-span-8">
         {/* Display LessonCard or QuizzCard based on selection */}
-        {!isQuizVisible && selectedLesson && (
+        {!isFinalExamVisible && !isQuizVisible && selectedLesson && (
           <LessonCard
             key={courseData?.id}
             CourseTitle={courseData?.title}
@@ -84,7 +126,9 @@ const CourseOverview = () => {
             userpic={courseData?.instructor.userpic}
           />
         )}
-        {isQuizVisible && <Quiz lessonId={lessonId} />}
+        {!isFinalExamVisible && isQuizVisible && <Quiz lessonId={lessonId} />}
+        {isFinalExamVisible && <Ready id={id} />}
+
       </div>
     </div>
   );

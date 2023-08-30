@@ -33,7 +33,9 @@ const Navbar = (props) => {
         console.error("Error signing out:", error);
       });
   };
-
+if(!user){
+  window.location.replace("/auth/sign-in")
+}
   return (
     <nav className="0 sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl p-2 backdrop-blur-xl ">
       <div className="ml-[6px]">

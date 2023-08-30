@@ -12,7 +12,7 @@ const QuizPage = () => {
       </div>
 
       {/* Right Section (Big - 8 columns on medium and larger screens) */}
-      <div className="md:col-span-12 lg:col-span-8 mb-20 pb-20">
+      <div className="mt-4 rounded-lg border bg-white p-4 shadow-md">
         {/* Content for the right section goes here */}
         <Quiz />
       </div>

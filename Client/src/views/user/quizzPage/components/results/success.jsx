@@ -26,7 +26,7 @@ const Success = ({ result }) => {
     setIsModalOpen(false);
   };
   return (
-    <div className="ml-20 mt-10 mr-10 pl-4">
+    <div className="mt-4 rounded-lg bg-white p-4 ">
       <div className="flex items-center justify-center">
         {isModalOpen && (
           <div className="fixed inset-0 z-10 flex items-center justify-center backdrop-blur-sm backdrop-filter">
@@ -66,11 +66,11 @@ const Success = ({ result }) => {
       <div className="overlap">
         <div className="overlap-group ">
           <div className="flex flex-col">
-            <div className="lesson-complete text-sm font-semibold tracking-wide text-gray-1000">
+            <div className="lesson-complete text-md font-semibold tracking-wide text-gray-1000">
               Lesson Complete
             </div>
 
-            <h1 className="thats-right-great mt-5 mb-10 pb-5 text-4xl font-normal">
+            <h1 className="thats-right-great mt-5 mb-5 pb-5 text-4xl font-normal">
               Thats Right, Great Work
             </h1>
           </div>
@@ -78,7 +78,7 @@ const Success = ({ result }) => {
           <div className="flex flex-col md:flex-row">
             <div className="">
               <p
-                className="lorem-ipsum-dolor text-lg font-bold tracking-wide text-gray-1100"
+                className="lorem-ipsum-dolor text-md font-bold tracking-wide text-gray-1100"
                 style={{ fontWeight: 1000 }}
               >
                 ACHIEVING SUCCESS QUICKLY HIGHLIGHTS YOUR DEDICATION AND ABILITY
@@ -101,11 +101,11 @@ const Success = ({ result }) => {
         </div>
       </div>
       <div className="my-7 border-t border-gray-300"></div>
-      <div className="overlap-2 ml-2">
+      <div className="overlap-2 ml-2 md:flex md:flex-col flex">
         <div className="next-steps mb-5 text-2xl font-bold">NEXT STEPS</div>
         <div className="flex items-start">
           <div className="flex-1">
-            <p className="p w-96 text-lg font-semibold text-gray-1000">
+            <p className="p w-96 text-md font-semibold text-gray-1000">
               Lorem Ipsum Dolor Sit Amet Consectetur. Sed Egestas Nisl Fringilla
               Hendrerit Faucibus. Phasellus Dapibus Sed Turpis Nulla Porta
               Gravida. Duis Et In Sodales Arcu Vitae Et.
@@ -113,7 +113,7 @@ const Success = ({ result }) => {
           </div>
 
           <div className="flex flex-col items-end">
-            <button className="mt-24 rounded-xl bg-blackTheme py-3 px-8 pt-4 pb-4 text-sm text-white hover:bg-gray-700">
+            <button className="mt-16 rounded-xl bg-blackTheme py-3 px-8 pt-4 pb-4 text-sm text-white hover:bg-gray-700">
               Next Lesson
             </button>
           </div>

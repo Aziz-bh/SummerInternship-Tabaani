@@ -350,6 +350,27 @@ const GetAllUsers = async (req, res) => {
   }
 };
 
+//get progress
+const getUserProgress=async(req,res)=>{
+  const { userId, courseId } = req.body;
+
+  const subscriptionRef = firestore
+    .collection("subscriptions")
+    .where("userId", "==", userId)
+    .where("courseId", "==", courseId);
+
+  const subscriptionSnapshot = await subscriptionRef.get();
+
+  if (subscriptionSnapshot.empty) {
+    return res
+      .status(404)
+      .json({ error: "User not subscribed to the course" });
+  }
+  const subscriptionData = subscriptionSnapshot.docs[0].data();
+
+  return res.status(200).json({progress:subscriptionData.progress})
+}
+
 module.exports = {
   GetCertificatesForUser,
   GetAllUsers,
@@ -358,4 +379,5 @@ module.exports = {
   GetUserSubscribedCourses,
   GetUsers,
   getUserRole,
+  getUserProgress
 };

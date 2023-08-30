@@ -14,6 +14,7 @@ const CourseOverviewad = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    
     console.log(selectedLessonId)
     console.log(selectedLessonId)
     console.log(selectedLessonId)
@@ -81,7 +82,7 @@ console.log("lessondata",lessonData);
             LessonDescription={selectedLesson.LessonDescription}
           />
          
-          <NewQuiz lessonId={selectedLessonId}/>
+          <NewQuiz lessonId={selectedLessonId} id={id}/>
           </>
         ) : (
           <div>No lessons available</div>
