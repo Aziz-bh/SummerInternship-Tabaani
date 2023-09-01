@@ -3,7 +3,7 @@ import success from "../../../../../assets/img/results/success.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Success = ({ result }) => {
+const Success = ({ result, onLessonClick,showLesson,index}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -113,7 +113,12 @@ const Success = ({ result }) => {
           </div>
 
           <div className="flex flex-col items-end">
-            <button className="mt-16 rounded-xl bg-blackTheme py-3 px-8 pt-4 pb-4 text-sm text-white hover:bg-gray-700">
+            <button 
+              onClick={() => {
+                  onLessonClick(index+1);
+                  showLesson();
+              }}
+            className="mt-16 rounded-xl bg-blackTheme py-3 px-8 pt-4 pb-4 text-sm text-white hover:bg-gray-700">
               Next Lesson
             </button>
           </div>

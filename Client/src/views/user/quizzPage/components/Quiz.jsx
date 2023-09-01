@@ -4,15 +4,12 @@ import "../../../../assets/css/quiz.css";
 import Content from "./Content";
 import Result from "./Result";
 
-const Quiz = (lessonId, id) => {
+const Quiz = ({ lessonId, nextLessonId ,showLesson,onLessonClick,index}) => {
   const userString = localStorage.getItem("user");
   const user = JSON.parse(userString);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
-  console.log("🚀 ~ file: Quiz.jsx:10 ~ Quiz ~ user:", user.uid);
+
+  console.log("lessonId:", lessonId);
+  console.log("nextLessonId:", nextLessonId);
 
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizIds, setQuizIds] = useState([]);
@@ -35,7 +32,7 @@ const Quiz = (lessonId, id) => {
   const [quizDataNotFound, setQuizDataNotFound] = useState(false);
   // Fetch data from the API
   useEffect(() => {
-    fetch("http://localhost:5000/api/quizzes/chapter/" + lessonId.lessonId)
+    fetch("http://localhost:5000/api/quizzes/chapter/" + lessonId)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Data not found");
@@ -120,7 +117,7 @@ const Quiz = (lessonId, id) => {
     <div>
       <div className="content">
         {showResult ? (
-          <Result score={score} ans={ans} />
+          <Result score={score} ans={ans} onLessonClick={onLessonClick} showLesson={showLesson} index={index} />
         ) : (
           <>
             <div className="title-container">

@@ -11,9 +11,12 @@ const CourseOverview = () => {
   const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   const [selectedQuizzIndex, setSelectedQuizzIndex] = useState("");
+  const [nextLesson, setnextLesson] = useState("");
   const [isQuizVisible, setIsQuizVisible] = useState(false);
   const [selectedFinalExamIndex, setSelectedFinalExamIndex] = useState("");
 const [isFinalExamVisible, setIsFinalExamVisible] = useState(false);
+const [updateChaptersCard, setUpdateChaptersCard] = useState(false);
+const [progress, setProgress] = useState(null);
 
 
 const handleFinalExamClick = (finalExamIndex) => {
@@ -21,6 +24,9 @@ const handleFinalExamClick = (finalExamIndex) => {
   setIsFinalExamVisible(true);
 };
 
+useEffect(() => {
+  setUpdateChaptersCard(true); // Trigger an update
+}, [progress, selectedLessonIndex]);
 
   const { id } = useParams();
 
@@ -36,7 +42,7 @@ const handleFinalExamClick = (finalExamIndex) => {
       });
   }, [id]);
 
-  const [progress, setProgress] = useState(null);
+  
   const userString = localStorage.getItem("user");
   const user = JSON.parse(userString);
   useEffect(() => {
@@ -69,15 +75,13 @@ const handleFinalExamClick = (finalExamIndex) => {
     setSelectedLessonIndex(0);
   };
 
-  const handleLessonClick = (lessonIndex) => {
-    setSelectedLessonIndex(lessonIndex);
-  };
   const showLesson = () => {
     setIsQuizVisible(false);
     setIsFinalExamVisible(false);
   };
 
-  const handleQuizzClick = (quizzIndex) => {
+  const handleQuizzClick = (quizzIndex,nextLessonId) => {
+    setnextLesson({nextLessonId});
     setSelectedQuizzIndex(quizzIndex);
     setIsQuizVisible(true);
     setIsFinalExamVisible(false);
@@ -94,25 +98,35 @@ const handleFinalExamClick = (finalExamIndex) => {
   console.log("selectedLesson", selectedLesson);
 
   const lessonId = selectedLesson?.id;
-  console.log("lessonId", lessonId);
+  const nextLessonId = selectedChapter?.lessons[selectedLessonIndex+1]?.id;
+  const index = selectedLessonIndex;
+
+  const handleLessonClick = (lessonIndex) => {
+    setSelectedLessonIndex(lessonIndex);
+    if(lessonIndex>progress){
+
+    setProgress(progress+1)
+  }
+  };
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">
       {/* Left Section*/}
       <div className="md:col-span-12 lg:col-span-4">
-        {courseData.chapters && courseData.chapters.length > 0 && (
-          <ChaptersCard
-            chapters={courseData.chapters}
-            lessons={selectedLesson}
-            onLessonClick={handleLessonClick}
-            onChapterClick={handleChapterClick}
-            onQuizzClick={handleQuizzClick}
-            onFinalExamClick={handleFinalExamClick} 
-            showLesson={showLesson}
-            progress= {progress}
-          />
-        )}
-      </div>
+  {updateChaptersCard && courseData.chapters && courseData.chapters.length > 0 && (
+    <ChaptersCard
+      chapters={courseData.chapters}
+      lessons={selectedLesson}
+      onLessonClick={handleLessonClick}
+      onChapterClick={handleChapterClick}
+      onQuizzClick={handleQuizzClick}
+      onFinalExamClick={handleFinalExamClick} 
+      showLesson={showLesson}
+      progress={progress}
+    />
+  )}
+</div>
+
 
   
       <div className="md:col-span-12 lg:col-span-8">
@@ -127,7 +141,7 @@ const handleFinalExamClick = (finalExamIndex) => {
             userpic={courseData?.instructor.userpic}
           />
         )}
-        {!isFinalExamVisible && isQuizVisible && <Quiz lessonId={lessonId} />}
+        {!isFinalExamVisible && isQuizVisible && <Quiz lessonId={lessonId} showLesson={showLesson} nextLessonId={nextLessonId} index={index} onLessonClick={handleLessonClick}/>}
         {isFinalExamVisible && <Ready id={id} />}
 
       </div>

@@ -3,7 +3,7 @@ import Success from "./results/success";
 import Fail from "./results/fail";
 import { ToastContainer } from "react-toastify";
 
-const Result = ({ score, ans }) => {
+const Result = ({ score, ans , onLessonClick,showLesson,index}) => {
   return (
     <div>
       {score == null &&(
@@ -16,7 +16,7 @@ const Result = ({ score, ans }) => {
       {score != null && (
         <>
 
-          {score >= 90 ? <Success result={ans} /> : <Fail result={ans} />}
+          {score >= 90 ? <Success result={ans}  onLessonClick={onLessonClick} showLesson={showLesson}  index={index} /> : <Fail result={ans} />}
         </>
       )}
        <ToastContainer />

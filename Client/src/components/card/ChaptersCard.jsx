@@ -8,11 +8,8 @@ const ChaptersCard = ({
   onQuizzClick,
   onFinalExamClick,
   showLesson,
-  progress
+  progress,
 }) => {
-  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ Progress:", progress)
-  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ progress:", progress)
-  console.log("🚀 ~ file: ChaptersCard.jsx:13 ~ progress:", progress)
   const [openChapter, setOpenChapter] = useState(null);
 
   const toggleChapter = (index) => {
@@ -78,73 +75,95 @@ const ChaptersCard = ({
             {openChapter === index && (
               <ul className="mt-2">
                 {chapter.lessons && chapter.lessons.length > 0 ? (
-                  chapter.lessons.map((lesson, lessonIndex) =>
-                    lesson && lesson.LessonTitle ? (
-                      <li
-                        key={lessonIndex}
-                        className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4':'text-gray-400 cursor-not-allowed'}`}
-                        onClick={() => {
-                          if(progress >= lessonIndex){
-                          onChapterClick(index);
-                          onLessonClick(lessonIndex);
-                        }
-                        }}
-                      >
-                        <span
-                           className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4 hover:text-yellow-500':'text-gray-400 cursor-not-allowed'}`}
+                  chapter.lessons.map((lesson, lessonIndex) => {
+                    let nextLessonId = null;
+
+                    if (lessonIndex < chapter.lessons.length - 1) {
+                      const nextLesson = chapter.lessons[lessonIndex + 1];
+                      nextLessonId = nextLesson.id;
+                    }
+
+                    return lesson && lesson.LessonTitle ? (
+                      lesson && lesson.LessonTitle ? (
+                        <li
+                          key={lessonIndex}
+                          className={`py-2 pl-4 ${
+                            progress >= lessonIndex
+                              ? "cursor-pointer py-2 pl-4"
+                              : "cursor-not-allowed text-gray-400"
+                          }`}
                           onClick={() => {
-                            if(progress >= lessonIndex)
-                            showLesson();
+                            if (progress >= lessonIndex) {
+                              onChapterClick(index);
+                              onLessonClick(lessonIndex);
+                            }
                           }}
                         >
-                          {lesson.LessonTitle}
-                        </span>
-                        {/* Quizzes */}
-                        {
-                          <ul className=" mt-2 list-disc  pl-4">
-                            {(lessonIndex, lesson) => (
-                              <li
-                                key={lessonIndex}
-                                onClick={() => {
-                                  if(progress >= lessonIndex)
-                                  onQuizzClick(lessonIndex);
-                                }}
-                                className="cursor-pointer py-2"
-                              >
-                                <span   className={`py-2 pl-4 ${progress >= lessonIndex ? 'cursor-pointer py-2 pl-4 hover:text-yellow-500':'text-gray-400 cursor-not-allowed'}`}>
-                                  quiz
-                                </span>
-                              </li>
-                            )}
+                          <span
+                            className={`py-2 pl-4 ${
+                              progress >= lessonIndex
+                                ? "cursor-pointer py-2 pl-4 hover:text-yellow-500"
+                                : "cursor-not-allowed text-gray-400"
+                            }`}
+                            onClick={() => {
+                              if (progress >= lessonIndex) showLesson();
+                            }}
+                          >
+                            {lesson.LessonTitle}
+                          </span>
+                          {/* Quizzes */}
+                          {
+                            <ul className=" mt-2 list-disc  pl-4">
+                              {(lessonIndex, lesson) => (
+                                <li
+                                  key={lessonIndex}
+                                  onClick={() => {
+                                    if (progress >= lessonIndex)
+                                      onQuizzClick(lessonIndex,nextLessonId);
+                                  }}
+                                  className="cursor-pointer py-2"
+                                >
+                                  <span
+                                    className={`py-2 pl-4 ${
+                                      progress >= lessonIndex
+                                        ? "cursor-pointer py-2 pl-4 hover:text-yellow-500"
+                                        : "cursor-not-allowed text-gray-400"
+                                    }`}
+                                  >
+                                    quiz
+                                  </span>
+                                </li>
+                              )}
 
-                            <>
-                              <p
-                                key={lessonIndex}
-                                onClick={() => {
-                                  if(progress >= lessonIndex)
-                                  onQuizzClick(lessonIndex);
-                                }}
-                              >
-                                Quick Quiz {lessonIndex}
-                              </p>
-                            </>
-                          </ul>
-                        }
-                      </li>
-                    ) : null
-                  )
+                              <>
+                                <p
+                                  key={lessonIndex}
+                                  onClick={() => {
+                                    if (progress >= lessonIndex)
+                                    onQuizzClick(lessonIndex,nextLessonId);
+                                  }}
+                                >
+                                  Quick Quiz {lessonIndex}
+                                </p>
+                              </>
+                            </ul>
+                          }
+                        </li>
+                      ) : null
+                    ) : null;
+                  })
                 ) : (
                   <li>No lessons available for this chapter.</li>
                 )}
-                  <li
-      key="final-assessment"
-      onClick={() => {
-        onFinalExamClick(index); // Handle the click event for the final exam
-      }}
-      className="cursor-pointer py-2"
-    >
-      <span className="hover:text-red-500">Final Assessment</span>
-    </li>
+                <li
+                  key="final-assessment"
+                  onClick={() => {
+                    onFinalExamClick(index); // Handle the click event for the final exam
+                  }}
+                  className="cursor-pointer py-2"
+                >
+                  <span className="hover:text-red-500">Final Assessment</span>
+                </li>
               </ul>
             )}
           </li>
