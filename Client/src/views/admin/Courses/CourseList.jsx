@@ -37,7 +37,7 @@ const CourseList = (props) => {
 
 
   return (
-    <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
+    <div>
       <div class="relative flex items-center justify-between">
         <div class="text-xl font-bold  dark:text-white">Your courses</div>
         <Link to={`form`}>
@@ -71,7 +71,7 @@ const CourseList = (props) => {
           </React.Fragment>
         ))}
       </div>
-    </Card>
+    </div>
   );
 };
 

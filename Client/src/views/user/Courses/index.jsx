@@ -65,9 +65,9 @@ const Courses = () => {
                   instructor={subscribed?.instructor.fullName}
                   userpic={subscribed?.instructor.userpic}
                   progress={subscribed?.progress}
-                  lessons={subscribed.chapters.map(
-                    (chapter) => chapter?.lessons?.length
-                  )}
+                  lessons={subscribed.chapters
+                    .map((chapter) => +chapter?.lessons?.length)
+                    .reduce((accumulator, currentValue) => accumulator + currentValue, 0) }
                   chapters={subscribed?.chapters?.length}
                 />
               </div>

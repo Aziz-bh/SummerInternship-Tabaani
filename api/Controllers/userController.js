@@ -237,7 +237,7 @@ const GetUserSubscribedCourses = async (req, res) => {
 
         // Calculate progress percentage
         const progressPercentage = (progress / totalLessons) * 100;
-        courseData.progress = `${progressPercentage.toFixed(2)}%`;
+        courseData.progress = progressPercentage.toFixed(2);
 
         courses.push(courseData);
       }

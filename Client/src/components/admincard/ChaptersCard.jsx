@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MdOutlineKeyboardArrowRight, MdDeleteOutline, MdClose } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import  vectorimage from "assets/icons/logo1.png";
+import chapterIcon from "../../assets/icons/chapter/Vector.png";
 
 const ChaptersCard = ({ chapters = [], lessons = [],
   onLessonClick,
@@ -147,17 +148,21 @@ const ChaptersCard = ({ chapters = [], lessons = [],
       <ul>
         {chaptersData 
           .filter(chapter => chapter && chapter.title)
-          .sort((a, b) => a.chapterIndex - b.chapterIndex)
+          .sort((a, b) => a.index - b.index)
           .map((chapter, index) =>( 
           <li key={index} className="mb-4 border-b border-gray-300 pb-4">
             <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-                <img
-                  src= {vectorimage}
-                  alt="Avatar"
-                  className="h-16 w-16 rounded-lg bg-gray-500 object-cover"
-                />
-                <span className="text-lg font-medium">{chapter.title}</span>
+            <div className=" flex items-center gap-4">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#ffaf20]">
+                  <img
+                    alt="Avatar"
+                    className="h-[2.5rem] w-[2.5rem] rounded-lg  object-contain "
+                    src={chapterIcon}
+                  />
+                </div>
+                <span className="whitespace-wrap text-xl font-bold">
+                  {chapter.title}
+                </span>
               </div>
 
               <button

@@ -56,7 +56,7 @@ console.log("lessondata",lessonData);
       : null;
 
   //  console.log("lessondata", selectedLesson)
-  //console.log("lessonid :  ", selectedChapter.title)
+  console.log("lessonid :  ", selectedLessonId)
   console.log("chapterid :  ", selectedchapterId)
   return (
     <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-12">

@@ -7,20 +7,28 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
-import { MdCheckCircle, MdCancel,MdClose } from "react-icons/md";
+import { MdCheckCircle, MdCancel, MdClose } from "react-icons/md";
 import Progress from "components/progress";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { MdPlace } from 'react-icons/md';
+
 const ComplexTable = () => {
   const [tableData, setTableData] = useState([]);
-  const [showCoursesModal, setShowCoursesModal] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [selectedUser, setSelectedUser] = useState(null); // Nouvel état
 
-
-  const openCoursesModal = () => {
-    setShowCoursesModal(true);
+  const handleOpen = (user) => {
+    setOpen(!open);
+    setSelectedUser(user); // Met à jour l'utilisateur actuel
   };
 
-  const closeCoursesModal = () => {
-    setShowCoursesModal(false);
-  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,20 +38,21 @@ const ComplexTable = () => {
         console.log(responseData.usersWithCourses);
         // Check if the response has usersWithCourses array
         if (Array.isArray(responseData.usersWithCourses)) {
-          const formattedData = responseData.usersWithCourses.map((user) => ({
-            picture: user.userData.photoURL,
-            name: user.userData.displayName, // Replace with the actual user property
-            status: user.userData.verified ? "Verified" : "Unverified",
-            country: user.userData.country,
-            courses: user.subscribedCourses.map((course) => course.title),
-            progress: user.subscriptions.map(
-              (subscription) => subscription.progress
-            ),
-            // Replace with the actual progress property
-          }));
-          console.log("hh" + formattedData);
+          const formattedData = responseData.usersWithCourses.map((user) => {
+            const firstSubscription = user.subscriptions[0]; // Get the first subscription
+            return {
+              picture: user.userData.photoURL,
+              name: user.userData.displayName,
+              status: user.userData.verified ? "Verified" : "Unverified",
+              country: firstSubscription ? firstSubscription.country : "N/A",
+              courses: user.subscribedCourses.map((course) => course.title),
+              progress: user.subscriptions.map((subscription) => subscription.progress),
+            };
+          });
+          console.log("Formatted data:", formattedData);
           setTableData(formattedData);
-        } else {
+        }
+        else {
           console.error("Invalid API response:", responseData);
         }
       } catch (error) {
@@ -53,22 +62,13 @@ const ComplexTable = () => {
 
     fetchData();
   }, []);
-  const Modal = ({ children, onClose }) => {
-    return (
-      <div className="modal-overlay">
-        <div className="modal-content">
-          {children}
-          <button   className="absolute top-50 right-5 p-1 h-6 w-6 text-gray-600" onClick={onClose}> <MdClose size={24} /></button>
-        </div>
-      </div>
-    );
-  };
+
 
   const columns = React.useMemo(
     () => [
       {
         Header: "",
-        accessor: "picture", // Replace with the correct accessor for progress
+        accessor: "picture", 
       },
       {
         Header: "NAME",
@@ -80,16 +80,16 @@ const ComplexTable = () => {
       },
       {
         Header: "COUNTRY",
-        accessor: "country", // Replace with the correct accessor for date
+        accessor: "country", 
       },
       {
-        Header: "COURSES WITH PROGRESS" ,
-        accessor: "courses    ", // Replace with the correct accessor for date
+        Header: "COURSES ",
+        accessor: "courses    ", 
       },
-      //  {
-      //    Header: "PROGRESS",
-      //   accessor: "progress", // Replace with the correct accessor for progress
-      //  },
+      {
+        Header: "PROGRESS",
+        accessor: "progress",
+      },
     ],
     []
   );
@@ -116,10 +116,7 @@ const ComplexTable = () => {
     <Card extra={"w-full h-full p-4 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between">
         <div class="text-xl font-bold  dark:text-white">Users Progress</div>
-
       </div>
-
-
       <div class="mt-8 h-full overflow-x-scroll xl:overflow-hidden">
         <table {...getTableProps()} className="w-full">
           <thead>
@@ -146,7 +143,6 @@ const ComplexTable = () => {
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => {
                     let data = "";
-                    console.log("hello" + cell.value);
                     if (cell.column.Header === "") {
                       data = (
                         <div className="flex items-center gap-2">
@@ -181,63 +177,37 @@ const ComplexTable = () => {
                       );
                     } else if (cell.column.Header === "COUNTRY") {
                       data = (
-                        <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          {cell.value}
-                        </p>
+                        <div className="flex items-center gap-2">
+      <MdPlace className="text-orange-400 text-xl" />
+      <p className="text-sm font-bold text-navy-700 dark:text-white">
+        {cell.value}
+      </p>
+    </div>
                       );
-                    } else if (cell.column.Header === "COURSES WITH PROGRESS") {
+                    } else if (cell.column.Header === "COURSES ") {
                       data = (
-                        <div className="flex flex-col">
-                          {/* <button onClick={openCoursesModal}>Courses</button> */}
-                          <button className="rounded-lg bg-gray-200 px-5 py-2 w-[150px]" onClick={openCoursesModal}>See All</button>
-                          
-                          {showCoursesModal && (
-                            <Modal onClose={closeCoursesModal}>
-                              
-                             
-                              <ul>
-                                {tableData.map((user, index) => (
-                                  <li key={index}>
-
-                                    {/* Display the list of courses and progressions for this user */}
-                                    <div className="flex flex-col">
-                                      {user.courses.map((course, courseIndex) => (
-                                        <div key={courseIndex} className="flex items-center gap-2">
-                                          <p className="font-bold">{course}</p>
-                                        </div>
-                                      ))}
-                                    </div>
-                                    <div className="flex flex-col">
-                                      {user.progress.map((progress, progressIndex) => (
-                                        <div key={progressIndex} className="flex items-center gap-2">
-                                          <Progress width="w-48" value={progress} />
-                                          <p className="font-bold">{progress}%</p>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </li>
-                                ))}
-                              </ul>
-                            </Modal>
-                          )}
+                        <div>
+                          <p className="font-bold">{row.original.courses[0]}</p>
                         </div>
                       );
-                    } 
-                    // else if (cell.column.Header === "PROGRESS") {
-                    //   data = (
-                    //     <div className="flex flex-col">
-                    //       {cell.value.map((progress, index) => (
-                    //         <div
-                    //           key={index}
-                    //           className="flex items-center gap-2"
-                    //         >
-                    //           <Progress width="w-48" value={progress} />
-                    //           <p className="font-bold">{progress}%</p>
-                    //         </div>
-                    //       ))}
-                    //     </div>
-                    //   );
-                    // }
+                    } else if (cell.column.Header === "PROGRESS") {
+                      data = (
+                        <div className="flex flex-col">
+                          <td>
+                            <div className="flex items-center gap-2">
+                              <Progress width="w-40" value={row.original.progress[0]} />
+                              <p className="font-bold">{row.original.progress[0]}%</p>
+                              <button
+                                className="rounded-lg bg-gray-200 px-3 py-1 text-xs"
+                                onClick={() => handleOpen(row.original)}
+                              >
+                                See All
+                              </button>
+                            </div>
+                          </td>
+                        </div>
+                      );
+                    }
                     return (
                       <td
                         className="pb-[18px] pt-[14px] sm:text-[14px]"
@@ -254,6 +224,66 @@ const ComplexTable = () => {
           </tbody>
         </table>
       </div>
+      <Dialog
+        open={open}
+        handler={() => setOpen(!open)}
+        animate={{
+          mount: { scale: 1, y: 100 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+        className="position-absolute left-[30rem] h-[30rem] w-[50rem] dialog-style"
+      >
+        <DialogHeader className="text-s">Courses with progress</DialogHeader>
+        {selectedUser && (
+          <DialogBody divider>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <p className="text-s tracking-wide text-gray-600">Courses</p>
+                  </th>
+                  <th>
+                    <p className="text-s tracking-wide text-gray-600">Progress</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ padding: "30px" }}>
+                    <ul>
+                      {selectedUser.courses.map((course, courseIndex) => (
+                        <div key={courseIndex} className="flex items-center gap-2">
+                          <p className="font-bold">{course}</p>
+                        </div>
+                      ))}
+                    </ul>
+                  </td>
+                  <td style={{ padding: "30px" }}>
+                    <ul>
+                      {selectedUser.progress.map((progress, progressIndex) => (
+                        <li key={progressIndex} className="flex items-center gap-2">
+                          <Progress width="w-40" value={progress} />
+                          <p className="font-bold">{progress}%</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </DialogBody>
+        )}
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setOpen(false)}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </Card>
   );
 };

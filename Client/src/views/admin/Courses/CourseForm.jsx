@@ -163,11 +163,12 @@ export default function CourseForm() {
               id="instructorId"
               class="mt-2 block w-full rounded-md border border-gray-500 bg-white px-4 py-2 text-sm font-bold text-navy-700 focus:border-orange-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500 dark:text-white dark:focus:border-orange-500"
             >
-              {users.map((user) => (
+             {users.map(user => user.role === 'instructor' ? (
                 <option key={user.id} value={user.id}>
                   {user.displayName} - Role: {user.role}
                 </option>
-              ))}
+              ) : null)}
+
             </select>
           </div>
 

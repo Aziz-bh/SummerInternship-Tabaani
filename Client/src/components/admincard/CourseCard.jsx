@@ -4,7 +4,7 @@ import ScoreIcon from "assets/icons/ScoreIcon.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }) => {
+const CourseCard = ({ title, image, level, price, extra,chaptersnumber, id, onDelete }) => {
 
   
   const handleDeleteCourse = async () => {
@@ -17,8 +17,8 @@ const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }
 
   return (
     <Card
-
-    >
+    extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
+  >
       <div className="h-full w-[20rem]">
         <div className="relative w-full">
           <img
@@ -40,7 +40,7 @@ const CourseCard = ({ title, image, level, price, chaptersnumber, id, onDelete }
           </div>
           <div className="flex  items-center justify-center gap-3">
             <p className="text-md font-medium text-black">price</p>
-            <p className="text-md font-semibold  dark:text-black">{price}</p>
+            <p className="text-md font-semibold  dark:text-black">{price} DT</p>
           </div>
           <div className="flex  items-center justify-center gap-3">
             <FaTrophy size={20} color="silver" />

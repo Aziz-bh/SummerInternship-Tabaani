@@ -50,8 +50,8 @@ const UnfinishedCoursesCard = ({
           </div>
         </div>
         <div className="flex items-center justify-between gap-2 pb-4">
-          <Progress value={progress} />
-          <p className="text-sm"> {progress}</p>
+        <Progress  value={progress} />
+          <p className="text-sm"> {progress}%</p>
         </div>
 
         <div className="mb-4 flex items-center justify-between">
